@@ -1,0 +1,46 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+
+$footer-height:90px;
+
+.footer-car-buy{
+  border-top:1px solid $border-color;
+  @include fixed;
+  @include display-flex;
+  height:$footer-height;
+  background-color:$color-white;
+  z-index: 1000;
+  .icon-list{
+    flex: 1;
+    @include display-flex;
+    @include align-items;
+    .icon-item{
+      flex: 1;
+      border-right:1px solid $border-color;
+      height:85%;
+      @include display-flex;
+      @include align-items;
+      @include justify-content;
+      .img{
+        width:45%;
+      }
+    }
+  }
+  .car-buy{
+    flex:1;
+    @include display-flex;
+    @include justify-content;
+    font-size: $font-size-normal;
+    text-align: center;
+    line-height: $footer-height;
+    .add-car{
+      flex: 1;
+      color:$color-grey-0;
+    }
+    .add-buy{
+      flex: 1;
+      background-color:$color-brand;
+      color:$color-white;
+    }
+  }
+}

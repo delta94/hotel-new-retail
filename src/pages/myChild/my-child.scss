@@ -1,0 +1,12 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+
+$footer-height:90px;
+.my-child-list{
+  .creat-btn{
+    line-height:$footer-height;
+    background-color: $color-brand;
+    color: $color-white;
+    text-align: center;
+  }
+}

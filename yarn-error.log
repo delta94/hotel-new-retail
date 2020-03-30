@@ -1,0 +1,108 @@
+Arguments: 
+  D:\Node\node.exe C:\Users\86187\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @components/rateDetailList/rate-detail-list --silent --no-progress
+
+PATH: 
+  D:\Node\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;E:\study\taro_ziqi_education\node_modules\.bin;D:\Node\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;E:\study\taro_ziqi_education\node_modules\.bin;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NGX;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;D:\Node\;D:\Git\cmd;D:\SVN\bin;C:\Users\86187\AppData\Local\Microsoft\WindowsApps;D:\Microsoft VS Code\bin;C:\Users\86187\AppData\Roaming\npm;C:\Users\86187\AppData\Local\BypassRuntm
+
+Yarn version: 
+  1.17.3
+
+Node version: 
+  8.11.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://r.cnpmjs.org/@components%2frateDetailList/rate-detail-list: [not_found] document not found
+      at Request.params.callback [as _callback] (C:\Users\86187\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66830:18)
+      at Request.self.callback (C:\Users\86187\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140464:22)
+      at emitTwo (events.js:126:13)
+      at Request.emit (events.js:214:7)
+      at Request.<anonymous> (C:\Users\86187\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141436:10)
+      at emitOne (events.js:116:13)
+      at Request.emit (events.js:211:7)
+      at Gunzip.<anonymous> (C:\Users\86187\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141358:12)
+      at Object.onceWrapper (events.js:313:30)
+      at emitNone (events.js:111:20)
+
+npm manifest: 
+  {
+    "name": "taro_ziqi_education",
+    "version": "1.0.0",
+    "private": true,
+    "description": "子启云",
+    "templateInfo": {
+      "name": "default",
+      "typescript": true,
+      "css": "sass"
+    },
+    "scripts": {
+      "build:weapp": "taro build --type weapp",
+      "build:swan": "taro build --type swan",
+      "build:alipay": "taro build --type alipay",
+      "build:tt": "taro build --type tt",
+      "build:h5": "taro build --type h5",
+      "build:rn": "taro build --type rn",
+      "build:qq": "taro build --type qq",
+      "build:quickapp": "taro build --type quickapp",
+      "dev:weapp": "npm run build:weapp -- --watch",
+      "dev:swan": "npm run build:swan -- --watch",
+      "dev:alipay": "npm run build:alipay -- --watch",
+      "dev:tt": "npm run build:tt -- --watch",
+      "dev:h5": "npm run build:h5 -- --watch",
+      "dev:rn": "npm run build:rn -- --watch",
+      "dev:qq": "npm run build:qq -- --watch",
+      "dev:quickapp": "npm run build:quickapp -- --watch"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+      "@tarojs/async-await": "^1.3.17",
+      "@tarojs/components": "1.3.15",
+      "@tarojs/router": "1.3.15",
+      "@tarojs/taro": "1.3.15",
+      "@tarojs/taro-alipay": "1.3.15",
+      "@tarojs/taro-h5": "1.3.15",
+      "@tarojs/taro-qq": "1.3.15",
+      "@tarojs/taro-quickapp": "1.3.15",
+      "@tarojs/taro-swan": "1.3.15",
+      "@tarojs/taro-tt": "1.3.15",
+      "@tarojs/taro-weapp": "1.3.15",
+      "nerv-devtools": "^1.4.0",
+      "nervjs": "^1.4.0",
+      "taro-ui": "^2.2.2"
+    },
+    "devDependencies": {
+      "@types/react": "^16.4.6",
+      "@types/webpack-env": "^1.13.6",
+      "@tarojs/plugin-babel": "1.3.15",
+      "@tarojs/plugin-csso": "1.3.15",
+      "@tarojs/plugin-sass": "1.3.15",
+      "@tarojs/plugin-uglifyjs": "1.3.15",
+      "@tarojs/webpack-runner": "1.3.15",
+      "babel-plugin-transform-class-properties": "^6.24.1",
+      "babel-plugin-transform-decorators-legacy": "^1.3.4",
+      "babel-plugin-transform-jsx-stylesheet": "^0.6.5",
+      "babel-plugin-transform-object-rest-spread": "^6.26.0",
+      "babel-preset-env": "^1.6.1",
+      "babel-eslint": "^8.2.3",
+      "eslint": "^5.16.0",
+      "eslint-config-taro": "1.3.15",
+      "eslint-plugin-react": "^7.8.2",
+      "eslint-plugin-react-hooks": "^1.6.1",
+      "eslint-plugin-import": "^2.12.0",
+      "stylelint": "9.3.0",
+      "stylelint-config-taro-rn": "1.3.15",
+      "stylelint-taro-rn": "1.3.15",
+      "eslint-plugin-taro": "1.3.15",
+      "@typescript-eslint/parser": "^1.6.0",
+      "typescript": "^3.0.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

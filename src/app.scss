@@ -1,0 +1,20 @@
+@import "./style/common.scss";
+
+// @import "~taro-ui/dist/style/index.scss"; 按需引入组件样式
+@import "~taro-ui/dist/style/components/icon.scss";
+@import "~taro-ui/dist/style/components/button.scss";
+@import "~taro-ui/dist/style/components/search-bar.scss";
+@import "~taro-ui/dist/style/components/input.scss";
+@import "~taro-ui/dist/style/components/input-number.scss";
+@import "~taro-ui/dist/style/components/message.scss";
+@import "~taro-ui/dist/style/components/flex.scss";
+@import "~taro-ui/dist/style/components/grid.scss";
+@import "~taro-ui/dist/style/components/toast.scss";
+@import "~taro-ui/dist/style/components/list.scss";
+@import "~taro-ui/dist/style/components/rate.scss";
+@import "~taro-ui/dist/style/components/action-sheet.scss";
+@import "~taro-ui/dist/style/components/checkbox.scss";
+// @import "~taro-ui/dist/style/components/accordion.scss";
+
+@import "./assets/fonts/iconfont.scss";
+

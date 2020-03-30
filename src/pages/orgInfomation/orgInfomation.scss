@@ -1,0 +1,23 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+
+.orgInfomation{
+  padding:0px 30px;
+  .head{
+    @include display-flex;
+    @include align-items;
+    padding:30px 0px;
+    .org-name{
+      color:$color-grey-0;
+      font-size: $font-size-middle;
+    }
+    .collect{
+      margin-left:35px;
+      padding:5px 20px;
+      border:1px solid $border-color;
+      color: $color-grey-3;
+      font-size: $font-size-small;
+      border-radius: 20px;
+    }
+  }
+}

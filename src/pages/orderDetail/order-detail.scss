@@ -1,0 +1,68 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+
+$footer-height:90px;
+
+.order-detail{
+  .child-list{
+    margin :12px 24px;
+    border-bottom:2px dashed $color-grey-2;
+    .item-content__info-title{
+      font-size: $font-size-middle;
+    }
+  }
+  .course-list{
+    padding:24px;
+    box-shadow:0px 20px 20px -20px $color-grey-2;
+    .org{
+      padding: 20px;
+      color:$color-grey-0;
+      @include display-flex;
+      @include align-items;
+      .img{
+        width:50px;
+        margin-right: 20px;
+      }
+    }
+    .course-detail{
+      padding: 20px;
+      @include display-flex;
+      .img{
+        width:200px;
+        margin-right: 40px;
+      }
+      .course-info{
+        @include display-flex;
+        @include flex-direction(column);
+        @include justify-content(space-around);
+        .course-name{
+          font-size: $font-size-middle;
+          color:$color-grey-3;
+        }
+        .course-number{
+          color:$color-grey-4;
+        }
+        .course-price{
+          color:$color-grey-3;
+        }
+      }
+    }
+  }
+  .pay-footer{
+    height:$footer-height;
+    @include display-flex;
+    line-height: $footer-height;
+    .pay-price{
+      flex:3;
+      color: $color-brand;
+      text-indent: 42px;
+      border-top:1px solid $color-grey-2;
+    }
+    .pay-btn{
+      flex: 2;
+      background-color: $color-brand;
+      color: $color-white;
+      text-align: center;
+    }
+  }
+}

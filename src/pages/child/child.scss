@@ -1,0 +1,23 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+$footer-height:90px;
+.child {
+    padding-right: 32px;
+    padding-bottom: 150px;
+    .at-input--disabled{
+        opacity: 1;
+    }
+    .save-btn{
+        line-height:$footer-height;
+        background-color: $color-brand;
+        color: $color-white;
+        text-align: center;
+    }
+    .text-area{
+        padding-left:32px;
+        color:$color-grey-3;
+        &-title{
+            margin:24px 0px;
+        }
+    }
+}

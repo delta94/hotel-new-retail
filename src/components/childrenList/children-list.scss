@@ -1,0 +1,45 @@
+@import "~taro-ui/dist/style/components/icon.scss";
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.child-list{
+    padding:24px;
+    .child-list-item{
+        @include display-flex;
+        @include align-items;
+        margin-bottom: 50px;
+        .check-box{
+            position: relative;
+            margin:0 35px;
+            &-container{
+                @include absolute-center;
+            }
+        }
+        .child-info{
+            flex: 1;
+            box-shadow:0px 0px 5px  $color-grey-2;
+            // border:1px solid $color-grey-2;
+            min-height: 100px;
+            padding:24px;
+            &-head{
+                border-bottom:2px dashed $color-grey-2;
+                .child-name{
+                    font-size: $font-size-middle;
+                    color:$color-grey-0;
+                }
+                .child-age{
+                    color:$color-grey-1;
+                    margin:10px 0px;
+                }
+            }
+            .child-toggle{
+                color:$color-grey-1;
+                font-size: $font-size-small;
+                margin:24px 0px;
+            }
+            .child-course{
+                color:$color-grey-1;
+                font-size: $font-size-mini;
+            }
+        }
+    }
+}

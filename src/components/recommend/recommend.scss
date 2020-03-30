@@ -1,0 +1,50 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+
+$img-height:150px;
+$slide-width:150px;
+$slide-height:8px;
+.recommend{
+  margin:50px 10px;
+  color:$color-grey-0;
+  box-shadow: 0px 0px 5px color-percent(#000,0.2);
+  .text{
+    font-size: $font-size-middle;
+    @include display-flex;
+    @include justify-content(space-around);
+    padding:30px 0px;
+  }
+  .swiper-container{
+    @include display-flex;
+    @include justify-content(center);
+    @include flex-wrap(wrap);
+  }
+  .recommend-swiper{
+    height:$img-height + 70px;
+    width:100%;
+  }
+  .recommend-item{
+    @include display-flex;
+    @include justify-content(space-around);
+    .img{
+      width:20%;
+      // height:$img-height;
+    }
+  }
+  .slide{
+    width:$slide-width;
+    height:$slide-height;
+    background-color: color-percent($color-grey-2,0.5);
+    position: relative;
+    margin-top:-35px;
+    .move-block{
+      width:$slide-width/3;
+      height:$slide-height;
+      background-color: $color-brand;
+      left:0;
+      top:0;
+      position: absolute;
+      transition: left 0.5s;
+    }
+  }
+}

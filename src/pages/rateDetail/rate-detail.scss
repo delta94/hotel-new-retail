@@ -1,0 +1,54 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+
+.rate-detail{
+  .head{
+    @include display-flex;
+    @include align-items;
+    color: $color-grey-0;
+    padding:20px 24px;
+    &-rate{
+      margin:0px 20px;
+    }
+  }
+  .tag{
+    @include display-flex;
+    @include flex-wrap(wrap);
+    &.tag-2{
+      height:120px;
+      overflow: hidden;
+    }
+    padding:20px 24px;
+    &-item{
+      margin-right:3%;
+      border:1px solid $border-color;
+      color:$color-grey-4;
+      font-size: $font-size-small;
+      margin-bottom: 20px;
+      padding:10px 15px;
+      box-sizing: border-box;
+      text-align: center;
+      @include display-flex;
+      @include flex-wrap(nowrap);
+      @include align-content;
+      @include justify-content;
+      &.active{
+        color:$color-brand;
+        font-size: $color-brand;
+      }
+    }
+  }
+  .icon{
+    text-align: center;
+    padding-bottom: 20px;
+    .at-icon{
+      color:$color-grey-4;
+    }
+  }
+  .rate-list{
+    .border-class{
+      border-top:1px solid $border-color;
+      padding:40px 0px;
+    }
+  }
+}
