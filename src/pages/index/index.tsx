@@ -1,10 +1,10 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View,Image ,Swiper, SwiperItem} from '@tarojs/components'
-import { AtButton,AtGrid } from 'taro-ui'
+import { View,Image } from '@tarojs/components'
+import { AtGrid } from 'taro-ui'
 import './index.scss'
 import Recommend from '@/components/recommend/recommend';
 import HotCourse from '@/components/hotCourse/hot-course';
-import { setSwiperHeight } from '@/utils/index.js';
+import SwiperList from '@/components/swiper/swiper';
 
 const adUrl = require('../../assets/images/ad.svg');
 
@@ -76,7 +76,6 @@ export default class Index extends Component {
         value: '机构入驻'
       }
     ],
-    swiperH:''
   }
 
   onChange(value){
@@ -89,23 +88,6 @@ export default class Index extends Component {
     Taro.navigateTo({
       url:'/pages/search/search'
     })
-  }
-  onImgLoad(e){
-    // const swiperHa = setSwiperHeight(e);
-    console.log(setSwiperHeight)
-    // const winWid = Taro.getSystemInfoSync().windowWidth-20; //获取当前屏幕的宽度
-
-        this.refs.swiper.boundingClientRect((rect)=> {
-          const winWid = rect.width
-          const imgh = e.detail.height;//图片高度
-          const imgw = e.detail.width;//图片宽度
-          const swiperH = winWid*imgh/imgw + "px" //
-          this.setState({
-            swiperH:swiperH//设置高度
-          })
-          console.log(rect.width)
-        }).exec();
-
   }
   componentWillMount () { }
 
@@ -134,38 +116,22 @@ export default class Index extends Component {
 
   render () {
     console.log('index render')
-    const { bannerList,sourceList,swiperH } = this.state ;
-    const banner = bannerList.map(item=>{
-      return <SwiperItem key={item.id}>
-                <Image style='width:100%;' onLoad={this.onImgLoad.bind(this)} mode='widthFix' src={item.url}></Image>
-             </SwiperItem>
-    })
-
+    const { bannerList,sourceList } = this.state ;
+    const swiperConfig = {}
     return (
       <View className='index'>
         {/* 首页搜索 */}
         <View className='search-header fixed fixed-t'>
           <View className='at-row at-row__align--center'>
-            <View className='at-col at-col-3 text-center color-fff font-b'>子启云</View>
+            <View className='at-col at-col-3 text-center color-fff font-b'>果然严选</View>
             <View className='at-col at-col-6 search' onClick={this.clickSearch.bind(this)}>
               <View className='at-icon at-icon-search search-icon'></View>
-              <View className='color-placholder placholder'>搜索课程2</View>
+              <View className='color-placholder placholder'>搜索商品</View>
             </View>
           </View>
         </View>
         <View className='swiper-container' >
-          <Swiper
-            ref='swiper'
-            style={{height:swiperH}}
-            className='test-h'
-            indicatorColor='#aaa'
-            indicatorActiveColor='#47cab3'
-            circular
-            indicatorDots
-            autoplay
-          >
-            {banner}
-          </Swiper>
+          <SwiperList list={bannerList} config = {swiperConfig} />
         </View>
         <View className='course-list'>
           <AtGrid columnNum={4} hasBorder={false} data={sourceList} />

@@ -38,7 +38,8 @@ const config = {
     '@/constants': path.resolve(__dirname, '..', 'src/constants'),
     // '@/reducers': path.resolve(__dirname, '..', 'src/reducers'),
     '@/style': path.resolve(__dirname, '..', 'src/style'),
-    '@/utils': path.resolve(__dirname, '..', 'src/utils')
+    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
+    '@/servers': path.resolve(__dirname, '..', 'src/servers')
   },
   copy: {
     patterns: [
