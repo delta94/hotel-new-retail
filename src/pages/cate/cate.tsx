@@ -1,6 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtButton ,AtSearchBar,AtInput} from 'taro-ui'
+import { AtButton, AtSearchBar, AtInput } from 'taro-ui'
 import './cate.scss'
 
 export default class Cate extends Component {
@@ -10,74 +10,37 @@ export default class Cate extends Component {
     navigationBarTitleText: '分类',
   }
 
-  componentWillMount () { }
+  componentWillMount() { }
 
-  componentDidMount () {
+  componentDidMount() {
 
   }
 
-  componentWillUnmount () { }
+  componentWillUnmount() { }
 
-  componentDidShow () { }
+  componentDidShow() { }
 
-  componentDidHide () { }
+  componentDidHide() { }
 
-  handlerClick = async ()=>{ //用箭头函数 在模板中绑定解决this指向问题
-    console.log(this)
-    // Taro.showToast({
-    //   title: '测试一条toast',
-    //   icon: 'none'
-    // })
-    Taro.getLocation({
-      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-      success (res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        Taro.openLocation({
-          latitude,
-          longitude,
-          scale: 18
-        })
-      },
-      fail(){
-        Taro.openSetting({
-          'success':(res)=>{
-            console.log(res)
-          },
-          'fail':(res)=>{
-            console.log(res)
-          }
-        })
-      }
-     })
-  }
-  signClick = async ()=>{
+  clickSearch(){
+    //点击搜索框跳转到搜索页面
     Taro.navigateTo({
-      url:'/pages/sign/sign'
+      url:'/pages/search/search'
     })
   }
-  orgClick = ()=>{
-    Taro.navigateTo({
-      url:'/pages/orgSign/orgSign'
-    })
-  }
-  onShareAppMessage (res){
-    console.log(res)
-    return {
-      title: '点点看哟！',
-      path: '/pages/user/user?id=123'
-    }
-  }
 
-  render () {
+  render() {
     return (
       <View className='cate'>
-          分类页面
-          <AtButton className="mt-10" onClick={this.handlerClick} type='primary'>查看地理位置</AtButton>
+        <View className='search at-row at-row__align--center at-row__justify--center' onClick={this.clickSearch.bind(this)}>
+          <View className='at-icon at-icon-search search-icon'></View>
+          <View className='search-text'>搜索商品</View>
+        </View>
 
-        {/* <View className='fa fa-clock-o'></View> */}
-        <AtButton onClick={this.signClick} type='primary'>家长注册</AtButton>
-        <AtButton className="mt-10" onClick={this.orgClick} type='primary'>机构注册</AtButton>
+        <View className=''>
+
+        </View>
+
       </View>
 
     )

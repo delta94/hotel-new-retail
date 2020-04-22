@@ -1,0 +1,11 @@
+.cate {
+  padding: 0px 20px;
+  .search {
+    height: 50px;
+    color: #999999;
+    background-color: rgba(229, 229, 229, 0.3);
+    &-text{
+      margin-left:5px;
+    }
+  }
+}

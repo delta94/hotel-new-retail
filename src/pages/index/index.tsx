@@ -18,28 +18,28 @@ export default class Index extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    // navigationBarTitleText: '首页',
-    // navigationBarBackgroundColor:'#47cab3',
-    navigationBarTextStyle:'white',
-    navigationStyle:'custom'
+    navigationBarTitleText: '',
+    navigationBarBackgroundColor:'#fff',
+    navigationBarTextStyle:'black',
+    // navigationStyle:'custom'
   }
 
   state = {
     value:'',
     bannerList:[{
-      url:require('../../assets/images/banner.jpg'),
+      imageUrl:require('../../assets/images/banner.jpg'),
       id:1
     },
     {
-      url:require('../../assets/images/banner.jpg'),
+      imageUrl:require('../../assets/images/banner.jpg'),
       id:2
     },
     {
-      url:require('../../assets/images/banner.jpg'),
+      imageUrl:require('../../assets/images/banner.jpg'),
       id:3
     },
     {
-      url:require('../../assets/images/banner.jpg'),
+      imageUrl:require('../../assets/images/banner.jpg'),
       id:4
     }],
     sourceList:[
@@ -123,11 +123,11 @@ export default class Index extends Component {
         {/* 首页搜索 */}
         <View className='search-header fixed fixed-t'>
           <View className='at-row at-row__align--center'>
-            <View className='at-col at-col-3 text-center color-fff font-b'>果然严选</View>
-            <View className='at-col at-col-6 search' onClick={this.clickSearch.bind(this)}>
+            <View className='at-col at-col-3 search' onClick={this.clickSearch.bind(this)}>
               <View className='at-icon at-icon-search search-icon'></View>
-              <View className='color-placholder placholder'>搜索商品</View>
+              <View className='color-placholder placholder'>搜索</View>
             </View>
+            <View className='at-col at-col-6 text-center font-b'>NEW-RETAIL</View>
           </View>
         </View>
         <View className='swiper-container' >

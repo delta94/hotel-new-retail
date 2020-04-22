@@ -1,14 +1,14 @@
 @import "../../style/custom-variables.scss";
 @import "../../style/mixin.scss";
-$header-height :110px;
+$header-height :50px;
 $search-input-height:50px;
 .index{
   padding-top:$header-height;
   @include clearfix;
   .search-header{
-    background-color: $color-brand;
+    background-color: $color-white;
     height: $header-height;
-    padding-top: 50px;
+    // padding-top: 50px;
     box-sizing: border-box;
     &.fixed{
       z-index: 1000;

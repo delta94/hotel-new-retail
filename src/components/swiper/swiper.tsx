@@ -42,7 +42,7 @@ export default class SwiperList extends Component<propsType> {
       const {swiperH} = this.state
       const data = list.map(item=>{
         return <SwiperItem key={item.id}>
-                  <Image style='width:100%;' onLoad={this.onImgLoad.bind(this)} mode='widthFix' src={item.url}></Image>
+                  <Image style='width:100%;' onLoad={this.onImgLoad.bind(this)} mode='widthFix' src={item.imageUrl}></Image>
                 </SwiperItem>
       })
       return (
