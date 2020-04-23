@@ -1,11 +1,37 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+$serach-height:50px;
+page{
+  height:100%;
+}
 .cate {
   padding: 0px 20px;
+  height:100%;
   .search {
-    height: 50px;
+    height: $serach-height;
     color: #999999;
     background-color: rgba(229, 229, 229, 0.3);
     &-text{
       margin-left:5px;
+    }
+  }
+  .cate-container{
+    @include display-flex;
+    margin-top:25px;
+    height: calc(100% - 25px - #{$serach-height});
+    .list-container{
+      flex: 1;
+      .list-item{
+        line-height: 100px;
+        color:$color-grey-4;
+        &.actived{
+          color:$color-brand;
+        }
+      }
+    }
+    .content-container{
+      flex: 3;
+      border-left:1px solid $border-color;
     }
   }
 }

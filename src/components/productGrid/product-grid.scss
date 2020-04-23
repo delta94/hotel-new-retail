@@ -26,6 +26,7 @@
     }
     .name {
       margin-top: 15px;
+      color:$color-grey-4;
       @include line;
     }
     .price-container {
@@ -33,7 +34,7 @@
       @include align-items(center);
     }
     .price {
-      color: $color-brand;
+      color: $color-grey-4;
       &.sale_price {
         color: $color-brand-deep;
       }
