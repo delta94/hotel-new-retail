@@ -21,7 +21,7 @@ export default class ScrollXView extends Component<propsType> {
 
     clickCourse(item){
       Taro.navigateTo({
-        url:`/pages/courseDetail/course-detail?id=${item.id}`
+        url:`/pages/detail/detail?id=${item.id}`
       })
     }
     render(){

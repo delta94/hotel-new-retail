@@ -13,7 +13,7 @@ export default class OrderDetail extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '订单详情',
+    navigationBarTitleText: '确认订单',
   }
 
   state = {
@@ -41,7 +41,7 @@ export default class OrderDetail extends Component {
 
   render () {
     console.log('order-detail render')
-    const orgIcon = require('../../assets/images/org-icon.svg');
+    const orgIcon = require('@/assets/images/org-icon.svg');
     return (
       <View className='order-detail'>
         <View className='child-list'>
@@ -54,8 +54,8 @@ export default class OrderDetail extends Component {
             <Image className='img' mode='widthFix'  src={orgIcon} ></Image>
             <View>奥利奥辅导机构</View>
           </View>
-          <View className='course-detail'>
-            <Image className='img' mode='widthFix'  src='../../assets/images/recommend1.png' ></Image>
+          <View className='detail'>
+            <Image className='img' mode='widthFix'  src='../../assets/images/banner.jpg' ></Image>
             <View className='course-info'>
               <View className='course-name'>课程名称</View>
               <View className='course-number'>两节</View>

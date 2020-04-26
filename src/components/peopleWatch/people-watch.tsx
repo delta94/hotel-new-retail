@@ -12,21 +12,21 @@ export default class PeopleWatch extends Component {
       list:[
         {
           id:1,
-          mainPictureUrl:require('../../assets/images/hot-course1.svg'),
+          mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
           name:'课程名称',
           character:'课程特点，优点简介',
           price:150
         },
         {
           id:2,
-          mainPictureUrl:require('../../assets/images/hot-course1.svg'),
+          mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
           name:'课程名称',
           character:'课程特点，优点简介',
           price:150
         },
         {
           id:3,
-          mainPictureUrl:require('../../assets/images/hot-course1.svg'),
+          mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
           name:'课程名称',
           character:'课程特点，优点简介',
           sale_price:199,
@@ -34,7 +34,7 @@ export default class PeopleWatch extends Component {
         },
         {
           id:4,
-          mainPictureUrl:require('../../assets/images/hot-course1.svg'),
+          mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
           name:'课程名称',
           character:'课程特点，优点简介',
           sale_price:199,

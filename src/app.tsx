@@ -30,7 +30,7 @@ class App extends Component {
       'pages/applicationCenter/application-center',
       'pages/buyCar/buy-car',
       'pages/search/search',
-      'pages/courseDetail/course-detail',
+      'pages/detail/detail',
       'pages/orgInfomation/orgInfomation',
       'pages/rateDetail/rate-detail',
       'pages/orderDetail/order-detail',

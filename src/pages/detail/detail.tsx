@@ -1,12 +1,13 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Image, Swiper, SwiperItem, Text } from '@tarojs/components'
-import { AtToast, AtButton, AtList, AtListItem, AtActionSheet, AtActionSheetItem } from 'taro-ui'
-import './course-detail.scss'
+import { View, Image, Text } from '@tarojs/components'
+import { AtToast, AtButton, AtList, AtListItem, AtActionSheet, AtActionSheetItem,AtInputNumber } from 'taro-ui'
+import './detail.scss'
 import RateDetailList from '@/components/rateDetailList/rate-detail-list';
 import PeopleWatch from '@/components/peopleWatch/people-watch'
 import FooterCarBuy from '@/components/footCarBuy/foot-car-buy'
+import SwiperList from '@/components/swiper/swiper';
 
-export default class CourseDetail extends Component {
+export default class detail extends Component {
 
   /**
    * 指定config的类型声明为: Taro.Config
@@ -16,7 +17,7 @@ export default class CourseDetail extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '课程详情',
+    navigationBarTitleText: '商品详情',
     // navigationBarBackgroundColor:'#47cab3',
     navigationBarTextStyle: 'black',
   }
@@ -25,19 +26,19 @@ export default class CourseDetail extends Component {
 
   state = {
     list: [{
-      url: require('../../assets/images/banner.jpg'),
+      imageUrl: require('@/assets/images/banner.jpg'),
       id: 1
     },
     {
-      url: require('../../assets/images/banner.jpg'),
+      imageUrl: require('@/assets/images/banner.jpg'),
       id: 2
     },
     {
-      url: require('../../assets/images/banner.jpg'),
+      imageUrl: require('@/assets/images/banner.jpg'),
       id: 3
     },
     {
-      url: require('../../assets/images/banner.jpg'),
+      imageUrl: require('@/assets/images/banner.jpg'),
       id: 4
     }],
     data: {
@@ -54,6 +55,7 @@ export default class CourseDetail extends Component {
     toastText: '',
     choiceCourseId: 1,
     pricePerCourse: 100,
+    value:2,
     rateData: [
       {
         name: 'ws',
@@ -75,11 +77,11 @@ export default class CourseDetail extends Component {
     console.log(res)
     return {
       title: '这个课程真棒，快来围观吧！',
-      path: `/pages/courseDetail/course-detail?id=${this.$router.params.id}`
+      path: `/pages/detail/detail?id=${this.$router.params.id}`
     }
   }
 
-  slideChange() {
+  slideChange = ()=> {
     const { current } = this.state;
     const length = this.state.list.length;
     this.setState({
@@ -87,18 +89,6 @@ export default class CourseDetail extends Component {
     }, () => {
       // console.log(this.state.current)
     })
-  }
-  onImgLoad(e) {
-    this.refs.swiper.boundingClientRect((rect) => {
-      const winWid = rect.width
-      const imgh = e.detail.height;//图片高度
-      const imgw = e.detail.width;//图片宽度
-      const swiperH = winWid * imgh / imgw + "px" //
-      this.setState({
-        swiperH: swiperH//设置高度
-      })
-      console.log(rect.width)
-    }).exec();
   }
   collect() {
     this.setState({
@@ -137,15 +127,15 @@ export default class CourseDetail extends Component {
       url: `/pages/rateDetail/rate-detail?id=${this.$router.params.id}`
     })
   }
+  handleChange (value) {
+    this.setState({
+      value
+    })
+  }
   render() {
     console.log('detail render')
-    const { list, swiperH, current, isOpened, toastText, data, rateData, isCourseOpend, choiceCourseId, pricePerCourse } = this.state;
+    const { list, current, isOpened, toastText, data, rateData, isCourseOpend, choiceCourseId, pricePerCourse } = this.state;
     const totalPage = list.length;
-    const banner = list.map(item => {
-      return <SwiperItem key={item.id}>
-        <Image style='width:100%;' mode='widthFix' onLoad={this.onImgLoad.bind(this)} src={item.url}></Image>
-      </SwiperItem>
-    })
     const reason = data.reason.map((item, index) => {
       return <View className='reason-item' key={index}>
         <View className='reason-index'>{index + 1}</View>
@@ -154,24 +144,12 @@ export default class CourseDetail extends Component {
     })
 
     const courseAttr = ['一', '两', '三', '四'].map((item, index) => {
-      return <View key={index} onClick={this.choiceCouseChange.bind(this, item, index)} className={`course-attr-list-item ${choiceCourseId === index ? 'active' : ''}`}>{item}节</View>
+      return <View key={index} onClick={this.choiceCouseChange.bind(this, item, index)} className={`attr-list-item ${choiceCourseId === index ? 'active' : ''}`}>{item}节</View>
     })
     return (
-      <View className='course-detail'>
+      <View className='detail'>
         <View className='swiper'>
-          <Swiper
-            ref='swiper'
-            style={{ height: swiperH }}
-            className='test-h'
-            indicatorColor='#aaa'
-            indicatorActiveColor='#47cab3'
-            onChange={this.slideChange.bind(this)}
-            circular
-            // indicatorDots
-            autoplay
-          >
-            {banner}
-          </Swiper>
+          <SwiperList list={list} change={this.slideChange} />
           <View className='page'>
             {current}/{totalPage}
           </View>
@@ -207,7 +185,7 @@ export default class CourseDetail extends Component {
         </View>
         <View className='block-line'></View>
         {/* 已选、机构描述 */}
-        <View className='course-list'>
+        <View className='list'>
           <AtList hasBorder={false}>
             <AtListItem title='已选择：两节' arrow='right' onClick={this.openChoiceCourse.bind(this)} />
             <AtListItem title='课程参数：XXXXXXX' arrow='right' />
@@ -228,27 +206,51 @@ export default class CourseDetail extends Component {
         <FooterCarBuy />
         {/* 选课面板 */}
         <AtActionSheet isOpened={isCourseOpend} onClose={this.closeChoiceCourse.bind(this)}>
-          <AtActionSheetItem>
-            <View className='course-sheet'>
-              <View className='course-price'>
+          <AtActionSheetItem className='sheet-item-content'>
+            <View className='sheet'>
+              <View className='price'>
                 <View>
-                  <Image className='vect' mode='widthFix' src={require('../../assets/images/banner.jpg')}></Image>
+                  <Image className='vect' mode='widthFix' src={require('@/assets/images/banner.jpg')}></Image>
                 </View>
                 <View className='price_tip'>
                   <View className='total-price'>价格：¥{(choiceCourseId + 1) * pricePerCourse}</View>
-                  <View className='course-tip'>请选择规格属性</View>
-                </View>
-              </View>
-              <View className='course-attr'>
-                <View className='course-attr-text'>规格</View>
-                <View className='course-attr-list'>
-                  {courseAttr}
+                  <View className='tip'>库存：132件</View>
+                  <View className='tip'>已选：“酒店同款”“45*30cm”</View>
                 </View>
               </View>
             </View>
           </AtActionSheetItem>
           <AtActionSheetItem>
-            <FooterCarBuy />
+            <View className='attr'>
+              <View className='attr-text'>款式</View>
+              <View className='attr-list'>
+                {courseAttr}
+              </View>
+            </View>
+          </AtActionSheetItem>
+          <AtActionSheetItem>
+            <View className='attr'>
+              <View className='attr-text'>尺寸</View>
+              <View className='attr-list'>
+                {courseAttr}
+              </View>
+            </View>
+          </AtActionSheetItem>
+          <AtActionSheetItem>
+            <View className='attr'>
+              <View className='attr-text'>购买数量</View>
+              <AtInputNumber
+                type='number'
+                min={0}
+                max={10}
+                step={1}
+                value={this.state.value}
+                onChange={this.handleChange.bind(this)}
+              />
+            </View>
+          </AtActionSheetItem>
+          <AtActionSheetItem className='sheet-item-btn'>
+            <AtButton type='primary'>确定</AtButton>
           </AtActionSheetItem>
         </AtActionSheet>
       </View>

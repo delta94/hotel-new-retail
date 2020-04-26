@@ -7,7 +7,7 @@ import HotelSame from '@/components/hotelSame/hotel-same';
 import SwiperList from '@/components/swiper/swiper';
 import ProductGrid from '@/components/productGrid/product-grid';
 
-const adUrl = require('../../assets/images/ad.jpg');
+const adUrl = require('@/assets/images/ad.jpg');
 
 export default class Index extends Component {
 
@@ -28,15 +28,15 @@ export default class Index extends Component {
   state = {
     value:'',
     bannerList:[{
-      imageUrl:require('../../assets/images/banner.jpg'),
+      imageUrl:require('@/assets/images/banner.jpg'),
       id:1
     },
     {
-      imageUrl:require('../../assets/images/banner1.jpg'),
+      imageUrl:require('@/assets/images/banner1.jpg'),
       id:2
     },
     {
-      imageUrl:require('../../assets/images/banner2.jpg'),
+      imageUrl:require('@/assets/images/banner2.jpg'),
       id:3
     }],
     sourceList:[
@@ -76,21 +76,21 @@ export default class Index extends Component {
     list:[
       {
         id:1,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
+        mainPictureUrl:require('@/assets/images/hotel-same1.jpg'),
         name:'商品',
         character:'课程特点，优点简介',
         price:150
       },
       {
         id:2,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
+        mainPictureUrl:require('@/assets/images/hotel-same1.jpg'),
         name:'商品',
         character:'课程特点，优点简介',
         price:150
       },
       {
         id:3,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
+        mainPictureUrl:require('@/assets/images/hotel-same1.jpg'),
         name:'商品',
         character:'课程特点，优点简介',
         sale_price:199,
@@ -98,7 +98,7 @@ export default class Index extends Component {
       },
       {
         id:4,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
+        mainPictureUrl:require('@/assets/images/hotel-same1.jpg'),
         name:'商品',
         character:'课程特点，优点简介',
         sale_price:199,

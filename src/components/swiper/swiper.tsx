@@ -3,12 +3,17 @@ import { View,Image ,Swiper, SwiperItem} from '@tarojs/components'
 
 interface propsType  {
   list: Array<any>,
-  config: Object
+  config: Object,
+  change?:Function
 }
 
 export default class SwiperList extends Component<propsType> {
     constructor(props){
         super(props)
+    }
+    static defaultProps = {
+      list:[],
+      config:{}
     }
     state = {
       swiperH:''
@@ -28,7 +33,10 @@ export default class SwiperList extends Component<propsType> {
       }).exec();
 
     }
-
+    slideChange = () =>{
+      const {change} = this.props
+      change && change()
+    }
     render(){
       let swiperConfig = {
         indicatorDots:true,
@@ -37,7 +45,7 @@ export default class SwiperList extends Component<propsType> {
         indicatorActiveColor:'#47cab3',
         circular:true,
       }
-      const {list=[],config = {} } = this.props
+      const {list,config} = this.props
       swiperConfig = {...swiperConfig,...config}
       const {swiperH} = this.state
       const data = list.map(item=>{
@@ -55,6 +63,7 @@ export default class SwiperList extends Component<propsType> {
           circular={swiperConfig.circular}
           indicatorDots={swiperConfig.indicatorDots}
           autoplay={swiperConfig.autoplay}
+          onChange={this.slideChange}
         >
           {data}
         </Swiper>

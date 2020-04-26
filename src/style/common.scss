@@ -60,7 +60,11 @@
     padding:20px;
   }
 }
-
+.at-action-sheet__item{
+  &:active{
+    background-color: #fff !important;
+  }
+}
 //通用的类名
 .fixed {
   position: fixed;
