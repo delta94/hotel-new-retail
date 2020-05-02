@@ -41,15 +41,33 @@ export default class HotCourse extends Component {
           price:129
         }
       ],
+      sameTitle:[
+        {
+          name:'枕头'
+        },
+        {
+          name:'床被'
+        },
+        {
+          name:'日用品'
+        },
+        {
+          name:'其他'
+        }
+      ]
     }
     componentWillMount(){
 
     }
     render() {
-        const {list} = this.state ;
+        const {list, sameTitle} = this.state ;
+        const titles = sameTitle.map((item)=>{
+            return <View className='same-title-item' key={item.name}><View className='same-title-text'>{item.name}</View></View>
+        })
         return (
-          <View className="hot-course">
+          <View className="hotel-same">
             <View className="text">酒店同款</View>
+            <View className="same-title">{titles}</View>
             <ProductGrid list={list}></ProductGrid>
           </View>
         )

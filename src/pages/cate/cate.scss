@@ -32,6 +32,18 @@ page{
     .content-container{
       flex: 3;
       border-left:1px solid $border-color;
+      padding-left:20px;
+      .main-image{
+        position: relative;
+        .mask{
+          position: absolute;
+          top:0;
+          left:0;
+          width:100%;
+          height:100%;
+          background: color-percent(#000, 0.2);
+        }
+      }
     }
   }
 }

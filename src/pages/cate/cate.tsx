@@ -1,5 +1,5 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View,ScrollView } from '@tarojs/components'
+import { View,ScrollView,Image } from '@tarojs/components'
 import { AtButton, AtSearchBar, AtInput } from 'taro-ui'
 import './cate.scss'
 
@@ -66,6 +66,7 @@ export default class Cate extends Component {
 
   render() {
     const {cateList,activeIndex} = this.state
+    const mainImageUrl = require('@/assets/images/banner2.jpg')
     const listItem = cateList.map(item=>{
           return <View className={`list-item ${activeIndex===item.id?'actived':''}`} key={item.id} onClick={this.clickItem.bind(this,item)}>{item.name}</View>
     })
@@ -81,7 +82,10 @@ export default class Cate extends Component {
             {listItem}
           </ScrollView>
           <View className='content-container'>
-
+            <View className='main-image'>
+              <Image style='width:100%;' mode='widthFix' src={mainImageUrl}></Image>
+              <View className='mask'>全部</View>
+            </View>
           </View>
         </View>
 

@@ -1,0 +1,29 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+
+.hot-word-and-history{
+  padding:40px 20px;
+  .title{
+    font-size: $font-size-large;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .content{
+    @include display-flex;
+    @include flex-wrap(wrap);
+    &-item{
+      padding:10px 20px;
+      border:1px solid $border-color;
+      color: $color-grey-3;
+      border-radius: 8px;
+      margin-right: 15px;
+      margin-bottom: 20px;
+    }
+  }
+  .search-history{
+    margin-top:50px;
+  }
+}
+.serach-result{
+  padding-top:40px;
+}

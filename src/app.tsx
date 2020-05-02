@@ -67,7 +67,7 @@ class App extends Component {
         },
         {
           pagePath:'pages/applicationCenter/application-center',
-          text:'应用中心',
+          text:'买家秀',
           iconPath: "./assets/tab-bar/application.png",
           selectedIconPath: "./assets/tab-bar/application-active.png",
         },
@@ -79,7 +79,7 @@ class App extends Component {
         },
         {
           pagePath:'pages/user/user',
-          text:'个人',
+          text:'我的',
           iconPath: "./assets/tab-bar/user.png",
           selectedIconPath: "./assets/tab-bar/user-active.png",
         }
