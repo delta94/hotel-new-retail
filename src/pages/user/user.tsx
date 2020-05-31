@@ -117,6 +117,9 @@ export default class User extends Component {
       console.log(this.state)
     })
   }
+  contact = async (e)=>{
+    console.log(e)
+  }
   componentWillMount () { }
 
   componentDidMount () {
@@ -142,6 +145,7 @@ export default class User extends Component {
         <AtButton onClick={this.requestPayment} type='primary'>requestPayment</AtButton>
         <AtButton type='primary' openType='getUserInfo' onGetUserInfo={this.getUserInfo}>getUserInfo</AtButton>
         <AtButton type='primary' openType='getPhoneNumber' onGetPhoneNumber={this.getPhoneNumber}>getPhoneNumber</AtButton>
+        <AtButton type='primary' openType='contact' onContact={this.contact}>联系客服</AtButton>
         <CounterContext.Provider value={this.state.count}>
           <Count />
         </CounterContext.Provider>

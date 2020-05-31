@@ -30,7 +30,7 @@ export default class ScrollXView extends Component<propsType> {
         width:`${ratio as any * 10 }%`
       }
       const courses = list.map((item)=>{
-        return <View className="list-item" style={itemStyle} key={item.id} onClick={this.clickCourse.bind(this,item)}>
+        return <View className="list-item" style={itemStyle} key="id" onClick={this.clickCourse.bind(this,item)}>
                   <Image className="img" mode="widthFix"  src={item.mainPictureUrl} ></Image>
                   <View className="desc">
                     <View className="name">{item.name}</View>

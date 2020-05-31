@@ -112,10 +112,10 @@ export default class Cate extends Component {
   render () {
     const {hotWords, historyWords, list,showResult} = this.state
     const hotItem = hotWords.map((item)=>{
-        return <View className='content-item'>{item.name}</View>
+        return <View className='content-item' key='name'>{item.name}</View>
     })
     const historyItem = historyWords.map((item)=>{
-        return <View className='content-item'>{item.name}</View>
+        return <View className='content-item' key='name'>{item.name}</View>
     })
     return (
       <View className='search'>
