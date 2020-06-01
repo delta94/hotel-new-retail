@@ -6,7 +6,7 @@ import HotSale from '@/components/hotSale/hot-sale';
 import HotelSame from '@/components/hotelSame/hotel-same';
 import SwiperList from '@/components/swiper/swiper';
 import ProductGrid from '@/components/productGrid/product-grid';
-
+import { getIndexBanner } from '@/servers/servers.js'
 const adUrl = require('@/assets/images/ad.jpg');
 
 export default class Index extends Component {
@@ -118,7 +118,10 @@ export default class Index extends Component {
       url:'/pages/search/search'
     })
   }
-  componentWillMount () { }
+  async componentWillMount () { 
+    let res = await getIndexBanner()
+    console.log(res)
+  }
 
   componentDidMount () {
     console.log(DEV)

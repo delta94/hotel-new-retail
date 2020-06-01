@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro"
-import { pageToLogin } from "./utils"
+// import { pageToLogin } from "./utils"
 import { HTTP_STATUS } from './config'
 
 const customInterceptor = (chain) => {
@@ -16,13 +16,13 @@ const customInterceptor = (chain) => {
 
     } else if (res.statusCode === HTTP_STATUS.FORBIDDEN) {
       Taro.setStorageSync("Authorization", "")
-      pageToLogin()
+      // pageToLogin()
       // TODO 根据自身业务修改
       return Promise.reject("没有权限访问");
 
     } else if (res.statusCode === HTTP_STATUS.AUTHENTICATE) {
       Taro.setStorageSync("Authorization", "")
-      pageToLogin()
+      // pageToLogin()
       return Promise.reject("需要鉴权")
 
     } else if (res.statusCode === HTTP_STATUS.SUCCESS) {
