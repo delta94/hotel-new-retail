@@ -1,7 +1,7 @@
-import Taro, { Component, Config } from '@tarojs/taro'
-import { View,Image ,Swiper, SwiperItem } from '@tarojs/components'
-// import { AtButton } from 'taro-ui'
+import Taro, { Component } from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import ScrollXView from '@/components/scrollXView/scrollX-view'
+import { getHotSalePage } from '@/servers/servers.js'
 import './hot-sale.scss';
 
 export default class HotSale extends Component {
@@ -9,26 +9,7 @@ export default class HotSale extends Component {
         super(props)
     }
     state = {
-      list:[
-        {
-          mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
-          id:1,
-          price:150,
-          name:'商品'
-        },
-        {
-          mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
-          id:2,
-          price:150,
-          name:'商品'
-        },
-        {
-          mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
-          id:3,
-          price:150,
-          name:'商品'
-        }
-      ],
+      list:[],
       current:0
     }
     slideChange(){
@@ -37,11 +18,18 @@ export default class HotSale extends Component {
       this.setState({
         current:current === length ? 0 :current + 1
       },()=>{
-        // console.log(this.state.current)
       })
     }
-    componentWillMount(){
-
+    async getHotSalePage() {
+      let res = await getHotSalePage()
+      if (res.code === 200) {
+        this.setState({
+          list: res.data.records || []
+        })
+      }
+    }
+    async componentWillMount(){
+      this.getHotSalePage()
     }
     render() {
       const {list} = this.state ;
@@ -50,9 +38,9 @@ export default class HotSale extends Component {
             <View className='text'>热卖商品</View>
             <View className='container'>
               <ScrollXView list={list} ratio={5}></ScrollXView >
-              <View className='slide'>
+              {/* <View className='slide'>
                 <View style={{'left':this.state.current*50+'rpx'}} className='move-block'></View>
-              </View>
+              </View> */}
             </View>
           </View>
         )

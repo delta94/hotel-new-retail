@@ -6,7 +6,7 @@ import HotSale from '@/components/hotSale/hot-sale';
 import HotelSame from '@/components/hotelSame/hotel-same';
 import SwiperList from '@/components/swiper/swiper';
 import ProductGrid from '@/components/productGrid/product-grid';
-import { getIndexBanner } from '@/servers/servers.js'
+import { getIndexBanner, getGuessYouLikePage } from '@/servers/servers.js'
 const adUrl = require('@/assets/images/ad.jpg');
 
 export default class Index extends Component {
@@ -73,38 +73,7 @@ export default class Index extends Component {
         value: '机构入驻'
       }
     ],
-    list:[
-      {
-        id:1,
-        mainPictureUrl:require('@/assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        price:150
-      },
-      {
-        id:2,
-        mainPictureUrl:require('@/assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        price:150
-      },
-      {
-        id:3,
-        mainPictureUrl:require('@/assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        sale_price:199,
-        price:129
-      },
-      {
-        id:4,
-        mainPictureUrl:require('@/assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        sale_price:199,
-        price:129
-      }
-    ],
+    likeList:[],
   }
 
   onChange(value){
@@ -118,26 +87,24 @@ export default class Index extends Component {
       url:'/pages/search/search'
     })
   }
-  async componentWillMount () { 
+  async getIndexBanner () {
     let res = await getIndexBanner()
     console.log(res)
   }
-
+  async getGuessYouLikePage () {
+    let res = await getGuessYouLikePage()
+    if (res.code === 200) {
+      this.setState({
+        likeList: res.data.records || []
+      })
+    }
+  }
+  async componentWillMount () { 
+    this.getIndexBanner()
+    this.getGuessYouLikePage()
+  }
   componentDidMount () {
-    console.log(DEV)
-    console.log()
-    // console.log(Taro.DEV)
-    // Taro.request({
-    //   url:'https://ming849358679.imwork.net/doLogin?username=123456789&password=123456&type=mobile',
-    //   method:'GET'
-    // }).then(res=>{
-    //   console.log(res)
-    // })
-    // setTimeout(()=>{
-      // this.setState({
-      //   bannerList:
-      // })
-    // },2000)
+
   }
 
   componentWillUnmount () { }
@@ -148,7 +115,7 @@ export default class Index extends Component {
 
   render () {
     console.log('index render')
-    const { bannerList,list } = this.state ;
+    const { bannerList,likeList } = this.state ;
     const swiperConfig = {}
     return (
       <View className='index'>
@@ -174,7 +141,7 @@ export default class Index extends Component {
           <Image style='width:100%;' mode='widthFix' src={adUrl}></Image>
         </View>
         <AtDivider content='猜你喜欢' fontColor='#000' lineColor='#e5e5e5' />
-        <ProductGrid list={list}></ProductGrid>
+        <ProductGrid list={likeList}></ProductGrid>
       </View>
     )
   }

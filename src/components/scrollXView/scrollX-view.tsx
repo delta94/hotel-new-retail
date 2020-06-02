@@ -33,9 +33,9 @@ export default class ScrollXView extends Component<propsType> {
         return <View className="list-item" style={itemStyle} key="id" onClick={this.clickCourse.bind(this,item)}>
                   <Image className="img" mode="widthFix"  src={item.mainPictureUrl} ></Image>
                   <View className="desc">
-                    <View className="name">{item.name}</View>
+                    <View className="name">{item.productName}</View>
                     <View className="price-container">
-                      <Text className={`price ${item.sale_price?"sale_price":''}`}>¥{item.price}</Text>
+                      <Text className={`price ${item.sale_price?"sale_price":''}`}>¥{item.salePrice}</Text>
                       {item.sale_price && <Text className="discount_price">¥{item.sale_price}</Text>}
                     </View>
                   </View>
