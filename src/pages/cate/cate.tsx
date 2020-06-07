@@ -1,6 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View,ScrollView,Image } from '@tarojs/components'
 import { AtButton, AtSearchBar, AtInput } from 'taro-ui'
+import { getCategoryParentList, getCategoryChildren } from '@/servers/servers.js'
 import './cate.scss'
 
 export default class Cate extends Component {
@@ -9,47 +10,31 @@ export default class Cate extends Component {
   config: Config = {
     navigationBarTitleText: '分类',
   }
-
-  componentWillMount() { }
-
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
   state = {
-    cateList:[
-      {
-        id:1,
-        name:'酒店同款'
-      },
-      {
-        id:2,
-        name:'2020上线'
-      },
-      {
-        id:3,
-        name:'床品家纺'
-      },
-      {
-        id:4,
-        name:'居家生活'
-      },
-      {
-        id:5,
-        name:'个护日用'
-      },
-      {
-        id:6,
-        name:'差旅出行'
-      }
-    ],
-    activeIndex:1
+    cateList: [],
+    cateChildList: [],
+    activeIndex: 1,
+    mainImageUrl: ''
+  }
+  async getParentList () {
+    let res = await getCategoryParentList()
+    if (res.code === 200) {
+      this.setState({
+        cateList: res.data || []
+      })
+      this.clickItem(res.data[0])
+    } 
+  }
+  async getCategoryChildren (parentId) {
+    let res = await getCategoryChildren({parentId})
+    res.code === 200 && this.setState({
+      cateChildList: res.data || []
+    })
+  }
+  componentWillMount() { 
+    this.getParentList()
+  }
+  componentDidMount() {
   }
 
   clickSearch(){
@@ -60,15 +45,26 @@ export default class Cate extends Component {
   }
   clickItem(item){
     this.setState({
-      activeIndex:item.id
+      activeIndex: item.id,
+      mainImageUrl: item.imageUrl
+    })
+    this.getCategoryChildren(item.id)
+  }
+  clickCate(item){
+    Taro.navigateTo({
+      url:`/pages/cateDetail/cate-detail?id=${this.state.activeIndex}&childId=${item.id}`
     })
   }
-
   render() {
-    const {cateList,activeIndex} = this.state
-    const mainImageUrl = require('@/assets/images/banner2.jpg')
+    const {cateList,activeIndex, mainImageUrl, cateChildList} = this.state
     const listItem = cateList.map(item=>{
-          return <View className={`list-item ${activeIndex===item.id?'actived':''}`} key={item.id} onClick={this.clickItem.bind(this,item)}>{item.name}</View>
+          return <View className={`list-item ${activeIndex===item['id']?'actived':''}`} key='id' onClick={this.clickItem.bind(this,item)}>{item['name']}</View>
+    })
+    const childItem = cateChildList.map(item => {
+      return <View className='cate-child-item' key='id' onClick={this.clickCate.bind(this, item)}>
+        <Image style='width:100%;' mode='widthFix' src={item['imageUrl']}></Image>
+        <View>{item['name']}</View>
+      </View>
     })
     return (
       <View className='cate'>
@@ -85,6 +81,9 @@ export default class Cate extends Component {
             <View className='main-image'>
               <Image style='width:100%;' mode='widthFix' src={mainImageUrl}></Image>
               <View className='mask'>全部</View>
+            </View>
+            <View className='cate-child'>
+              {childItem}
             </View>
           </View>
         </View>

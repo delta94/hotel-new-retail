@@ -27,6 +27,7 @@ class App extends Component {
       'pages/orgSign/orgSign',
       'pages/child/child',
       'pages/cate/cate',
+      'pages/cateDetail/cate-detail',
       'pages/applicationCenter/application-center',
       'pages/buyCar/buy-car',
       'pages/search/search',

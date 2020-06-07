@@ -27,18 +27,7 @@ export default class Index extends Component {
 
   state = {
     value:'',
-    bannerList:[{
-      imageUrl:require('@/assets/images/banner.jpg'),
-      id:1
-    },
-    {
-      imageUrl:require('@/assets/images/banner1.jpg'),
-      id:2
-    },
-    {
-      imageUrl:require('@/assets/images/banner2.jpg'),
-      id:3
-    }],
+    bannerList:[],
     sourceList:[
       {
         image: 'https://img12.360buyimg.com/jdphoto/s72x72_jfs/t6160/14/2008729947/2754/7d512a86/595c3aeeNa89ddf71.png',
@@ -89,7 +78,15 @@ export default class Index extends Component {
   }
   async getIndexBanner () {
     let res = await getIndexBanner()
-    console.log(res)
+    let bannerData = (res.data || []).map(item => {
+      return  { 
+        id: item.id,
+        imageUrl: item.itemValue
+       } 
+    })
+    this.setState({
+      bannerList: bannerData
+    })
   }
   async getGuessYouLikePage () {
     let res = await getGuessYouLikePage()
