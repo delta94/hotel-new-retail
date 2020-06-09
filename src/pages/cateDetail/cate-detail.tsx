@@ -4,6 +4,24 @@ import { AtDrawer} from 'taro-ui'
 import { getCategoryParentList, getCategoryChildren } from '@/servers/servers.js'
 import './cate-detail.scss'
 
+const PICKLIST = [
+  {
+    id: 'priceLow',
+    name: '价格从低到高'
+  },
+  {
+    id: 'priceHight',
+    name: '价格从高到低'
+  },
+  {
+    id: 'popularity',
+    name: '人气排名'
+  },
+  {
+    id: 'newTime',
+    name: '上新时间'
+  }
+]
 export default class CateDetail extends Component {
 
   /**
@@ -23,6 +41,7 @@ export default class CateDetail extends Component {
     currentName: '',
     currentId: '',
     currentChildId: '',
+    currentPickId: '',
     scrollIntoViewId: '',
     showCateList: false,
     showPick: false
@@ -70,16 +89,27 @@ export default class CateDetail extends Component {
       currentName: item.name
     })
   }
+  clickPick (item) { 
+    this.setState({
+      currentPickId: item.id,
+    })
+  }
   toggleCate () {
     const { showCateList } = this.state
     this.setState({
       showCateList: !showCateList
     })
   }
-  togglePick () {
+  togglePick (e) {
+    e && e.stopPropagation()
     const { showPick } = this.state
     this.setState({
       showPick: !showPick
+    })
+  }
+  closePick () { // 点击事件始终会冒泡到AtDrawer组件
+    this.setState({
+      showPick: false
     })
   }
   componentWillMount () {
@@ -104,15 +134,21 @@ export default class CateDetail extends Component {
   componentDidHide () { }
 
   render () {
-    const { cateList, cateChildList, currentId, currentChildId, currentName, scrollIntoViewId, showCateList, showPick } = this.state
+    const { cateList, cateChildList, currentId, currentChildId, currentPickId, currentName, scrollIntoViewId, showCateList, showPick } = this.state
     const cateItem = cateList.map(item => {
-      return <View onClick={this.clickCate.bind(this, item)} className={`cate-item ${currentId === item['id'] ? 'actived' : ''}`}>
+      return <View key='id' onClick={this.clickCate.bind(this, item)} className={`cate-item ${currentId === item['id'] ? 'actived' : ''}`}>
         <View className='cate-name'>{item['name']}</View>
         { currentId === item['id'] ? <View className='icon at-icon at-icon-check'></View> : ''}
       </View>
     })
     const childItem = cateChildList.map(item => {
       return <View key='id' id={`childId${item['id']}`} onClick={this.clickChild.bind(this, item)} className={`child-item ${currentChildId===(item['id'])?'actived':''}`}>{item['name']}</View>
+    })
+    const drawerItem = PICKLIST.map(item => {
+      return <View key='id' className={`drawer-item ${currentPickId === item.id ? 'actived' : ''}`} onClick={this.clickPick.bind(this, item)}>
+          <View>{item.name}</View>
+          {currentPickId === item.id ?<View className='icon at-icon at-icon-check'></View> : ''}
+        </View>
     })
     return (
       <View className='cate-detail'>
@@ -136,15 +172,12 @@ export default class CateDetail extends Component {
           </View>
         </View>
         { showCateList ? <View className='mask'></View> : ''}
-        <AtDrawer className='drawer' show={showPick} mask right onClose={this.togglePick.bind(this)}>
+        <AtDrawer className='drawer' show={showPick} mask right onClose={this.closePick.bind(this)}>
           <View className='drawer-item drawer-item-header'>
             <View className='pick-text'>+筛选</View>
-            <View className='close-text'>关闭</View>
+            <View onClick={this.togglePick.bind(this)} className='close-text'>关闭</View>
           </View>
-          <View className='drawer-item'>价格从低到高</View>
-          <View className='drawer-item'>价格从高到低</View>
-          <View className='drawer-item'>人气排名</View>
-          <View className='drawer-item'>上新时间</View>
+          {drawerItem}
         </AtDrawer>
       </View>
     )

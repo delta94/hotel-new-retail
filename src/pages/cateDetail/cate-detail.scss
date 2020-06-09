@@ -36,9 +36,6 @@ $padding-width:20px;
           .cate-name{
             font-size: $font-size-normal;
           }
-          .icon{
-            color: $color-brand;
-          }
           &.actived{
             color: $color-brand
           }
@@ -75,6 +72,9 @@ $padding-width:20px;
       @include display-flex;
       @include justify-content(space-between);
       color: $color-grey-0;
+      &.actived{
+        color:$color-brand;
+      }
       &-header {
         padding-bottom: 20px;
         .close-text{
@@ -82,6 +82,9 @@ $padding-width:20px;
         }
       }
     }
+  }
+  .icon{
+    color: $color-brand;
   }
   .mask {
     position: absolute;
