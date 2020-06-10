@@ -24,11 +24,10 @@ export default class ProductGrid extends Component<propsType> {
           return <View className="list-item" key={item.id} onClick={this.clickCourse.bind(this,item)}>
                     <Image className="img" mode="widthFix"  src={item.mainPictureUrl} ></Image>
                     <View className="desc">
-                      {/* <View className="character">{item.character}</View> */}
                       <View className="name">{item.productName}</View>
                       <View className="price-container">
                         <Text className={`price ${item.sale_price?"sale_price":''}`}>¥{item.salePrice}</Text>
-                        {item.sale_price && <Text className="discount_price">¥{item.sale_price}</Text>}
+                        {/* {item.sale_price && <Text className="discount_price">¥{item.sale_price}</Text>} */}
                         {/* {item.sale_price && <Text className="save_price">省{item.sale_price - item.price}元</Text>} */}
                       </View>
                     </View>

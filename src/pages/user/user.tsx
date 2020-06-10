@@ -120,6 +120,16 @@ export default class User extends Component {
   contact = async (e)=>{
     console.log(e)
   }
+  choiseImg = async () => {
+    Taro.chooseImage({
+      sourceType: ['album', 'camera'],
+      complete: () => {
+        console.log('complete')
+      }
+    }).then(res => {
+      console.log(res)
+    })
+  }
   componentWillMount () { }
 
   componentDidMount () {
@@ -146,6 +156,7 @@ export default class User extends Component {
         <AtButton type='primary' openType='getUserInfo' onGetUserInfo={this.getUserInfo}>getUserInfo</AtButton>
         <AtButton type='primary' openType='getPhoneNumber' onGetPhoneNumber={this.getPhoneNumber}>getPhoneNumber</AtButton>
         <AtButton type='primary' openType='contact' onContact={this.contact}>联系客服</AtButton>
+        <AtButton type='primary'  onClick={this.choiseImg}>上传图片</AtButton>
         <CounterContext.Provider value={this.state.count}>
           <Count />
         </CounterContext.Provider>

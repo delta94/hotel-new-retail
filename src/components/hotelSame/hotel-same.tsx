@@ -13,32 +13,26 @@ export default class HotCourse extends Component {
         {
           id:1,
           mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-          name:'商品',
-          character:'课程特点，优点简介',
-          price:150
+          productName:'商品',
+          salePrice:150
         },
         {
           id:2,
           mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-          name:'商品',
-          character:'课程特点，优点简介',
-          price:150
+          productName:'商品',
+          salePrice:150
         },
         {
           id:3,
           mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-          name:'商品',
-          character:'课程特点，优点简介',
-          sale_price:199,
-          price:129
+          productName:'商品',
+          salePrice:129
         },
         {
           id:4,
           mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-          name:'商品',
-          character:'课程特点，优点简介',
-          sale_price:199,
-          price:129
+          productName:'商品',
+          salePrice:129
         }
       ],
       sameTitle:[

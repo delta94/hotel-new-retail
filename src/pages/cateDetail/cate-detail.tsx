@@ -2,6 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View,Image ,ScrollView} from '@tarojs/components'
 import { AtDrawer} from 'taro-ui'
 import { getCategoryParentList, getCategoryChildren } from '@/servers/servers.js'
+import ProductGrid from '@/components/productGrid/product-grid';
 import './cate-detail.scss'
 
 const PICKLIST = [
@@ -22,6 +23,7 @@ const PICKLIST = [
     name: '上新时间'
   }
 ]
+let ID = 0
 export default class CateDetail extends Component {
 
   /**
@@ -44,7 +46,16 @@ export default class CateDetail extends Component {
     currentPickId: '',
     scrollIntoViewId: '',
     showCateList: false,
-    showPick: false
+    showPick: false,
+    list: Array.from({length:14}).map(() => {
+      return {
+        id:ID++,
+        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
+        imageUrl:require('../../assets/images/hotel-same1.jpg'),
+        productName:'商品',
+        salePrice:150
+      }
+    })
   }
   setCurrentName () {
     const { cateList, currentId } = this.state
@@ -89,7 +100,7 @@ export default class CateDetail extends Component {
       currentName: item.name
     })
   }
-  clickPick (item) { 
+  clickPick (item) {
     this.setState({
       currentPickId: item.id,
     })
@@ -134,7 +145,7 @@ export default class CateDetail extends Component {
   componentDidHide () { }
 
   render () {
-    const { cateList, cateChildList, currentId, currentChildId, currentPickId, currentName, scrollIntoViewId, showCateList, showPick } = this.state
+    const { cateList, cateChildList, currentId, currentChildId, currentPickId, currentName, scrollIntoViewId, showCateList, showPick, list } = this.state
     const cateItem = cateList.map(item => {
       return <View key='id' onClick={this.clickCate.bind(this, item)} className={`cate-item ${currentId === item['id'] ? 'actived' : ''}`}>
         <View className='cate-name'>{item['name']}</View>
@@ -150,6 +161,29 @@ export default class CateDetail extends Component {
           {currentPickId === item.id ?<View className='icon at-icon at-icon-check'></View> : ''}
         </View>
     })
+    const length = list.length
+    let gridList:Array<any> = []
+    let tempList:Array<any> = []
+    list.forEach((item, index) => {
+      if (index%5 === 0) {
+        gridList.push(item)
+        tempList = []
+      } else {
+        tempList.push(item)
+        if (tempList.length === 4 || length-1 === index) gridList.push(tempList)
+      }
+    })
+    const listItem = gridList.map(item => {
+      return Array.isArray(item) ? <ProductGrid key='id' list={item} /> :
+      <View key='id' className='main-product'>
+          <View><Image style='width:100%;' mode='widthFix' src={item['imageUrl']}></Image></View>
+          <View className='main-product-name'>
+            <View>{item['productName']}</View>
+            <View>¥{item['salePrice']}</View>
+          </View>
+      </View>
+    })
+    console.log(gridList)
     return (
       <View className='cate-detail'>
         <View className='cate-detail-header fixed fixed-t'>
@@ -179,6 +213,11 @@ export default class CateDetail extends Component {
           </View>
           {drawerItem}
         </AtDrawer>
+
+        {/* 内容区域 */}
+        <View className='cate-content'>
+          {listItem}
+        </View>
       </View>
     )
   }
