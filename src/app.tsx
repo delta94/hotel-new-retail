@@ -28,7 +28,8 @@ class App extends Component {
       'pages/child/child',
       'pages/cate/cate',
       'pages/cateDetail/cate-detail',
-      'pages/applicationCenter/application-center',
+      'pages/buyerShow/buyer-show',
+      'pages/publishShow/publish-show',
       'pages/buyCar/buy-car',
       'pages/search/search',
       'pages/detail/detail',
@@ -67,7 +68,7 @@ class App extends Component {
           selectedIconPath: "./assets/tab-bar/cate-active.png",
         },
         {
-          pagePath:'pages/applicationCenter/application-center',
+          pagePath:'pages/buyerShow/buyer-show',
           text:'买家秀',
           iconPath: "./assets/tab-bar/application.png",
           selectedIconPath: "./assets/tab-bar/application-active.png",

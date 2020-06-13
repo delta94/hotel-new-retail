@@ -130,6 +130,53 @@ export default class User extends Component {
       console.log(res)
     })
   }
+  handlerClick = async ()=>{ //用箭头函数 在模板中绑定解决this指向问题
+    console.log(this)
+    // Taro.showToast({
+    //   title: '测试一条toast',
+    //   icon: 'none'
+    // })
+    Taro.getLocation({
+      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+      success (res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        console.log(res)
+        Taro.openLocation({
+          latitude,
+          longitude,
+          scale: 18
+        })
+      },
+      fail(){
+        Taro.openSetting({
+          'success':(res)=>{
+            console.log(res)
+          },
+          'fail':(res)=>{
+            console.log(res)
+          }
+        })
+      }
+     })
+  }
+  signClick = async ()=>{
+    Taro.navigateTo({
+      url:'/pages/sign/sign'
+    })
+  }
+  orgClick = ()=>{
+    Taro.navigateTo({
+      url:'/pages/orgSign/orgSign'
+    })
+  }
+  onShareAppMessage (res){
+    console.log(res)
+    return {
+      title: '点点看哟！',
+      path: '/pages/user/user?id=123'
+    }
+  }
   componentWillMount () { }
 
   componentDidMount () {
@@ -157,6 +204,9 @@ export default class User extends Component {
         <AtButton type='primary' openType='getPhoneNumber' onGetPhoneNumber={this.getPhoneNumber}>getPhoneNumber</AtButton>
         <AtButton type='primary' openType='contact' onContact={this.contact}>联系客服</AtButton>
         <AtButton type='primary'  onClick={this.choiseImg}>上传图片</AtButton>
+        <AtButton className="mt-10" onClick={this.handlerClick} type='primary'>查看地理位置</AtButton>
+        <AtButton onClick={this.signClick} type='primary'>家长注册</AtButton>
+        <AtButton className="mt-10" onClick={this.orgClick} type='primary'>机构注册</AtButton>
         <CounterContext.Provider value={this.state.count}>
           <Count />
         </CounterContext.Provider>

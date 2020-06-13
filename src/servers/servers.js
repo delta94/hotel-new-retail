@@ -27,3 +27,7 @@ export const getCategoryParentList = (postData) => {
 export const getCategoryChildren = (postData) => {
   return HTTPREQUEST.get(`${category_prefix}/MobileProductCategory/getChildren`, postData)
 }
+// 产品查询 带查询条件
+export const searchProduct = (postData) => {
+  return HTTPREQUEST.get(`${product_prefix}/MobileProductInfo/getPageByParams`, postData)
+}

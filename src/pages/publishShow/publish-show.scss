@@ -1,0 +1,40 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.publish-show{
+ padding: 20px;
+ .at-textarea{
+   border: none;
+ }
+ .add-image{
+  @include display-flex;
+  padding-bottom: 50px;
+  border-bottom: 1px solid $border-color;
+  border-width: calc(100% + 40px);
+   .upload{
+    @include display-flex;
+    @include flex-direction(column);
+    border: 1px dashed $border-color;
+    color: $color-grey-4;
+    padding: 65rpx 60rpx;
+    text-align: center;
+    .icon{
+      font-size: 60px;
+      color: $color-grey-2;
+      margin-bottom: 10px;
+    }
+   }
+ }
+ .city{
+  @include display-flex;
+  padding-top:40px;
+  &-name{
+    color: $color-brand;
+    flex: 1;
+  }
+  &-pick{
+    color:$color-grey-3;
+    flex: 1;
+    text-align: right;
+  }
+ }
+}

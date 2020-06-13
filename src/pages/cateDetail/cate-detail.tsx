@@ -1,7 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View,Image ,ScrollView} from '@tarojs/components'
 import { AtDrawer} from 'taro-ui'
-import { getCategoryParentList, getCategoryChildren } from '@/servers/servers.js'
+import { getCategoryParentList, getCategoryChildren, searchProduct } from '@/servers/servers.js'
 import ProductGrid from '@/components/productGrid/product-grid';
 import './cate-detail.scss'
 
@@ -47,15 +47,7 @@ export default class CateDetail extends Component {
     scrollIntoViewId: '',
     showCateList: false,
     showPick: false,
-    list: Array.from({length:14}).map(() => {
-      return {
-        id:ID++,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-        imageUrl:require('../../assets/images/hotel-same1.jpg'),
-        productName:'商品',
-        salePrice:150
-      }
-    })
+    list: []
   }
   setCurrentName () {
     const { cateList, currentId } = this.state
@@ -82,6 +74,20 @@ export default class CateDetail extends Component {
     res.code === 200 && this.setState({
       cateChildList: res.data || []
     }, this.setScrollIntoView)
+    return res
+  }
+  async searchProduct () {
+    let { currentChildId, currentPickId } = this.state
+    const res = await searchProduct({
+      pageNo: 1,
+      pageSize: 10,
+      productName: '',
+      categoryId: currentChildId,
+      [currentPickId]: '1'
+    })
+    res.code === 200 && this.setState({
+      list: res.data ? res.data.records: []
+    })
   }
   search () {
     Taro.navigateTo({
@@ -91,13 +97,18 @@ export default class CateDetail extends Component {
   clickChild (item) {
     this.setState({
       currentChildId: item.id
-    })
+    }, this.searchProduct)
   }
   clickCate (item) {
     this.toggleCate()
     this.setState({
       currentId: item.id,
       currentName: item.name
+    })
+    this.getCategoryChildren(item.id).then(res => {
+      this.setState({
+        currentChildId: res.data && res.data.length && (res.data[0].id)
+      }, this.searchProduct)
     })
   }
   clickPick (item) {
@@ -122,13 +133,14 @@ export default class CateDetail extends Component {
     this.setState({
       showPick: false
     })
+    this.searchProduct()
   }
   componentWillMount () {
     console.log(this.$router.params)
     this.setState({
       currentId: +this.$router.params.id,
       currentChildId: +this.$router.params.childId
-    })
+    }, this.searchProduct)
     this.getParentList()
     this.getCategoryChildren(this.$router.params.id)
   }
@@ -176,7 +188,7 @@ export default class CateDetail extends Component {
     const listItem = gridList.map(item => {
       return Array.isArray(item) ? <ProductGrid key='id' list={item} /> :
       <View key='id' className='main-product'>
-          <View><Image style='width:100%;' mode='widthFix' src={item['imageUrl']}></Image></View>
+          <View><Image style='width:100%;' mode='widthFix' src={item['mainPictureUrl']}></Image></View>
           <View className='main-product-name'>
             <View>{item['productName']}</View>
             <View>¥{item['salePrice']}</View>

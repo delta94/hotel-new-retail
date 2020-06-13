@@ -15,7 +15,6 @@ function updateStorage(data = {}) {
 }
 
 /**
- * 简易封装网络请求
  * // NOTE 需要注意 RN 不支持 *StorageSync，此处用 async/await 解决
  * @param {*} options
  */

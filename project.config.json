@@ -4,7 +4,7 @@
 	"description": "酒店新零售",
 	"appid": "wx097712a5ad8bc342",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -13,6 +13,7 @@
 		"autoAudits": false,
 		"showShadowRootInWxmlPanel": false,
 		"scopeDataCheck": false,
+		"uglifyFileName": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
