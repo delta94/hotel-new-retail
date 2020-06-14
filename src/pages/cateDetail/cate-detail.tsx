@@ -35,6 +35,8 @@ export default class CateDetail extends Component {
    */
   config: Config = {
     navigationBarTitleText: 'NEW RETAIL',
+    enablePullDownRefresh: true,
+    onReachBottomDistance: 100
   }
 
   state = {
@@ -48,6 +50,16 @@ export default class CateDetail extends Component {
     showCateList: false,
     showPick: false,
     list: []
+  }
+  onPullDownRefresh () {
+    Taro.startPullDownRefresh()
+    console.log('onPullDownRefresh')
+    setTimeout(() => {
+      Taro.stopPullDownRefresh()
+    },2000)
+  }
+  onReachBottom () {
+    console.log('onReachBottom')
   }
   setCurrentName () {
     const { cateList, currentId } = this.state

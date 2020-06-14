@@ -67,6 +67,16 @@ export default class User extends Component {
   getUserInfo = (res)=>{
     console.log(res)
   }
+  async getUser () {
+    console.log('getuser')
+    try {
+      let res = await Taro.getUserInfo()
+      console.log(res)
+    } catch(err) {
+      console.log('catch')
+      console.log(err)
+    }
+  }
   getPhoneNumber = (res)=>{
     console.log(res)
   }
@@ -201,6 +211,7 @@ export default class User extends Component {
         <AtButton onClick={this.chooseAddress} type='primary'>chooseAddress</AtButton>
         <AtButton onClick={this.requestPayment} type='primary'>requestPayment</AtButton>
         <AtButton type='primary' openType='getUserInfo' onGetUserInfo={this.getUserInfo}>getUserInfo</AtButton>
+        <AtButton type='primary' onClick={this.getUser.bind(this)} >点击getUserInfo</AtButton>
         <AtButton type='primary' openType='getPhoneNumber' onGetPhoneNumber={this.getPhoneNumber}>getPhoneNumber</AtButton>
         <AtButton type='primary' openType='contact' onContact={this.contact}>联系客服</AtButton>
         <AtButton type='primary'  onClick={this.choiseImg}>上传图片</AtButton>

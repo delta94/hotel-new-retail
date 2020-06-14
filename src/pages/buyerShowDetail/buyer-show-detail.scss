@@ -1,0 +1,45 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.buyer-show-detail{
+  padding: 0 20px;
+  border-top: 1px solid $border-color;
+  .header{
+    @include display-flex;
+    padding: 30px 0 40px;
+    .avatar-img{
+      width:80px;
+    }
+    .avatar-name{
+      margin-left: 15px;
+      @include display-flex;
+      @include flex-direction(column);
+      @include justify-content;
+      .name{
+        color: $color-grey-0;
+        margin-bottom: 20px;
+      }
+      .time{
+        color: $color-grey-4;
+        font-size: $font-size-small;
+      }
+    }
+  }
+  .proinfo{
+    color: $color-grey-3;
+    font-size: $font-size-middle;
+    padding: 50px 0 40px;
+  }
+  .share{
+    color: $color-grey-4;
+    font-size: $font-size-normal;
+    .icon {
+      font-size: $font-size-large;
+      &-heart{
+        margin: 0 10px;
+      }
+    }
+  }
+  .button-share{
+    border:none;
+  }
+}

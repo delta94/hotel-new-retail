@@ -29,6 +29,7 @@ class App extends Component {
       'pages/cate/cate',
       'pages/cateDetail/cate-detail',
       'pages/buyerShow/buyer-show',
+      'pages/buyerShowDetail/buyer-show-detail',
       'pages/publishShow/publish-show',
       'pages/buyCar/buy-car',
       'pages/search/search',

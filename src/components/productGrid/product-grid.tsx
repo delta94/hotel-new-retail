@@ -11,9 +11,9 @@ export default class ProductGrid extends Component<propsType> {
     }
 
     clickCourse(item){
-      Taro.navigateTo({
-        url:`/pages/detail/detail?id=${item.id}`
-      })
+      // Taro.navigateTo({
+      //   url:`/pages/detail/detail?id=${item.id}`
+      // })
     }
     componentWillMount(){
 

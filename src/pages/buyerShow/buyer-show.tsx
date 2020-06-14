@@ -1,8 +1,15 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View,Image ,Swiper, SwiperItem} from '@tarojs/components'
-import { AtButton,AtGrid } from 'taro-ui'
+import { View,Image ,Text} from '@tarojs/components'
 import './buyer-show.scss'
 
+const TAB = [ 
+  {
+    name: '最新'
+  },
+  {
+    name: '推荐'
+  }
+]
 export default class BuyerShow extends Component {
 
   /**
@@ -17,14 +24,41 @@ export default class BuyerShow extends Component {
   }
 
   state = {
-
+    list: [
+      {
+        id: '1',
+        city: '广州',
+        cityPin: 'GuangZhou',
+        imageUrl: require('@/assets/images/show.jpg'),
+        nickName: 'kk',
+        star: 20
+      },
+      {
+        id: '2',
+        city: '深圳',
+        cityPin: 'ShenZhen',
+        imageUrl: require('@/assets/images/show.jpg'),
+        nickName: 'qq',
+        star: 30
+      }
+    ],
+    currentTab: TAB[0].name
   }
   clickPublish () {
     Taro.navigateTo({
       url:'/pages/publishShow/publish-show'
     })
   }
-
+  buyerShowDetail (item) {
+    Taro.navigateTo({
+      url:`/pages/buyerShowDetail/buyer-show-detail?id=${item.id}`
+    })
+  }
+  changeTab (item) {
+    this.setState({
+      currentTab: item.name
+    })
+  }
   componentWillMount () { }
 
   componentDidMount () {
@@ -39,11 +73,30 @@ export default class BuyerShow extends Component {
 
   render () {
     console.log('buyer-show render')
-
+    const { list, currentTab } = this.state
+    const listItem = list.map(item => {
+      return <View key='id' className='buyer-item' onClick={this.buyerShowDetail.bind(this, item)}>
+        <Image style='width:100%;' mode='widthFix' src={item['imageUrl']}></Image>
+        <View className='buyer-city'>
+          <View className='city-pin'>{item['cityPin']}</View>
+          <View className='icon at-icon at-icon-map-pin'></View> {item['city']}
+        </View>
+        <View className='buyer-info'>{item['nickName']}  被{item['star']}人点赞了</View>
+      </View>
+    })
+    const tabItem = TAB.map(item => {
+          return <Text key='name' onClick={this.changeTab.bind(this, item)} className={`tab-item ${item.name===currentTab ? 'actived': ''}`}>{item.name}</Text>
+    })
     return (
       <View className='buyer-show'>
           <View className='buy-header'>
-            <AtButton type='primary' onClick={this.clickPublish.bind(this)}>发布买家秀</AtButton>
+            <View className='tab'>
+              {tabItem}
+            </View>
+            <View className='camera'><View onClick={this.clickPublish.bind(this)} className='icon at-icon at-icon-camera'></View></View>
+          </View>
+          <View className='buyer-content'>
+            {listItem}
           </View>
       </View>
 

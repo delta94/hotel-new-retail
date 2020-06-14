@@ -1,7 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Picker } from '@tarojs/components'
 import { AtButton, AtTextarea  } from 'taro-ui'
-import { getCity } from '@/utils/getCity'
+import { uploadFile } from '@/servers/servers.js'
+import { getCity } from '@/utils/auth'
 import './publish-show.scss'
 
 export default class PublishShow extends Component {
@@ -29,12 +30,10 @@ export default class PublishShow extends Component {
   choiceImage () {
     Taro.chooseImage({
       sourceType: ['album', 'camera'],
-      complete: () => {
-        console.log('complete')
-      },
-      fail: () => {}
     }).then(res => {
-      console.log(res)
+      uploadFile(res.tempFilePaths[0]).then(res => {
+        console.log(res)
+      })
     })
   }
   handleChangeArae (e) {

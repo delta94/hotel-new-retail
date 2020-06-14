@@ -1,7 +1,50 @@
 @import "../../style/custom-variables.scss";
 @import "../../style/mixin.scss";
 .buyer-show{
+  padding: 0 20px;
+  border-top: 1px solid $border-color;
   .buy-header{
-
+    @include display-flex;
+    margin: 30px 0px;
+    .tab{
+      flex: 1;
+      &-item {
+        margin-right: 20px;
+        color: $color-grey-3;
+        padding-bottom: 5px;
+        &.actived {
+          border-bottom: 2px solid $color-brand;
+          font-size: $font-size-large;
+          color: #000;
+        }
+      }
+    }
+    .camera{
+      flex: 1;
+      color: $color-brand;
+      text-align: right;
+      font-size: $font-size-large;
+    }
+  }
+  .buyer-item{
+    position: relative;
+    margin-bottom: 50px;
+    .buyer-city{
+      position: absolute;
+      top:40px;
+      left: 30px;
+      color: $color-white;
+      .city-pin{
+        font-size: $font-size-large;
+      }
+    }
+    .buyer-info{
+      position: absolute;
+      left: 30px;
+      bottom: 40px;
+      padding:3px 30px;
+      color: $color-white;
+      background-color: color-percent(#000, 0.4);
+    }
   }
 }

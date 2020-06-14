@@ -1,10 +1,23 @@
+import Taro from '@tarojs/taro'
 /* eslint-disable import/prefer-default-export */
 import HTTPREQUEST from "./http"
+import getBaseUrl from './baseUrl'
 // 产品相关接口前缀
 const product_prefix = '/product/base'
 // 分类相关接口前缀
 const category_prefix = '/conf/base'
+// 文件相关接口
+const file_prefix = '/file/handler'
 
+// 公开文件上传地址
+export const uploadFile = (path, formData) => {
+  return Taro.uploadFile({
+    url: `${getBaseUrl()}${file_prefix}/publicUpload`,
+    filePath: path,
+    name: 'file',
+    formData: formData
+  })
+}
 
 // 首页banner
 export const getIndexBanner = (postData) => {

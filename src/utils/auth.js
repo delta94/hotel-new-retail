@@ -6,7 +6,9 @@ export const getSetting = async () => {
     const res = await Taro.getSetting()
     return res.authSetting
 }
-
+export const openSetting = async () => {
+  return Taro.openSetting()
+}
 export const getLocation = async () => {
   const res = await Taro.getLocation({
     type: 'gcj02'
@@ -51,7 +53,7 @@ export const getCity = async () => {
         duration: 1500
       })
     } else {
-      const auth = await Taro.openSetting()
+      const auth = await openSetting()
       if (auth.authSetting['scope.userLocation'] === true) {
         Taro.showToast({
           title: '授权成功',
