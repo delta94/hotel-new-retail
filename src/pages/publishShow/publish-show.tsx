@@ -65,9 +65,8 @@ export default class PublishShow extends Component {
   }
   async getUserInfo () {
     USERINFO = await getUserInfo()
-    if (!USERINFO) Taro.redirectTo({
-      url:'/pages/login/login'
-    })
+    console.log(USERINFO)
+    if (!USERINFO) Taro.redirectTo({url:'/pages/login/login'})
     return USERINFO
   }
   removeImage (index) {
@@ -109,7 +108,7 @@ export default class PublishShow extends Component {
     console.log('buyer-show render')
     const { city, images } = this.state
     const imageIten = images.map((item, index) => {
-      return <View className='image-item'>
+      return <View className='image-item' key='downloadUrl'>
             <View onClick={this.removeImage.bind(this, index)} className='icon at-icon at-icon-close-circle'></View>
             <Image key='downloadUrl' style='width:100%;' mode='widthFix' src={item['downloadUrl']}></Image>
           </View>

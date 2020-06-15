@@ -1,9 +1,9 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
-import { setStorageSync } from '@/utils/auth'
+import { setStorageSync , getStorageSync, getAccountInfo} from '@/utils/auth'
+import { appLogin, getMiniAppInfo } from '@/servers/servers.js'
 import './login.scss'
-
 
 export default class Login extends Component {
 
@@ -21,10 +21,54 @@ export default class Login extends Component {
   constructor(props){
     super(props)
   }
+  async getMiniAppInfo (sessionKey, userInfo) {
+    const { encryptedData, iv, rawData, signature } = userInfo.detail
+    const appid = (await getAccountInfo()).miniProgram.appId
+    const res = await getMiniAppInfo({
+      sessionKey,
+      encryptedData,
+      iv,
+      rawData,
+      signature,
+      appid
+    })
+    setStorageSync('userInfo', res.data)
+    Taro.navigateBack()
+  }
+  async doLogin (userInfo) {
+    const loginInfo = await Taro.login()
+    const code = loginInfo.code
+    const res = await appLogin({
+      code: code,
+      type: '0'
+    })
 
+    if (res.code === 200) {
+      setStorageSync('sessionKey', res.data && res.data.sessionKey)
+      this.getMiniAppInfo (res.data.sessionKey, userInfo)
+    } else {
+      Taro.showToast({
+        title: '登陆失败',
+        icon: 'none',
+        duration: 1500
+      })
+    }
+    console.log(res)
+  }
   getUserInfo(userInfo){
     console.log(userInfo)
-    userInfo.detail.errMsg === 'getUserInfo:ok' && setStorageSync('userInfo', userInfo.detail)
+    if (userInfo.detail.errMsg === 'getUserInfo:ok') {
+      Taro.checkSession({
+        success : async ()=>{
+          console.log(getStorageSync('sessionKey'))
+          if (!await getStorageSync('sessionKey'))  this.doLogin(userInfo)
+        },
+        fail : async ()=>{
+          this.doLogin(userInfo)
+        }
+      })
+      // setStorageSync('userInfo', userInfo.detail)
+    } 
   }
   componentWillMount () { }
 

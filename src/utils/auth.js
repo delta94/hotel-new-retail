@@ -1,12 +1,16 @@
-import Taro from '@tarojs/taro'
 
+import Taro from '@tarojs/taro'
+// 获取当前账号信息
+export const getAccountInfo = async () => {
+   return Taro.getAccountInfoSync()
+}
 export const MAPKEY = 'SO2BZ-5IAKP-UMEDT-LW6XY-WXOFZ-SLBRQ'
 
 export const setStorageSync = async (key, value) => {
   return Taro.setStorageSync(key, value)
 }
 export const getStorageSync = async (key) => {
-  return Taro.getStorageSync(key)
+  return await Taro.getStorageSync(key)
 }
 export const getSetting = async (scope) => {
     const res = await Taro.getSetting()
@@ -16,13 +20,13 @@ export const openSetting = async () => {
   return Taro.openSetting()
 }
 export const getUserInfo = async () => {
-  let userInfo = getStorageSync('userInfo') || null
-  let userAuth = null
-  if (!userInfo) userAuth = await getSetting('scope.userInfo')
-  if (userAuth) {
-    userInfo = await Taro.getUserInfo()
-    setStorageSync('userInfo', userInfo)
-  }
+  let userInfo = await getStorageSync('userInfo') || null
+  // let userAuth = null
+  // if (!userInfo) userAuth = await getSetting('scope.userInfo')
+  // if (userAuth) {
+  //   userInfo = await Taro.getUserInfo()
+  //   // setStorageSync('userInfo', userInfo)
+  // }
   return userInfo
 }
 export const getLocation = async () => {

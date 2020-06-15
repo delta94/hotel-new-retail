@@ -51,3 +51,11 @@ export const searchProduct = (postData) => {
 export const saveBuyShow = (postData) => {
   return HTTPREQUEST.post(`${user_perfix}/show/userBuyingShow/save`, postData)
 }
+// 用户登录接口
+export const appLogin = (postData) => {
+  return HTTPREQUEST.get(`${user_perfix}/base/userInfo/miniAppLogin`, postData)
+}
+// 获取小程序用户信息
+export const getMiniAppInfo = (postData) => {
+  return HTTPREQUEST.post(`${user_perfix}/base/userInfo/getMiniAppInfo`, postData)
+}
