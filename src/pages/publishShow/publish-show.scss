@@ -1,9 +1,19 @@
 @import "../../style/custom-variables.scss";
 @import "../../style/mixin.scss";
 .publish-show{
- padding: 20px;
+ padding: 20px 20px 200px;
  .at-textarea{
    border: none;
+ }
+ .image-item{
+   position: relative;
+   .icon{
+     position: absolute;
+     top: 20px;
+     right: 20px;
+     font-size: $font-size-large;
+     color: $color-grey-4;
+   }
  }
  .add-image{
   @include display-flex;

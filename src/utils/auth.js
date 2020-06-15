@@ -2,12 +2,28 @@ import Taro from '@tarojs/taro'
 
 export const MAPKEY = 'SO2BZ-5IAKP-UMEDT-LW6XY-WXOFZ-SLBRQ'
 
-export const getSetting = async () => {
+export const setStorageSync = async (key, value) => {
+  return Taro.setStorageSync(key, value)
+}
+export const getStorageSync = async (key) => {
+  return Taro.getStorageSync(key)
+}
+export const getSetting = async (scope) => {
     const res = await Taro.getSetting()
-    return res.authSetting
+    return res.authSetting[scope]
 }
 export const openSetting = async () => {
   return Taro.openSetting()
+}
+export const getUserInfo = async () => {
+  let userInfo = getStorageSync('userInfo') || null
+  let userAuth = null
+  if (!userInfo) userAuth = await getSetting('scope.userInfo')
+  if (userAuth) {
+    userInfo = await Taro.getUserInfo()
+    setStorageSync('userInfo', userInfo)
+  }
+  return userInfo
 }
 export const getLocation = async () => {
   const res = await Taro.getLocation({
@@ -38,8 +54,7 @@ export const getLocal = async (latitude, longitude) => {
   })
 }
 export const getCity = async () => {
-  const authSetting = await getSetting()
-  const userLocationAuth = authSetting['scope.userLocation']
+  const userLocationAuth = await getSetting('scope.userLocation')
   let cityInfo = null
   if(userLocationAuth === false) {
     const result = await Taro.showModal({
