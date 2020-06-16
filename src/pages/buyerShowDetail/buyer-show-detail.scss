@@ -42,4 +42,14 @@
   .button-share{
     border:none;
   }
+  .at-modal__container{
+    width: auto;
+    background-color: transparent;
+  }
+  .album-button{
+    padding: 50px 80px;
+    .at-button{
+      border-radius: 10px !important;
+    }
+  }
 }

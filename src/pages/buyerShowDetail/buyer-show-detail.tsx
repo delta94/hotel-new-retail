@@ -1,6 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View,Image ,Text} from '@tarojs/components'
-import { AtActionSheet, AtActionSheetItem,  AtButton, AtModal, AtModalContent } from "taro-ui"
+import { View,Image } from '@tarojs/components'
+import { AtActionSheet, AtActionSheetItem,  AtButton, AtModal } from "taro-ui"
 import SwiperList from '@/components/swiper/swiper';
 import TaroCanvasDrawer from '@/components/taroPluginCanvas'
 import './buyer-show-detail.scss'
@@ -32,6 +32,7 @@ export default class BuyerShowDetail extends Component {
     openShare: false,
     canvasStatus: false,
     shareImage: '',
+    showPoster: false,
     config: null,
     ssrConfig: {
       width: 750,
@@ -144,7 +145,13 @@ export default class BuyerShowDetail extends Component {
   }
   // 调用绘画 => canvasStatus 置为true、同时设置config
   canvasDrawFunc() {
-    console.log('canvasDrawFunc')
+    if (this.state.shareImage) {
+      this.setState({
+        showPoster: true
+      })
+      this.closeSheet()
+      return false
+    }
     Taro.showLoading({
       mask: true,
       title: '绘制中...'
@@ -156,7 +163,6 @@ export default class BuyerShowDetail extends Component {
   }
    // 绘制成功回调函数 （必须实现）=> 接收绘制结果、重置 TaroCanvasDrawer 状态
    onCreateSuccess (result) {
-     console.log(result)
     const { tempFilePath, errMsg } = result;
     Taro.hideLoading()
     this.closeSheet()
@@ -165,7 +171,8 @@ export default class BuyerShowDetail extends Component {
         shareImage: tempFilePath,
         // 重置 TaroCanvasDrawer 状态，方便下一次调用
         canvasStatus: false,
-        config: null
+        config: null,
+        showPoster: true
       })
     } else {
       // 重置 TaroCanvasDrawer 状态，方便下一次调用
@@ -184,14 +191,13 @@ export default class BuyerShowDetail extends Component {
   }
 
   // 绘制失败回调函数 （必须实现）=> 接收绘制错误信息、重置 TaroCanvasDrawer 状态
-  onCreateFail (error) {
+  onCreateFail () {
     Taro.hideLoading();
     // 重置 TaroCanvasDrawer 状态，方便下一次调用
     this.setState({
       canvasStatus: false,
       config: null
     })
-    console.log(error)
   }
 
    // 保存图片至本地
@@ -217,6 +223,11 @@ export default class BuyerShowDetail extends Component {
       openShare: false
     })
   }
+  closePoster () {
+    this.setState({
+      showPoster: false
+    })
+  }
   //设置分享页面的信息
   onShareAppMessage(res) {
     console.log(res)
@@ -239,7 +250,7 @@ export default class BuyerShowDetail extends Component {
 
   render () {
     console.log('buyer-show-detail render')
-    const { banner, openShare, config, canvasStatus, shareImage } = this.state
+    const { banner, openShare, config, canvasStatus, shareImage, showPoster } = this.state
     return (
       <View className='buyer-show-detail'>
           <View className='header'>
@@ -272,15 +283,13 @@ export default class BuyerShowDetail extends Component {
             />
             )
           }
-          {shareImage && <AtModal isOpened>
-            <AtModalContent>
+          {shareImage && <AtModal isOpened={showPoster} onClose={this.closePoster.bind(this)}>
               <Image
-                className='shareImage'
                 src={shareImage}
                 mode='widthFix'
                 lazy-load
               />
-            </AtModalContent>
+              <View className='album-button'><AtButton type='primary' onClick={this.saveToAlbum.bind(this)} >保存至相册</AtButton></View>
           </AtModal>}
       </View>
     )

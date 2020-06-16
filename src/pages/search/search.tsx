@@ -1,6 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtButton ,AtSearchBar,AtInput} from 'taro-ui'
+import { AtSearchBar} from 'taro-ui'
+import { searchProduct } from '@/servers/servers.js'
 import ProductGrid from '@/components/productGrid/product-grid';
 import './search.scss'
 
@@ -40,47 +41,20 @@ export default class Cate extends Component {
         name:'床单'
       }
     ],
-    list:[
-      {
-        id:1,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        price:150
-      },
-      {
-        id:2,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        price:150
-      },
-      {
-        id:3,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        sale_price:199,
-        price:129
-      },
-      {
-        id:4,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        sale_price:199,
-        price:129
-      },
-      {
-        id:5,
-        mainPictureUrl:require('../../assets/images/hotel-same1.jpg'),
-        name:'商品',
-        character:'课程特点，优点简介',
-        sale_price:189,
-        price:119
-      }
-    ],
+    list:[],
     showResult:false
+  }
+  async searchProduct () {
+    let {  value } = this.state
+    const res = await searchProduct({
+      pageNo: 1,
+      pageSize: 10,
+      productName: value,
+    })
+    res.code === 200 && this.setState({
+      list: res.data ? res.data.records: [],
+      showResult: true
+    })
   }
   onFocus(){
     this.setState({
@@ -93,9 +67,7 @@ export default class Cate extends Component {
     })
   }
   onActionClick(){
-    this.setState({
-      showResult: true
-    })
+    this.searchProduct()
   }
   componentWillMount () { }
 
