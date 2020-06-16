@@ -1,6 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View,Image ,Text} from '@tarojs/components'
-import { AtActionSheet, AtActionSheetItem,  AtButton } from "taro-ui"
+import { AtActionSheet, AtActionSheetItem,  AtButton, AtModal, AtModalContent } from "taro-ui"
 import SwiperList from '@/components/swiper/swiper';
 import TaroCanvasDrawer from '@/components/taroPluginCanvas'
 import './buyer-show-detail.scss'
@@ -35,7 +35,7 @@ export default class BuyerShowDetail extends Component {
     config: null,
     ssrConfig: {
       width: 750,
-      height: 750,
+      height: 850,
       backgroundColor: '#fff',
       debug: false,
       blocks: [
@@ -43,7 +43,7 @@ export default class BuyerShowDetail extends Component {
           x: 0,
           y: 0,
           width: 750,
-          height: 750,
+          height: 850,
           paddingLeft: 0,
           paddingRight: 0,
           borderWidth: 0,
@@ -55,7 +55,7 @@ export default class BuyerShowDetail extends Component {
           x: 40,
           y: 40,
           width: 670,
-          height: 670,
+          height: 770,
           paddingLeft: 0,
           paddingRight: 0,
           borderWidth: 0,
@@ -68,7 +68,7 @@ export default class BuyerShowDetail extends Component {
         {
           x: 80,
           y: 420,
-          text: '国产谍战 真人演出,《隐形守护者》凭什么成为Steam第一?',
+          text: '@kk...在NEW-RETAIL买家秀（社区）发作品啦~~快来看一下吧！',
           fontSize: 32,
           color: '#000',
           opacity: 1,
@@ -80,27 +80,27 @@ export default class BuyerShowDetail extends Component {
           zIndex: 999,
         },
         {
-          x: 80,
-          y: 590,
-          text: '长按扫描二维码阅读完整内容',
+          x: 375,
+          y: 740,
+          text: '长按扫描进入',
           fontSize: 24,
-          color: '#666',
+          color: '#999',
           opacity: 1,
           baseLine: 'middle',
-          textAlign: 'left',
+          textAlign: 'center',
           lineHeight: 36,
           lineNum: 1,
           zIndex: 999,
         },
         {
-          x: 80,
-          y: 640,
-          text: '分享来自 「 RssFeed 」',
+          x: 375,
+          y: 790,
+          text: '查看更多买家秀分享',
           fontSize: 24,
-          color: '#666',
+          color: '#333',
           opacity: 1,
           baseLine: 'middle',
-          textAlign: 'left',
+          textAlign: 'center',
           lineHeight: 36,
           lineNum: 1,
           zIndex: 999,
@@ -108,7 +108,7 @@ export default class BuyerShowDetail extends Component {
       ],
       images: [
         {
-          url: 'http://pic.juncao.cc/rssfeed/images/demo.png',
+          url: require('@/assets/images/banner.jpg'),
           width: 670,
           height: 320,
           y: 40,
@@ -120,11 +120,11 @@ export default class BuyerShowDetail extends Component {
           // borderColor: 'red',
         },
         {
-          url: 'https://pic.juncao.cc/cms/images/minapp.jpg',
+          url: 'https://pic.juncao.cc/cms/images/minapp.jpg', // 放小程序的二维码 可通过调后端接口获得
           width: 110,
           height: 110,
           y: 570,
-          x: 560,
+          x: 320,
           borderRadius: 100,
           borderWidth: 0,
           zIndex: 10,
@@ -137,7 +137,7 @@ export default class BuyerShowDetail extends Component {
           endX: 670,
           endY: 541,
           width: 1,
-          color: '#eee',
+          color: '#ddd',
         }
       ]
     }
@@ -145,19 +145,21 @@ export default class BuyerShowDetail extends Component {
   // 调用绘画 => canvasStatus 置为true、同时设置config
   canvasDrawFunc() {
     console.log('canvasDrawFunc')
+    Taro.showLoading({
+      mask: true,
+      title: '绘制中...'
+    })
     this.setState({
       canvasStatus: true,
       config: this.state.ssrConfig
-    })
-    Taro.showLoading({
-      title: '绘制中...'
     })
   }
    // 绘制成功回调函数 （必须实现）=> 接收绘制结果、重置 TaroCanvasDrawer 状态
    onCreateSuccess (result) {
      console.log(result)
     const { tempFilePath, errMsg } = result;
-    Taro.hideLoading();
+    Taro.hideLoading()
+    this.closeSheet()
     if (errMsg === 'canvasToTempFilePath:ok') {
       this.setState({
         shareImage: tempFilePath,
@@ -207,11 +209,13 @@ export default class BuyerShowDetail extends Component {
   }
   clickShare () {
     this.setState({
-      openShare: !this.state.openShare
+      openShare: true
     })
   }
   closeSheet () {
-    this.clickShare()
+    this.setState({
+      openShare: false
+    })
   }
   //设置分享页面的信息
   onShareAppMessage(res) {
@@ -231,7 +235,7 @@ export default class BuyerShowDetail extends Component {
   componentDidShow () { }
 
   componentDidHide () { }
-  
+
 
   render () {
     console.log('buyer-show-detail render')
@@ -248,7 +252,7 @@ export default class BuyerShowDetail extends Component {
           <SwiperList list={banner} config = {{}} />
           <View className='proinfo'>枕头舒服也很美啊!</View>
           <View className='share'>
-            <View onClick={this.clickShare.bind(this)} className='icon at-icon at-icon-external-link'></View>  
+            <View onClick={this.clickShare.bind(this)} className='icon at-icon at-icon-external-link'></View>
             <View className='icon icon-heart at-icon at-icon-heart'></View>  点击成为第一个点赞的人吧
           </View>
 
@@ -260,12 +264,6 @@ export default class BuyerShowDetail extends Component {
               <AtButton  className='button-share' >生成海报分享</AtButton>
             </AtActionSheetItem>
           </AtActionSheet>
-          <Image
-            className='shareImage'
-            src={shareImage}
-            mode='widthFix'
-            lazy-load
-          />
           {canvasStatus &&
           (<TaroCanvasDrawer
               config={config} // 绘制配置
@@ -274,6 +272,16 @@ export default class BuyerShowDetail extends Component {
             />
             )
           }
+          {shareImage && <AtModal isOpened>
+            <AtModalContent>
+              <Image
+                className='shareImage'
+                src={shareImage}
+                mode='widthFix'
+                lazy-load
+              />
+            </AtModalContent>
+          </AtModal>}
       </View>
     )
   }
