@@ -23,6 +23,7 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/user/user',
+      'pages/userInfo/user-info',
       'pages/sign/sign',
       'pages/orgSign/orgSign',
       'pages/child/child',
@@ -39,6 +40,7 @@ class App extends Component {
       'pages/orderDetail/order-detail',
       'pages/myChild/my-child',
       'pages/login/login',
+      'pages/test/test'
     ],
     "permission": {
       "scope.userLocation": {

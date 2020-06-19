@@ -1,0 +1,26 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.user-info{
+  .user-item{
+    @include display-flex;
+    @include justify-content(space-between);
+    @include align-items;
+    margin: 0 20px;
+    padding: 20px 10px 20px 0px;
+    border-bottom: 1px solid $border-color;
+    .user-item-name{
+      color: $color-grey-3;
+    }
+    .user-item-right{
+      @include display-flex;
+      flex: 1;
+      color: $color-grey-4;
+      @include justify-content(flex-end);
+      @include align-items;
+      .icon{
+        margin-left: 15px;
+        font-size: 38px;
+      }
+    }
+  }
+}
