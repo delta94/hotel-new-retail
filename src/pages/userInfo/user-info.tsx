@@ -1,9 +1,19 @@
 import Taro, { Component, Config} from '@tarojs/taro'
 import { View ,Picker} from '@tarojs/components'
-import { AtAvatar} from 'taro-ui'
-
+import { AtAvatar, AtActionSheet, AtActionSheetItem, AtButton} from 'taro-ui'
+import { getUserInfo } from '@/utils/auth'
 import './user-info.scss'
 
+const sexOptions = [
+  {
+      label:'男',
+      value: 0
+  },
+  {
+      label:'女',
+      value: 1
+  }
+]
 export default class UserInfo extends Component {
 
   config: Config = {
@@ -13,47 +23,41 @@ export default class UserInfo extends Component {
     super(props)
   }
   state = {
-    sexOptions:[
-        {
-            label:'男',
-            value:'0'
-        },
-        {
-            label:'女',
-            value:'1'
-        }
-    ],
-    form:{
-        name:'',
-        mobile_no:'',
-        short_name:'',
-        emergency_mobile:'',
-        sex:{label:'',value:''},
-        area:[],
-        detail_area:'',
-        birthday: ''
-    },
-    open:false
+    area:[],
+    gender: 0,
+    birthday: '',
+    isOpenAvatar:false
+  }
+  toggleAvatar (flag) {
+    this.setState({
+      isOpenAvatar: flag
+    })
+  }
+  openSetting () {
+    Taro.openSetting({
+      'success':(res)=>{
+        console.log(res)
+      },
+      'fail':(res)=>{
+        console.log(res)
+      }
+    })
+  }
+  getAvatar () {
+    getUserInfo()
+  }
+  handleChange (key,value) {
+    this.setState({
+      [key]: value.detail.value
+    })
+    return value
   }
 
-
-  handleChange = (key,value)=>{
-
-      console.log(key)
-      console.log(value)
-      return value
+  bindPhoneNumber () {
+    Taro.navigateTo({
+      url: '/pages/bindPhoneNumber/bind-phone-number'
+    })
   }
-
-  handleChangeArae = (e)=>{
-    console.log(e.detail.value)
-  }
-
-  handleClickChildren = (value)=>{
-      this.setState({
-          open:value
-      })
-  }
-
   componentWillMount () { }
 
   componentDidMount () {
@@ -66,9 +70,11 @@ export default class UserInfo extends Component {
   componentDidHide () { }
 
   render () {
+    const { isOpenAvatar, birthday, gender, area } = this.state
+    const areaName = area.join('  ')
     return (
       <View className='user-info'>
-        <View className='user-item'>
+        <View className='user-item' onClick={this.toggleAvatar.bind(this, true)}>
           <View className='user-item-name'>头像</View>
           <View className='user-item-right'>
             <View className='info'>
@@ -81,47 +87,53 @@ export default class UserInfo extends Component {
             <View className='icon at-icon at-icon-chevron-right'></View>
           </View>
         </View>
-        <View className='user-item'>
+        <View className='user-item' onClick={this.bindPhoneNumber.bind(this)}>
           <View className='user-item-name'>手机号码</View>
           <View className='user-item-right'>
             <View className='info'>未绑定</View>
             <View className='icon at-icon at-icon-chevron-right'></View>
           </View>
         </View>
-        <Picker  mode='region' value={this.state.form.area}  onChange={this.handleChangeArae.bind(this)}>
+        <Picker  mode='region' value={area}  onChange={this.handleChange.bind(this, 'area')}>
             <View className='user-item'>
               <View className='user-item-name'>地区</View>
               <View className='user-item-right'>
-                <View className='info'>请选择</View>
+                <View className='info'>{ areaName || '请选择' }</View>
                 <View className='icon at-icon at-icon-chevron-right'></View>
               </View>
             </View>
         </Picker>
-        <Picker rangeKey='label' mode='selector' value={0} range={this.state.sexOptions}
-          onChange={this.handleChange.bind(this,'sex')} >
+        <Picker rangeKey='label' mode='selector' value={gender} range={sexOptions}
+          onChange={this.handleChange.bind(this,'gender')} >
             <View className='user-item'>
               <View className='user-item-name'>性别</View>
               <View className='user-item-right'>
-                <View className='info'>女</View>
+                <View className='info'>{ gender == 1 ? '女' : '男'}</View>
                 <View className='icon at-icon at-icon-chevron-right'></View>
               </View>
             </View>
         </Picker>
-        <Picker  mode='date' value={this.state.form.birthday}  onChange={this.handleChangeArae.bind(this)}>
+        <Picker  mode='date' value={birthday}  onChange={this.handleChange.bind(this, 'birthday')}>
             <View className='user-item'>
               <View className='user-item-name'>生日</View>
               <View className='user-item-right'>
-                <View className='info'>请填写</View>
+                <View className='info'>{birthday || '请填写'}</View>
                 <View className='icon at-icon at-icon-chevron-right'></View>
               </View>
             </View>
         </Picker>
-        <View className='user-item'>
+        <View className='user-item' onClick={this.openSetting.bind(this)}>
           <View className='user-item-name'>设置</View>
           <View className='user-item-right'>
             <View className='icon at-icon at-icon-chevron-right'></View>
           </View>
         </View>
+
+        <AtActionSheet isOpened={isOpenAvatar} cancelText='取消' onClose={this.toggleAvatar.bind(this, false)}>
+          <AtActionSheetItem>
+            <AtButton className='button-sheet' onClick={this.getAvatar.bind(this)}>使用微信头像</AtButton>
+          </AtActionSheetItem>
+        </AtActionSheet>
       </View>
     )
   }

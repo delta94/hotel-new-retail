@@ -1,0 +1,22 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.bind-phone-number{
+  text-align: center;
+  padding-top: 150px;
+  .icon {
+    color: $color-brand;
+    font-size: 80px;
+    margin-bottom: 30px;
+  }
+  .item {
+    color: $color-grey-3;
+    line-height: 40px;
+    &.unbind {
+      color: $color-grey-0;
+    }
+  }
+  .btn{
+    padding: 0 50px;
+    margin-top: 70px;
+  }
+}

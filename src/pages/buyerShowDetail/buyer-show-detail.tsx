@@ -1,6 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View,Image } from '@tarojs/components'
 import { AtActionSheet, AtActionSheetItem,  AtButton, AtModal } from "taro-ui"
+import { getSetting, openSetting } from '@/utils/auth'
 import SwiperList from '@/components/swiper/swiper';
 import TaroCanvasDrawer from '@/components/taroPluginCanvas'
 import './buyer-show-detail.scss'
@@ -200,8 +201,17 @@ export default class BuyerShowDetail extends Component {
     })
   }
 
-   // 保存图片至本地
+   // 保存图片至本地并查看授权
   async saveToAlbum() {
+    let albumAuth = await getSetting('scope.writePhotosAlbum')
+    if (albumAuth === false) {
+      albumAuth = (await openSetting()).authSetting['scope.writePhotosAlbum']
+      if (albumAuth) this.writeToAibum()
+    } else {
+      this.writeToAibum()
+    }
+  }
+  async writeToAibum () {
     const res = await Taro.saveImageToPhotosAlbum({
       filePath: this.state.shareImage || ''
     })

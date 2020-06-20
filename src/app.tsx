@@ -40,6 +40,7 @@ class App extends Component {
       'pages/orderDetail/order-detail',
       'pages/myChild/my-child',
       'pages/login/login',
+      'pages/bindPhoneNumber/bind-phone-number',
       'pages/test/test'
     ],
     "permission": {
