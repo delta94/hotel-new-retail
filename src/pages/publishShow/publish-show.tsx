@@ -2,7 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Picker, Image } from '@tarojs/components'
 import { AtButton, AtTextarea  } from 'taro-ui'
 import { uploadFile, saveBuyShow } from '@/servers/servers.js'
-import { getCity, getUserInfo } from '@/utils/auth'
+import { getCity, getUserInfo, checkSessionLogin } from '@/utils/auth'
 import './publish-show.scss'
 let USERINFO = ''
 export default class PublishShow extends Component {
@@ -65,8 +65,6 @@ export default class PublishShow extends Component {
   }
   async getUserInfo () {
     USERINFO = await getUserInfo()
-    console.log(USERINFO)
-    if (!USERINFO) Taro.redirectTo({url:'/pages/login/login'})
     return USERINFO
   }
   removeImage (index) {
@@ -90,7 +88,10 @@ export default class PublishShow extends Component {
     })
   }
   async componentWillMount () {
-    await this.getUserInfo() && this.getCity()
+    checkSessionLogin(() => {
+      this.getCity()
+      this.getUserInfo()
+    })
   }
 
   componentDidMount () {

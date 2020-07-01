@@ -21,7 +21,7 @@ export default class Login extends Component {
   constructor(props){
     super(props)
   }
-  async getMiniAppInfo (sessionKey, userInfo) {
+  async getMiniAppInfo (sessionKey, userId, userInfo) {
     const { encryptedData, iv, rawData, signature } = userInfo.detail
     const appid = (await getAccountInfo()).miniProgram.appId
     const res = await getMiniAppInfo({
@@ -30,44 +30,36 @@ export default class Login extends Component {
       iv,
       rawData,
       signature,
-      appid
+      appid,
+      userId
     })
-    setStorageSync('userInfo', res.data)
-    Taro.navigateBack()
+    res.code === 200 && setStorageSync('userInfo', res.data) && Taro.navigateBack()
   }
   async doLogin (userInfo) {
-    const loginInfo = await Taro.login()
-    const code = loginInfo.code
-    const res = await appLogin({
-      code: code,
-      type: '0'
-    })
-
-    if (res.code === 200) {
-      setStorageSync('sessionKey', res.data && res.data.sessionKey)
-      this.getMiniAppInfo (res.data.sessionKey, userInfo)
-    } else {
-      Taro.showToast({
-        title: '登陆失败',
-        icon: 'none',
-        duration: 1500
+      const loginInfo = await Taro.login()
+      const code = loginInfo.code
+      const res = await appLogin({
+        code: code,
+        type: '02'
       })
-    }
-    console.log(res)
+
+     if (res.code === 200) {
+       if (!await getStorageSync('userInfo')) {
+          this.getMiniAppInfo (res.data.sessionKey, res.data.id, userInfo)
+       } else {
+        Taro.navigateBack()
+       }
+     } else {
+       Taro.showToast({
+          title: '登陆失败',
+          icon: 'none',
+          duration: 1500
+       })
+     }
   }
   getUserInfo(userInfo){
-    console.log(userInfo)
     if (userInfo.detail.errMsg === 'getUserInfo:ok') {
-      Taro.checkSession({
-        success : async ()=>{
-          console.log(getStorageSync('sessionKey'))
-          if (!await getStorageSync('sessionKey'))  this.doLogin(userInfo)
-        },
-        fail : async ()=>{
-          this.doLogin(userInfo)
-        }
-      })
-      // setStorageSync('userInfo', userInfo.detail)
+      this.doLogin(userInfo)
     } 
   }
   componentWillMount () { }

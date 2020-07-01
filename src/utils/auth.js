@@ -12,6 +12,16 @@ export const setStorageSync = async (key, value) => {
 export const getStorageSync = async (key) => {
   return await Taro.getStorageSync(key)
 }
+export const checkSessionLogin = async (cb) => {
+  Taro.checkSession({
+    success: async ()=>{
+      cb()
+    },
+    fail: async ()=>{
+      Taro.redirectTo({url:'/pages/login/login'})
+    }
+  })
+}
 export const getSetting = async (scope) => {
     const res = await Taro.getSetting()
     return res.authSetting[scope]
