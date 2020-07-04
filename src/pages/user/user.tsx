@@ -20,7 +20,7 @@ export default class User extends Component {
       },
       {
         name: '地址管理',
-        path: ''
+        path: '/pages/myAddress/my-address'
       },
       {
         name: '我是酒店商家',

@@ -41,6 +41,8 @@ class App extends Component {
       'pages/myChild/my-child',
       'pages/login/login',
       'pages/bindPhoneNumber/bind-phone-number',
+      'pages/myAddress/my-address',
+      'pages/addAddress/add-address',
       'pages/test/test'
     ],
     "permission": {

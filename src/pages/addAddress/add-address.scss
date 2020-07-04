@@ -1,0 +1,43 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+page{
+  min-height: 100%;
+  background-color: $bg-color;
+}
+.add-address {
+  .info{
+    padding-right: 32px;
+    margin: 20px 0px;
+    background-color: $color-white;
+  }
+  .detail-address {
+    padding-left: 32px;
+    @include display-flex;
+    .label {
+      color:$color-grey-3;
+      padding-top:38px;
+    }
+    at-textarea {
+      flex: 1;
+    }
+    .at-textarea{
+      border:none;
+    }
+  }
+  .switch{
+    background-color: $color-white;
+  }
+  .at-input__children:after{
+    border:none;
+  }
+  .weixin-addre{
+    background-color: $color-white;
+    color: $color-grey-3;
+    margin-top:20px;
+    padding: 35px 0 35px 24px;
+    font-size: $font-size-middle;
+    .icon{
+      color:$color-brand;
+    }
+  }
+}

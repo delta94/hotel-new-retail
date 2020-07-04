@@ -67,6 +67,42 @@ export const getLocal = async (latitude, longitude) => {
     })
   })
 }
+export const getWeixinAddress = async () => {
+  const addressAuth = await getSetting('scope.address')
+  let addressInfo = null
+  if (addressAuth === false) {
+    const result = await Taro.showModal({
+      title: '请求授权获取通讯地址',
+      content: '需要获取您通讯地址，请确认授权',
+    })
+    if (result.cancel) {
+      Taro.showToast({
+        title: '拒绝授权',
+        icon: 'none',
+        duration: 1500
+      })
+    } else {
+      const auth = await openSetting()
+      if (auth.authSetting['scope.address'] === true) {
+        Taro.showToast({
+          title: '授权成功',
+          icon: 'none',
+          duration: 1500
+        })
+        addressInfo = await Taro.chooseAddress()
+      } else {
+        Taro.showToast({
+          title: '授权失败',
+          icon: 'none',
+          duration: 1500
+        })
+      }
+    }
+  } else {
+    addressInfo = await Taro.chooseAddress()
+  }
+  return addressInfo
+}
 export const getCity = async () => {
   const userLocationAuth = await getSetting('scope.userLocation')
   let cityInfo = null

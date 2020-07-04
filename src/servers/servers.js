@@ -57,5 +57,5 @@ export const appLogin = (postData) => {
 }
 // 获取小程序用户信息
 export const getMiniAppInfo = (postData) => {
-  return HTTPREQUEST.get(`${user_perfix}/base/userInfo/getMiniAppInfo`, postData)
+  return HTTPREQUEST.post(`${user_perfix}/base/userInfo/getMiniAppInfo`, postData)
 }
