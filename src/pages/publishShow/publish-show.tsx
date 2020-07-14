@@ -2,7 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Picker, Image } from '@tarojs/components'
 import { AtButton, AtTextarea  } from 'taro-ui'
 import { uploadFile, saveBuyShow } from '@/servers/servers.js'
-import { getCity, getUserInfo, checkSessionLogin } from '@/utils/auth'
+import { getCity, getUserInfo, checkSessionLogin, getStorageSync } from '@/utils/auth'
 import './publish-show.scss'
 let USERINFO = ''
 export default class PublishShow extends Component {
@@ -19,13 +19,13 @@ export default class PublishShow extends Component {
   }
 
   state = {
-    info: '',
+    fdContent: '',
     city: [],
     images: []
   }
   handleChange (value) {
     this.setState({
-      info: value
+      fdContent: value
     })
   }
   choiceImage () {
@@ -74,14 +74,20 @@ export default class PublishShow extends Component {
       images
     })
   }
-  publish () {
-    const { images } = this.state
+  async publish () {
+    const { images, fdContent } = this.state
     const [province, city] = this.state.city
-    const { nickName } = USERINFO['userInfo']
+    // const { nickName } = USERINFO['userInfo']
+    const nickName = 'fuguxu'
+    const mainPictureUrl = images[0]['downloadUrl']
+    const userId = await getStorageSync('userId')
     saveBuyShow({
       province,
       city,
+      fdContent,
+      userId,
       nickName,
+      mainPictureUrl,
       mobileUserBuyingShowFileDtoReqList: images.map(item => {
         return {imageUrl: item['downloadUrl']}
       })
@@ -118,7 +124,7 @@ export default class PublishShow extends Component {
       <View className='publish-show'>
           <View className='textarea'>
             <AtTextarea
-              value={this.state.info}
+              value={this.state.fdContent}
               onChange={this.handleChange.bind(this)}
               maxLength={200}
               height={200}

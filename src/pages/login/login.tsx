@@ -33,7 +33,7 @@ export default class Login extends Component {
       appid,
       userId
     })
-    res.code === 200 && setStorageSync('userInfo', res.data) && Taro.navigateBack()
+    setStorageSync('userId', userId) && res.code === 200 &&  setStorageSync('userInfo', res.data) && Taro.navigateBack()
   }
   async doLogin (userInfo) {
       const loginInfo = await Taro.login()

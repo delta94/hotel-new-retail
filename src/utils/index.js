@@ -15,3 +15,8 @@ export function setSwiperHeight(){ //小程序中swiper高度固定150 如果图
 //         return swiperH
 //     }
 // }
+export function  stringQuery (query) {
+    return Object.keys(query).map((item) => {
+        return `${item}=${query[item]}`
+    }).join('&')
+}

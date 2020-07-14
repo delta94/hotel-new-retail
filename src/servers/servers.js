@@ -1,6 +1,7 @@
 
 import Taro from '@tarojs/taro'
 /* eslint-disable import/prefer-default-export */
+import { stringQuery } from '@/utils/index'
 import HTTPREQUEST from "./http"
 import getBaseUrl from './baseUrl'
 // 产品相关接口前缀
@@ -57,5 +58,5 @@ export const appLogin = (postData) => {
 }
 // 获取小程序用户信息
 export const getMiniAppInfo = (postData) => {
-  return HTTPREQUEST.post(`${user_perfix}/base/userInfo/getMiniAppInfo`, postData)
+  return HTTPREQUEST.post(`${user_perfix}/base/userInfo/getMiniAppInfo`, postData, 'application/x-www-form-urlencoded')
 }
