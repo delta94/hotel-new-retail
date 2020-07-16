@@ -24,7 +24,7 @@ export default class User extends Component {
       },
       {
         name: '我是酒店商家',
-        path: ''
+        path: '/pages/hotelMerchant/hotel-merchant'
       },
       {
         name: '买家秀',

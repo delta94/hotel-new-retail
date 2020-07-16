@@ -43,6 +43,7 @@ class App extends Component {
       'pages/bindPhoneNumber/bind-phone-number',
       'pages/myAddress/my-address',
       'pages/addAddress/add-address',
+      'pages/hotelMerchant/hotel-merchant',
       'pages/test/test'
     ],
     "permission": {
