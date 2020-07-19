@@ -44,6 +44,7 @@ class App extends Component {
       'pages/myAddress/my-address',
       'pages/addAddress/add-address',
       'pages/hotelMerchant/hotel-merchant',
+      'pages/merchantSign/merchant-sign',
       'pages/test/test'
     ],
     "permission": {

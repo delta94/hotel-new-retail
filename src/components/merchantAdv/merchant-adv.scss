@@ -1,0 +1,117 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+@mixin title {
+    text-align: center;
+    font-size: $font-size-large;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+.merchant-adv{
+  padding-bottom: 30px;
+}
+.ad-banner {
+  position: relative;
+  .ad-banner-text {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color:color-percent(#000, 0.5) ;
+    text-align: center;
+    @include display-flex;
+    @include flex-direction(column);
+    @include justify-content;
+    @include align-items;
+    .ad-title{
+      color: $color-brand;
+      font-size: 40px;
+    }
+    .ad-hot{
+      color: $color-white;
+      margin-top: 20px;
+    }
+    .ad-btn{
+      margin-top:100px;
+    }
+  }
+}
+.ad-reason {
+  padding: 50px 20px 40px 40px;
+  .reason-title{
+    @include title;
+  }
+  .reason-item{
+    @include display-flex;
+    @include align-items;
+    padding: 20px 0px;
+    .reason-text{
+      margin-left:20px;
+      flex: 1;
+    }
+    .reason-name {
+      font-weight: bold;
+    }
+    .reason-subtext{
+      color: $color-grey-3;
+      font-size: $font-size-small;
+    }
+  }
+}
+.ad-server{
+  .server-title{
+    @include title;
+    padding-bottom: 20px;
+  }
+  .server-item-wrap {
+    padding: 0 30px;
+    @include display-flex;
+    @include justify-content(space-between);
+    @include flex-wrap(wrap);
+    .server-item{
+      @include display-flex;
+      @include flex-direction(column);
+      text-align: center;
+      padding: 40px 0px;
+      line-height: 44px;
+      margin-bottom: 30px;
+      width: 45%;
+      border: 1px solid $border-color;
+    }
+  }
+}
+.ad-conditions {
+  padding: 20px;
+  .conditions-title{
+    padding: 20px 0px;
+    @include title;
+  }
+  .conditions-item{
+    text-align: center;
+    background-color: $bg-color;
+    line-height: 60px;
+    margin-bottom: 15px;
+  }
+}
+.ad-flow{
+  padding: 30px 0px;
+  .flow-title{
+    @include title;
+  }
+  .flow-item-wrap{
+    @include display-flex;
+    @include justify-content(space-around);
+    .flow-item{
+      padding: 20px;
+      border: 1px solid $border-color;
+      text-align: center;
+      border-radius: 50%;
+      width:100px;
+      height:100px;
+      @include display-flex;
+      @include flex-direction(column);
+      @include justify-content;
+      font-size: $font-size-small ;
+    }
+  }
+}

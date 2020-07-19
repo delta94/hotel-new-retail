@@ -42,7 +42,9 @@
 .at-button{
   border-radius: 0px !important;
 }
-
+.at-button--circle {
+  border-radius: 10px !important;
+}
 .at-input{
   color:$color-grey-3 !important;
   &::after{
