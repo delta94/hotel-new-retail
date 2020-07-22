@@ -34,8 +34,13 @@
   }
   .at-checkbox__option{
     padding:0px !important;
+    transition: none !important;
+    background-color: #fff !important;
     &-wrap{
         padding:0px !important;
+        &::after {
+          border:none !important;
+        }
     }
   }
 }

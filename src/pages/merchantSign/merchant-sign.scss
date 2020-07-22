@@ -4,6 +4,7 @@
   background-color: $bg-color;
   line-height: 80px;
   padding:0 30px;
+  margin-bottom: 50px;
   .scrollX{
     white-space:nowrap;
   }
@@ -24,6 +25,68 @@
       margin:0 10px;
     }
   }
+}
+.form{
+  padding: 0 20px;
+  .at-checkbox{
+    display: flex;
+    .at-checkbox__option{
+      margin-right: 25px;
+      .at-checkbox__icon-cnt{
+        margin-right: 15px;
+      }
+    }
+    &.no-margin-right{
+      .at-checkbox__option{
+        margin-right: 0px;
+      }
+    }
+  }
+}
+.label{
+  color: $color-grey-0;
+  margin-bottom: 10px;
+  &:before {
+    display: inline-block;
+    vertical-align: middle;
+    color: #ff4949;
+    content: "*";
+    margin-right: 2px;
+  }
+}
+.label-content{
+  margin-bottom: 45px;
+  &-line {
+    @include display-flex;
+    &__left {
+      flex: 1;
+      margin-right: 20px;
+    }
+    .label-content__button{
+      height: 77px;
+      line-height: 71px;
+    }
+  }
+}
+.label-line{
+  @include display-flex;
+  .label{
+    margin-right:25px;
+  }
+  .label-content{
+    flex: 1;
+    text-align: right;
+    @include display-flex;
+    @include justify-content(space-between);
+  }
+}
+.border-input {
+  margin-left: 0px;
+  border: 1px solid $border-color;
+  padding:15px 10px;
+}
+.server-terms{
+  color: $color-brand;
 }
 ::-webkit-scrollbar {
   width: 0;
