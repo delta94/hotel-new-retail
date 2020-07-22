@@ -1,0 +1,63 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.merchant-detail{
+  border-top: 1px solid $border-color;
+  .commission{
+    @include display-flex;
+    @include justify-content(flex-end);
+    margin-top:20px;
+    &-text{
+      padding:10px 20px;
+      background-color: color-percent($color-brand-light, 0.1);
+    }
+  }
+  .earning{
+    text-align: center;
+    &-title {
+      margin:3px 0 20px;
+    }
+    &-amount {
+      color: $color-brand;
+      font-size: 48px;
+    }
+  }
+  .item-wrap{
+    @include display-flex;
+    margin-top:70px;
+    padding-bottom: 35px;
+    border-bottom: 2px solid $border-color;
+    .line {
+      width:1px;
+      background-color: $border-color;
+    }
+    .item {
+      text-align: center;
+      flex: 1;
+      line-height: 50px;
+    }
+  }
+  .deposit{
+    @include display-flex;
+    @include justify-content(space-between);
+    padding: 40px;
+    &-btn{
+      color: $color-grey-4;
+    }
+    .amount{
+      color: $color-brand;
+    }
+  }
+  .done-item{
+    background-color: $bg-color;
+    padding: 30px 0px;
+    &-wrap{
+      background-color: $color-white;
+      border-bottom: none;
+      margin-top: 0px;
+      padding-top: 35px;
+    }
+  }
+  .footer{
+    padding: 40px;
+  }
+}

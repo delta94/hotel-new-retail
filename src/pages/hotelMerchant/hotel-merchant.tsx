@@ -1,8 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtButton } from 'taro-ui'
 import './hotel-merchant.scss'
 import MerchantAdv from '@/components/merchantAdv/merchant-adv'
+import MerchantDetail from '@/components/merchantDetail/merchant-detail'
 export default class HotelMerchant extends Component {
 
   /**
@@ -17,7 +17,7 @@ export default class HotelMerchant extends Component {
   }
 
   state = {
-
+    isMerchant: true
   }
 
   componentWillMount () { }
@@ -34,9 +34,11 @@ export default class HotelMerchant extends Component {
   componentDidHide () { }
 
   render () {
+    const { isMerchant } = this.state
     return (
       <View className='hotel-merchant'>
-        <MerchantAdv />
+        {!isMerchant ? <MerchantAdv /> :
+        <MerchantDetail />}
       </View>
     )
   }

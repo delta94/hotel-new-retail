@@ -1,4 +1,7 @@
 @import "./custom-variables.scss";
+page {
+  color: $color-grey-0;
+}
 
 // 在此可覆盖taro-ui里面的样式
 .at-grid {
