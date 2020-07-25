@@ -1,0 +1,22 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.member-earning {
+  padding:40px 20px;
+  .conditions{
+    padding-top:40px;
+    @include display-flex;
+    &-item {
+      padding: 10px 20px;
+      background-color: $bg-color;
+      color: $color-grey-4;
+      font-size: $font-size-small;
+      &.actived {
+        color: $color-brand;
+        background-color: color-percent($color-brand-light, 0.1);
+      }
+    }
+    & :not(:first-child) {
+      margin-left: 25px;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.cash-action{
+  &-content{
+    padding-right: 32px;
+    background-color: $color-white;
+  }
+  &-title{
+    font-size: $font-size-large;
+    padding:45px 32px;
+  }
+  .cash-tip {
+    padding: 15px 32px 45px;
+    font-size: $font-size-small;
+    .cash-amount, .cash-btn{
+      color: $color-brand;
+    }
+    .cash-btn {
+      margin-left: 15px;
+    }
+  }
+  .cash-btn{
+    padding: 70px 32px 0px;
+  }
+}

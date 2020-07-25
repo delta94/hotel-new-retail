@@ -1,0 +1,21 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.result-number{
+  color: $color-brand;
+}
+.result-title{
+  padding: 25px 20px;
+  background-color: $bg-color;
+}
+.result-list {
+  .result-item{
+    @include display-flex;
+    background-color: $bg-color;
+    padding: 30px 20px;
+    margin-bottom: 20px;
+    .avator{
+      width: 100px;
+      margin-right: 15px;
+    }
+  }
+}

@@ -24,7 +24,11 @@ export default class MerchantDetail extends Component {
     console.log(DEV)
 
   }
-
+  goto (url) {
+    Taro.navigateTo({
+      url
+    })
+  }
   componentWillUnmount () { }
 
   componentDidShow () { }
@@ -43,17 +47,17 @@ export default class MerchantDetail extends Component {
           <View className='earning-amount'>0</View>
         </View>
         <View className='item-wrap'>
-          <View className='item'>
+          <View className='item' onClick={this.goto.bind(this, '/pages/myEarning/my-earning')}>
             <View className='title'>昨日收益（元）</View>
             <View className='amount'>0</View>
           </View>
           <View className='line'></View>
-          <View className='item'>
+          <View className='item' onClick={this.goto.bind(this, '/pages/myMembers/my-members')}>
             <View className='title'>昨日新增会员</View>
             <View className='amount'>0</View>
           </View>
         </View>
-        <View className='deposit'>
+        <View className='deposit' onClick={this.goto.bind(this, '/pages/cashMoney/cash-money')}>
           <View className='deposit-amount'>
             可提现金额 <Text className='amount'>0</Text>元
           </View>
@@ -73,7 +77,7 @@ export default class MerchantDetail extends Component {
           </View>
         </View>
 
-        <View className='footer fixed fixed-b'><AtButton  circle={true}  type='primary'>我的邀请码</AtButton></View>
+        <View onClick={this.goto.bind(this, '/pages/myInviteCode/my-invite-code')} className='footer fixed fixed-b'><AtButton  circle={true}  type='primary'>我的邀请码</AtButton></View>
 
       </View>
     )

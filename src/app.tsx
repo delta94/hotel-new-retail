@@ -45,6 +45,11 @@ class App extends Component {
       'pages/addAddress/add-address',
       'pages/hotelMerchant/hotel-merchant',
       'pages/merchantSign/merchant-sign',
+      'pages/myMembers/my-members',
+      'pages/myEarning/my-earning',
+      'pages/myInviteCode/my-invite-code',
+      'pages/cashMoney/cash-money',
+      'pages/cashLog/cash-log',
       'pages/test/test'
     ],
     "permission": {

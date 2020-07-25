@@ -1,0 +1,37 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+page {
+  background-color: $bg-color;
+  min-height: 100%;
+}
+.cash-content{
+  background-color: $color-white;
+}
+.cash-money{
+  text-align: center;
+  .icon-mony{
+    color: $color-brand;
+    font-size: 60px;
+    padding: 50px 0 30px;
+  }
+  .cash-amount-text{
+    color: $color-grey-3;
+    .icon{
+      color:$color-grey-2;
+    }
+  }
+  .cash-amount {
+    color: #000;
+    font-size: $font-size-large;
+    padding: 20px 0 50px;
+  }
+  .cash-btn{
+    padding: 50px 30px;
+  }
+}
+.cash-log {
+  margin-top:40px;
+  background-color: $color-white;
+  padding: 20px;
+  text-align: left;
+}
