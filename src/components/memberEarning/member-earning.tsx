@@ -1,7 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
-import './members-earning.scss'
+import './member-earning.scss'
 interface propsType  {
   // renderResult: Element
 }

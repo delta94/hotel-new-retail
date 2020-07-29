@@ -1,0 +1,30 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+.cash-detail{
+  border-top: 1px solid $border-color;
+  text-align: center;
+  .amount {
+    font-size: 50px;
+    padding: 80px 0px 30px;
+  }
+  .content {
+    padding: 50px 20px 0px;
+    &-item {
+      @include display-flex;
+      @include justify-content(space-between);
+      padding: 15px 0px;
+      &-title {
+        color: $color-grey-4;
+      }
+      &-content {
+        color: $color-grey-3;
+        .at-button {
+          border: none;
+          padding: 0px;
+          height: auto;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}

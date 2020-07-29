@@ -50,7 +50,7 @@ export default class MyMembers extends Component {
     const { membersList } = this.state
     const resultSlot = <View className=''>累计新增会员 <Text className='result-number'>9</Text> 人</View>
     const resultItem = membersList.map(item => {
-      return <View className='result-item'>
+      return <View className='result-item' key='nickName'>
             <Image className="avator" mode="widthFix"  src={item['avator']} ></Image>
             <View className='nickName'>{item['nickName']}</View>
       </View>

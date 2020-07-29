@@ -16,7 +16,7 @@ export default class User extends Component {
     list: [
       {
         name: '订单管理',
-        path: ''
+        path: '/pages/orderManagement/order-management',
       },
       {
         name: '地址管理',
@@ -28,7 +28,7 @@ export default class User extends Component {
       },
       {
         name: '买家秀',
-        path: ''
+        path: '/pages/myShow/my-show'
       },
       {
         name: '退货/售后服务',

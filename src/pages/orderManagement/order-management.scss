@@ -1,0 +1,82 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+page {
+  background-color: $bg-color;
+  min-height: 100%;
+  margin-bottom: 40px;
+}
+.order-management {
+  .header {
+    background-color: $color-white;
+    border-top: 1px solid $border-color;
+    padding: 0 20px;
+    @include display-flex;
+    @include justify-content(space-between);
+    &-item {
+      color: $color-grey-3;
+      padding: 15px 0px;
+      &.actived {
+        color: $color-brand;
+        border-bottom: 1px solid $color-brand;
+      }
+    }
+  }
+  .list {
+    &-item {
+      background-color: $color-white;
+      margin-top: 40px;
+      &-title {
+        padding: 30px 20px;
+        border-bottom: 1px solid $border-color;
+        @include display-flex;
+        @include justify-content(space-between);
+        .title-text {
+          color: #000;
+        }
+        .title-status {
+          color: #D05353;
+        }
+      }
+      &-content {
+        padding: 30px 20px;
+        @include display-flex;
+        .content-left {
+          flex: 1;
+        }
+        .content-right {
+          flex: 2;
+          padding-left: 30px;
+          .sku {
+            @include display-flex;
+            @include justify-content(space-between);
+            font-size: $font-size-small;
+            &-name {
+              color: $color-grey-3;
+            }
+          }
+          .price {
+            text-align: right;
+            padding: 25px 0px;
+            &-actual {
+              color: #000;
+              font-weight: 700;
+            }
+          }
+          .btn-list {
+            @include display-flex;
+            @include justify-content(flex-end);
+            .at-button {
+              margin-left:15px;
+              font-size: $font-size-mini;
+              border-radius: 10px !important;
+              &:not(.at-button--secondary) {
+                color: $color-grey-3;
+                border:1px solid $border-color;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

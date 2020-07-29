@@ -53,7 +53,7 @@ export default class MyEarning extends Component {
     const { membersList } = this.state
     const resultSlot = <View className=''>累计收益 <Text className='result-number'>999</Text> 元</View>
     const resultItem = membersList.map(item => {
-      return <View className='result-item'>
+      return <View className='result-item' key='nickName'>
             <Image className="avator" mode="widthFix"  src={item['avator']} ></Image>
             <View className='nickName'>
               <View>{item['nickName']}</View>

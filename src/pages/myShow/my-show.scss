@@ -1,0 +1,17 @@
+@import "../../style/custom-variables.scss";
+@import "../../style/mixin.scss";
+page {
+  background-color: $bg-color;
+  min-height: 100%;
+}
+.my-show {
+  .header {
+    padding: 40px 20px;
+    @include display-flex;
+    @include justify-content(space-between);
+    .camera {
+      color: $color-brand;
+      font-size: $font-size-large;
+    }
+  }
+}

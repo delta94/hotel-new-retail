@@ -50,6 +50,9 @@ class App extends Component {
       'pages/myInviteCode/my-invite-code',
       'pages/cashMoney/cash-money',
       'pages/cashLog/cash-log',
+      'pages/cashDetail/cash-detail',
+      'pages/myShow/my-show',
+      'pages/orderManagement/order-management',
       'pages/test/test'
     ],
     "permission": {

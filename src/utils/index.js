@@ -1,22 +1,39 @@
 
-import Taro from '@tarojs/taro'
 
-// eslint-disable-next-line import/prefer-default-export
-export function setSwiperHeight(){ //小程序中swiper高度固定150 如果图片高度大于150会被裁剪 在此根据图片大小动态修改swiper高度
-    console.log(22)
-}
-// export default {
-//     //小程序中swiper高度固定150 如果图片高度大于150会被裁剪 在此根据图片大小动态修改swiper高度
-//     setSwiperHeight(e){
-//         const winWid = Taro.getSystemInfoSync().windowWidth; //获取当前屏幕的宽度
-//         const imgh = e.detail.height;//图片高度
-//         const imgw = e.detail.width;//图片宽度
-//         const swiperH = winWid*imgh/imgw + "px" //
-//         return swiperH
-//     }
-// }
 export function  stringQuery (query) {
     return Object.keys(query).map((item) => {
         return `${item}=${query[item]}`
     }).join('&')
+}
+
+/**
+ * 数字格式转换成千分位
+ *@param{Object}num
+ */
+export function commafy (num) {
+  if ((num + '').trim() === '') {
+    return ''
+  }
+  if (isNaN(num)) {
+    return ''
+  }
+  num = num + ''
+  if (/^.*\..*$/.test(num)) {
+    let pointIndex = num.lastIndexOf('.')
+    let intPart = num.substring(0, pointIndex)
+    let pointPart = num.substring(pointIndex + 1, num.length)
+    intPart = intPart + ''
+    let re = /(-?\d+)(\d{3})/
+    while (re.test(intPart)) {
+      intPart = intPart.replace(re, '$1,$2')
+    }
+    num = intPart + '.' + pointPart
+  } else {
+    num = num + ''
+    let re = /(-?\d+)(\d{3})/
+    while (re.test(num)) {
+      num = num.replace(re, '$1,$2')
+    }
+  }
+  return num
 }
