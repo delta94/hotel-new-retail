@@ -2,6 +2,7 @@
 import Taro from '@tarojs/taro'
 /* eslint-disable import/prefer-default-export */
 import { stringQuery } from '@/utils/index'
+import { getStorageSync } from '@/utils/auth'
 import HTTPREQUEST from "./http"
 import getBaseUrl from './baseUrl'
 // 产品相关接口前缀
@@ -14,12 +15,16 @@ const file_prefix = '/file/handler'
 const user_perfix = '/user'
 
 // 公开文件上传地址
-export const uploadFile = (path, formData) => {
+export const uploadFile = async (path, formData = {}) => {
   return Taro.uploadFile({
     url: `${getBaseUrl()}${file_prefix}/publicUpload`,
     filePath: path,
     name: 'file',
-    formData: formData
+    formData: { fileName: 'file', ...formData },
+    header: {
+      'userId': await getStorageSync('userId'),
+      'content-type': 'multipart/form-data'
+    }
   })
 }
 
@@ -58,5 +63,5 @@ export const appLogin = (postData) => {
 }
 // 获取小程序用户信息
 export const getMiniAppInfo = (postData) => {
-  return HTTPREQUEST.post(`${user_perfix}/base/userInfo/getMiniAppInfo`, postData, 'application/x-www-form-urlencoded')
+  return HTTPREQUEST.post(`${user_perfix}/base/userInfo/getMiniAppInfo`, postData)
 }

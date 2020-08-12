@@ -1,11 +1,12 @@
 import Taro from '@tarojs/taro'
+import { getStorageSync } from '@/utils/auth'
 import getBaseUrl from './baseUrl'
 import interceptors from './interceptors'
 
 interceptors.forEach(i => Taro.addInterceptor(i))
 
 class httpRequest {
-  baseOptions(params, method = "GET") {
+  async baseOptions(params, method = "GET") {
     let { url, data } = params;
     const BASE_URL = getBaseUrl(url);
     let contentType = "application/json";
@@ -16,7 +17,7 @@ class httpRequest {
       method: method,
       header: {
         'content-type': contentType,
-        'Authorization': Taro.getStorageSync('Authorization')
+        'userId': await getStorageSync('userId')
       }
     };
     return Taro.request(option);

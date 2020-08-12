@@ -19,7 +19,7 @@ export default class ChildList extends Component {
   }
 
   state = {
-    
+
   }
 
   openChildList(){
@@ -34,7 +34,7 @@ export default class ChildList extends Component {
 
   componentDidMount () {
     console.log(DEV)
-    
+
   }
 
   componentWillUnmount () { }
@@ -44,7 +44,7 @@ export default class ChildList extends Component {
   componentDidHide () { }
 
   render () {
-    console.log('order-detail render')
+    console.log('order-confirm render')
 
     return (
       <View className='my-child-list'>

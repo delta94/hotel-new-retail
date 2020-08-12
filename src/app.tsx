@@ -37,7 +37,7 @@ class App extends Component {
       'pages/detail/detail',
       'pages/orgInfomation/orgInfomation',
       'pages/rateDetail/rate-detail',
-      'pages/orderDetail/order-detail',
+      'pages/orderConfirm/order-confirm',
       'pages/myChild/my-child',
       'pages/login/login',
       'pages/bindPhoneNumber/bind-phone-number',
@@ -53,6 +53,7 @@ class App extends Component {
       'pages/cashDetail/cash-detail',
       'pages/myShow/my-show',
       'pages/orderManagement/order-management',
+      'pages/orderDetail/order-detail',
       'pages/test/test'
     ],
     "permission": {

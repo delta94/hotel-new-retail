@@ -1,68 +1,106 @@
 @import "../../style/custom-variables.scss";
 @import "../../style/mixin.scss";
-
-$footer-height:90px;
-
+page {
+  background-color: $bg-color;
+  min-height: 100%;
+  margin-bottom: 40px;
+}
+$divic-height: 30px;
 .order-detail{
-  .child-list{
-    margin :12px 24px;
-    border-bottom:2px dashed $color-grey-2;
-    .item-content__info-title{
-      font-size: $font-size-middle;
+  &-clock {
+    @include display-flex;
+    @include align-items;
+    @include justify-content(space-between);
+    line-height: 50px;
+    padding: 30px 80px;
+    background-color: $color-white;
+    margin-bottom: $divic-height;
+    .icon {
+      font-size: 60px;
+      color: $color-brand;
     }
   }
-  .course-list{
-    padding:24px;
-    box-shadow:0px 20px 20px -20px $color-grey-2;
-    .org{
-      padding: 20px;
-      color:$color-grey-0;
-      @include display-flex;
-      @include align-items;
-      .img{
-        width:50px;
-        margin-right: 20px;
+  &-receiveInfo {
+    background-color: $color-white;
+    margin-bottom: $divic-height;
+    padding: 30px;
+    @include display-flex;
+    @include align-items;
+    .icon {
+      font-size: 40px;
+      color: $color-brand;
+      margin-right: 12px;
+    }
+    .user {
+      margin-bottom: 10px;
+      &-phone {
+        color: $color-grey-3;
       }
     }
-    .course-detail{
-      padding: 20px;
+  }
+  &-content {
+    background-color: $color-white;
+    margin-bottom: $divic-height;
+    .content-title {
+      border-bottom: 1px solid $border-color;
+      padding: 25px 30px 35px;
+    }
+    .content-body{
       @include display-flex;
-      .img{
-        width:200px;
-        margin-right: 40px;
+      padding: 20px;
+      .body-left {
+        flex: 1;
       }
-      .course-info{
+      .body-right {
+        padding-left: 25px;
+        flex: 2;
         @include display-flex;
         @include flex-direction(column);
-        @include justify-content(space-around);
-        .course-name{
-          font-size: $font-size-middle;
-          color:$color-grey-3;
+        @include justify-content(space-between);
+        .sku {
+          color: $color-grey-3;
         }
-        .course-number{
-          color:$color-grey-4;
+        .price {
+          margin-top: 10px;
+          color: #000;
         }
-        .course-price{
-          color:$color-grey-3;
+        .btn-list {
+          @include display-flex;
+          @include justify-content(flex-end);
+          .at-button {
+            margin-left: 15px;
+            border-radius: 10px !important;
+          }
+        }
+      }
+    }
+    .content-price {
+      padding: 40px 20px;
+      .price-item {
+        @include display-flex;
+        @include justify-content(space-between);
+        color:$color-grey-3;
+        line-height: 56px;
+        .actal-title {
+          color: $color-grey-0;
+        }
+        .actal-price {
+          color: #D05353;
         }
       }
     }
   }
-  .pay-footer{
-    height:$footer-height;
-    @include display-flex;
-    line-height: $footer-height;
-    .pay-price{
-      flex:3;
-      color: $color-brand;
-      text-indent: 42px;
-      border-top:1px solid $color-grey-2;
+  &-footer {
+    background-color: $color-white;
+    padding: 40px 20px;
+    .title {
+      padding-bottom: 15px;
     }
-    .pay-btn{
-      flex: 2;
-      background-color: $color-brand;
-      color: $color-white;
-      text-align: center;
+    .order-item {
+      @include display-flex;
+      @include justify-content(space-between);
+      color:$color-grey-3;
+      line-height: 60px;
     }
   }
 }

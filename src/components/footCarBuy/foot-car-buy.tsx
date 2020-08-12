@@ -12,18 +12,18 @@ export default class FooterCarBuy extends Component {
         super(props)
     }
     state = {
-     
+
     }
     clickBuy(){
       Taro.navigateTo({
-        url:`/pages/orderDetail/order-detail?id=${this.$router.params.id}`
+        url:`/pages/orderConfirm/order-confirm?id=${this.$router.params.id}`
       })
     }
     componentWillMount(){
-      
+
     }
     render() {
-       
+
         return (
           <View className='footer-car-buy'>
             <View className='icon-list'>
@@ -41,7 +41,7 @@ export default class FooterCarBuy extends Component {
               <View className='add-car'>加入购物车</View>
               <View onClick={this.clickBuy.bind(this)} className='add-buy'>立即购买</View>
             </View>
-          </View>        
+          </View>
         )
     }
 }

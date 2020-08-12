@@ -17,7 +17,7 @@ export default class HotelMerchant extends Component {
   }
 
   state = {
-    isMerchant: true
+    isMerchant: false
   }
 
   componentWillMount () { }

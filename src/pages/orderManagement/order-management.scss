@@ -79,4 +79,59 @@ page {
       }
     }
   }
+  .at-action-sheet__item {
+    padding: 0px;
+  }
+  .cancel-panel {
+    font-size: $font-size-normal ;
+    color: $color-grey-0;
+    &-title {
+      color: #000;
+      text-align: center;
+      padding: 30px 0px;
+    }
+    &-tip {
+      margin: 0 20px;
+      text-align: center;
+      line-height: 60px;
+      background-color: $bg-color;
+      font-size: $font-size-small;
+    }
+    &-reason-title {
+      padding: 60px 20px 0px;
+      color:$color-grey-3;
+      text-align: left;
+    }
+    &-reason-list {
+      padding: 20px;
+      .at-checkbox__option {
+        margin-top: 30px;
+        .at-checkbox__option-cnt {
+          @include display-flex;
+          @include flex-direction(row-reverse);
+          @include justify-content(space-between);
+          .at-checkbox__icon-cnt {
+            margin: 0px;
+          }
+          .at-checkbox__title {
+            font-size:$font-size-normal ;
+          }
+        }
+      }
+    }
+    &-footer {
+      @include display-flex;
+      border-top: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
+      padding: 15px 0px;
+      margin-bottom: 20px;
+      .btn {
+        flex: 1;
+        text-align: center;
+        &:first-child {
+          border-right: 1px solid $border-color;
+        }
+      }
+    }
+  }
 }

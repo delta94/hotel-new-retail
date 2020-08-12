@@ -1,6 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
-import { AtButton, AtModal } from 'taro-ui'
+import { AtButton, AtActionSheet, AtActionSheetItem, AtCheckbox } from 'taro-ui'
 import { commafy } from '@/utils/index'
 import './order-management.scss'
 
@@ -98,6 +98,28 @@ export default class OrderManagement extends Component {
         actualPrice: '80'
       }
     ],
+    reasonList: [
+      {
+        value: '价格有点贵',
+        label: '价格有点贵'
+      },
+      {
+        value: '规格/款式/数量拍错',
+        label: '规格/款式/数量拍错'
+      },
+      {
+        value: '收货信息拍错',
+        label: '收货信息拍错'
+      },
+      {
+        value: '暂时不需要了',
+        label: '暂时不需要了'
+      },
+      {
+        value: '其他',
+        label: '其他'
+      }
+    ],
     statusAction: {
       closed: [
         {
@@ -145,13 +167,18 @@ export default class OrderManagement extends Component {
           type: 'secondary'
         }
       ]
-    }
+    },
+    isOpenCancel: false,
+    reasonCheckList: []
   }
   deleteOrder (item) {
     console.log(item)
   }
   cancelOrder (item) {
     console.log(item)
+    this.setState({
+      isOpenCancel: true
+    })
   }
   payOrder (item) {
     console.log(item)
@@ -173,6 +200,21 @@ export default class OrderManagement extends Component {
       tab
     })
   }
+  toggleCancel () {
+    this.setState({
+      isOpenCancel: false
+    })
+  }
+  handleChangeReason (value) {
+    this.setState({
+      reasonCheckList: value
+    })
+  }
+  goOrderDetail (item) {
+    Taro.navigateTo({
+      url: `/pages/orderDetail/order-detail?id=${item.id}`
+    })
+  }
   componentWillMount () { }
 
   componentDidMount () {
@@ -187,7 +229,7 @@ export default class OrderManagement extends Component {
   componentDidHide () { }
 
   render () {
-    const { tabs, tab, list, statusAction } = this.state
+    const { tabs, tab, list, statusAction, isOpenCancel, reasonList, reasonCheckList } = this.state
     const headerItem = tabs.map(item => {
       return <View key='value' onClick={this.clickTab.bind(this, item.value)} className={`header-item ${tab === item.value ? 'actived' : ''}`}>{item.lable}</View>
     })
@@ -206,11 +248,11 @@ export default class OrderManagement extends Component {
             <View className='content-right'>
               <View className='sku'>
                 <Text className='sku-name'>{item.skuName}-{item.sku}</Text>
-                <Text>查看详情&gt;</Text>
+                <Text onClick={this.goOrderDetail.bind(this, item)}>查看详情&gt;</Text>
               </View>
               <View className='price'>
-                <Text className='price-total'>总价：{item.totalPrice}　</Text>
-                <Text className='price-actual'>实付款：{item.actualPrice}</Text>
+                <Text className='price-total'>总价：¥{item.totalPrice}　</Text>
+                <Text className='price-actual'>实付款：¥{item.actualPrice}</Text>
               </View>
               <View className='btn-list'>
                 {btnItem}
@@ -227,6 +269,27 @@ export default class OrderManagement extends Component {
           <View className='list'>
             {listItem}
           </View>
+
+          <AtActionSheet isOpened={isOpenCancel} cancelText='' onClose={this.toggleCancel.bind(this, false)}>
+            <AtActionSheetItem>
+              <View className='cancel-panel'>
+                <View className='cancel-panel-title'>订单取消</View>
+                <View className='cancel-panel-tip'>取消后无法恢复，优惠券、红包可退回，有效期内使用</View>
+                <View className='cancel-panel-reason-title'>请选择取消订单原因</View>
+                <View className='cancel-panel-reason-list'>
+                  <AtCheckbox
+                    options={reasonList}
+                    selectedList={reasonCheckList}
+                    onChange={this.handleChangeReason.bind(this)}
+                  />
+                </View>
+                <View className='cancel-panel-footer'>
+                  <View className='btn'>取消</View>
+                  <View className='btn'>确认</View>
+                </View>
+              </View>
+            </AtActionSheetItem>
+          </AtActionSheet>
         </View>
     )
   }
