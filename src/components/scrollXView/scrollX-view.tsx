@@ -20,9 +20,9 @@ export default class ScrollXView extends Component<propsType> {
     }
 
     clickCourse(item){
-      // Taro.navigateTo({
-      //   url:`/pages/detail/detail?id=${item.id}`
-      // })
+      Taro.navigateTo({
+        url:`/pages/detail/detail?id=${item.id}`
+      })
     }
     render(){
       const {list,ratio} = this.props ;

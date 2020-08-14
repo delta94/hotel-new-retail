@@ -1,6 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtButton, AtAvatar } from 'taro-ui'
+import { checkSessionLogin, getStorageSync } from '@/utils/auth'
 import './user.scss'
 
 
@@ -46,30 +47,47 @@ export default class User extends Component {
         name: '测试页面',
         path: '/pages/test/test'
       }
-    ]
+    ],
+    headImage: 'http://storage.360buyimg.com/mtd/home/32443566_635798770100444_2113947400891531264_n1533825816008.jpg'
   }
   clickItem (item) {
-    Taro.navigateTo({
-      url: item.path
+    checkSessionLogin(()=>{
+      Taro.navigateTo({
+        url: item.path
+      })
     })
   }
   clickUserInfo () {
-    Taro.navigateTo({
-      url: '/pages/userInfo/user-info'
+    checkSessionLogin(()=>{
+      Taro.navigateTo({
+        url: '/pages/userInfo/user-info'
+      })
     })
   }
-  componentWillMount () { }
+  async getHeadImage() {
+    const headImage = await getStorageSync('headImage')
+    if (headImage) {
+      this.setState({
+        headImage
+      })
+    }
+  }
+  componentWillMount () {
+
+  }
 
   componentDidMount () {}
 
   componentWillUnmount () { }
 
-  componentDidShow () { }
+  componentDidShow () {
+    this.getHeadImage()
+  }
 
   componentDidHide () { }
 
   render () {
-    const { list } = this.state
+    const { list, headImage } = this.state
     const listItem = list.map(item => {
       return <View className='list-item' key='name' onClick={this.clickItem.bind(this, item)}>
         <View className='icon at-icon at-icon-align-center'></View>
@@ -79,7 +97,7 @@ export default class User extends Component {
     return (
       <View className='user'>
         <View className='user-header' onClick={this.clickUserInfo.bind(this)}>
-          <AtAvatar image='http://storage.360buyimg.com/mtd/home/32443566_635798770100444_2113947400891531264_n1533825816008.jpg'></AtAvatar>
+          <AtAvatar image={headImage}></AtAvatar>
           <View className='user-name'>
             <View>xingxing</View>
             <View className='tip'>点击完善个人信息</View>

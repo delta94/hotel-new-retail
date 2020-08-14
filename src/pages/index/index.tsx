@@ -1,6 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View,Image } from '@tarojs/components'
-import { AtGrid,AtDivider } from 'taro-ui'
+import { AtDivider } from 'taro-ui'
 import './index.scss'
 import HotSale from '@/components/hotSale/hot-sale';
 import HotelSame from '@/components/hotelSame/hotel-same';
@@ -79,10 +79,10 @@ export default class Index extends Component {
   async getIndexBanner () {
     let res = await getIndexBanner()
     let bannerData = (res.data || []).map(item => {
-      return  { 
+      return  {
         id: item.id,
         imageUrl: item.itemValue
-       } 
+       }
     })
     this.setState({
       bannerList: bannerData
@@ -96,7 +96,7 @@ export default class Index extends Component {
       })
     }
   }
-  async componentWillMount () { 
+  async componentWillMount () {
     this.getIndexBanner()
     this.getGuessYouLikePage()
   }

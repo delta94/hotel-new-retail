@@ -65,3 +65,28 @@ export const appLogin = (postData) => {
 export const getMiniAppInfo = (postData) => {
   return HTTPREQUEST.post(`${user_perfix}/base/userInfo/getMiniAppInfo`, postData)
 }
+// 获取用户信息
+export const getUserInfoByParam = (postData) => {
+  return HTTPREQUEST.get(`${user_perfix}/base/userInfo/getByParam`, postData)
+}
+// 完善用户信息
+export const editUserInfo = (postData) => {
+  return HTTPREQUEST.post(`${user_perfix}/base/userInfo/editUserInfo`, postData)
+}
+
+//根据产品id获取详情信息
+export const getProductInfoById = (postData) => {
+  return HTTPREQUEST.get(`${product_prefix}/MobileProductInfo/getById`, postData)
+}
+//根据产品id获取辅图
+export const getProductImageById = (postData) => {
+  return HTTPREQUEST.get(`${product_prefix}/MobileProductImage/getByProductId`, postData)
+}
+// 获取产品sku组合
+export const getSkuItemByProductId = (postData) => {
+  return HTTPREQUEST.get(`${product_prefix}/MobileProductSkuItem/getByProductId`, postData)
+}
+// 加入购物车
+export const addShopCar = (postData) => {
+  return HTTPREQUEST.post(`${user_perfix}/base/userShopcart/save`, postData)
+}

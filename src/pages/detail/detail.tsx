@@ -1,12 +1,16 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Image, Text } from '@tarojs/components'
-import { AtToast, AtButton, AtList, AtListItem, AtActionSheet, AtActionSheetItem,AtInputNumber } from 'taro-ui'
+import { View, Image } from '@tarojs/components'
+import { AtButton, AtList, AtListItem, AtActionSheet, AtActionSheetItem,AtInputNumber } from 'taro-ui'
 import './detail.scss'
-import RateDetailList from '@/components/rateDetailList/rate-detail-list';
+import { accMul, accDiv } from '@/utils/index'
+import { getProductInfoById, getProductImageById, getSkuItemByProductId, addShopCar } from '@/servers/servers.js'
+import { getStorageSync } from '@/utils/auth'
 import PeopleWatch from '@/components/peopleWatch/people-watch'
 import FooterCarBuy from '@/components/footCarBuy/foot-car-buy'
 import SwiperList from '@/components/swiper/swiper';
-
+let id = ''
+let skuItem = []
+let skuSheetType = 'buy'
 export default class detail extends Component {
 
   /**
@@ -25,232 +29,225 @@ export default class detail extends Component {
 
 
   state = {
-    list: [{
-      imageUrl: require('@/assets/images/banner.jpg'),
-      id: 1
-    },
-    {
-      imageUrl: require('@/assets/images/banner.jpg'),
-      id: 2
-    },
-    {
-      imageUrl: require('@/assets/images/banner.jpg'),
-      id: 3
-    },
-    {
-      imageUrl: require('@/assets/images/banner.jpg'),
-      id: 4
-    }],
-    data: {
-      price: '499',
-      desc: '课程名称课程简介介绍课程课程课程',
-      sale_number: 6666,
-      tips: '7天未报到自动退款',
-      reason: ['师资优良，结合中西方教学优点', '师资优良，结合中西方教学优点']
-    },
-    swiperH: '',
-    current: 1,
-    isOpened: false,
+    list: [],
+    data: {},
     isCourseOpend: false,
-    toastText: '',
-    choiceCourseId: 1,
-    pricePerCourse: 100,
-    value:2,
-    rateData: [
-      {
-        name: 'ws',
-        nick_name: 'white swan',
-        rate: 4.5,
-        time: '2019-09-12 18:46',
-        course: '小升初综合辅导',
-        content: '教室环境很好，老师授课耐心'
-      }
-    ]
+    amount:1,
+    skuList: [],
+    skuData: {}
   }
 
 
   componentWillMount() {
-    console.log(this.$router.params)
+    id = this.$router.params.id
+    getProductImageById({
+      productId: id
+    }).then(res => {
+      res.code === 200 && this.setState({
+        list: res.data
+      })
+    })
+    getProductInfoById({
+      id
+    }).then(res => {
+      res.code === 200 && this.setState({
+        data: res.data
+      })
+    })
   }
   //设置分享页面的信息
   onShareAppMessage(res) {
     console.log(res)
     return {
-      title: '这个课程真棒，快来围观吧！',
+      title: '这个商品真不错，快来围观吧！',
       path: `/pages/detail/detail?id=${this.$router.params.id}`
     }
   }
 
   slideChange = ()=> {
-    const { current } = this.state;
-    const length = this.state.list.length;
-    this.setState({
-      current: current === length ? 1 : current + 1
-    }, () => {
-      // console.log(this.state.current)
-    })
   }
-  collect() {
-    this.setState({
-      isOpened: true,
-      toastText: '收藏成功'
-    })
-  }
-  toastClose() {
-    this.setState({
-      isOpened: false,
-    })
-  }
-
   openChoiceCourse() {
+    let skuList:Array<any> = []
+    getSkuItemByProductId({
+      productId: id
+    }).then(res=> {
+      if (res.code === 200 && res.data[0]) {
+        let skuInfo = JSON.parse(res.data[0].skuInfo)
+        Object.keys(skuInfo).forEach(name => {
+          let list:Array<any> = []
+          list.push(skuInfo[name])
+          skuList.push({
+            name: name,
+            list: list,
+            choiceSku: list[0]
+          })
+        })
+        this.setState({
+          skuData: res.data[0]
+        })
+        skuItem = res.data.map(item => {
+          let skuInfo = item.skuInfo = JSON.parse(item.skuInfo)
+          Object.keys(skuInfo).forEach(name => {
+           let skuobj = skuList.find(n => n.name === name)
+           if (!skuobj.list.includes(skuInfo[name])) {
+            skuobj.list.push(skuInfo[name])
+           }
+          })
+          return item
+        })
+        this.setState({
+          skuList
+        })
+      }
+    })
     this.setState({
       isCourseOpend: true
     })
+  }
+  showSkuSheet (type) {
+    skuSheetType = type
+    this.openChoiceCourse()
+  }
+  async addCar () {
+    const { amount, skuData } = this.state
+    let res = await addShopCar({
+      amount,
+      productId: skuData['productId'],
+      productSkuItemId: skuData['id'],
+      userId: await getStorageSync('userId')
+    })
+    if (res.code === 200) {
+      Taro.showToast({
+        title: '已添加到购物车',
+        icon: 'success',
+        duration: 2000,
+        complete: ()=>{
+          this.closeChoiceCourse()
+        }
+      })
+    }
+  }
+  confirm () {
+    if (skuSheetType === 'car') {
+      this.addCar()
+    } else {
+      const {amount, skuData } = this.state
+      Taro.navigateTo({
+        url: `/pages/orderConfirm/order-confirm?productId=${skuData['productId']}&skuId=${skuData['id']}&amount=${amount}`
+      })
+    }
   }
   closeChoiceCourse() {
     this.setState({
       isCourseOpend: false
     })
   }
-  choiceCouseChange(item, index) {
+  choiceCouseChange(item,pidx,it, index) {
+    item['choiceSku'] = it
+    let { skuList } = this.state
     this.setState({
-      choiceCourseId: index
-    })
-  }
-  toOrgInfo() {
-    Taro.navigateTo({
-      url: `/pages/orgInfomation/orgInfomation?id=${this.$router.params.id}`
-    })
-  }
-  toRateDetail() {
-    Taro.navigateTo({
-      url: `/pages/rateDetail/rate-detail?id=${this.$router.params.id}`
+      skuList: skuList.map((t,i) => pidx === i ? item:t)
+    },()=>{
+      let choiceSkuInfo = {}
+      this.state.skuList.map(sk => {
+        choiceSkuInfo[sk['name']] = sk['choiceSku']
+      })
+      skuItem.forEach(item => {
+        let flag = Object.keys(item['skuInfo']).every(key=>{
+          return item['skuInfo'][key] === choiceSkuInfo[key]
+        })
+        flag && this.setState({
+          skuData: item
+        })
+      })
     })
   }
   handleChange (value) {
     this.setState({
-      value
+      amount: value
     })
   }
   render() {
-    console.log('detail render')
-    const { list, current, isOpened, toastText, data, rateData, isCourseOpend, choiceCourseId, pricePerCourse } = this.state;
-    const totalPage = list.length;
-    const reason = data.reason.map((item, index) => {
-      return <View className='reason-item' key={index}>
-        <View className='reason-index'>{index + 1}</View>
-        <View className='reason-text'>{item}</View>
-      </View>
-    })
-
-    const courseAttr = ['一', '两', '三', '四'].map((item, index) => {
-      return <View key={index} onClick={this.choiceCouseChange.bind(this, item, index)} className={`attr-list-item ${choiceCourseId === index ? 'active' : ''}`}>{item}节</View>
+    const { list,  data, isCourseOpend, skuList, amount, skuData } = this.state
+    const choiceSkuShow = skuList.map(item => `"${item['choiceSku']}"`).join('')
+    const skuItem = skuList.map((item, pidx) => {
+      const st :Array<any> = item['list'] || []
+      const courseAttr = st.map((it, index) => {
+        return <View key='it' onClick={this.choiceCouseChange.bind(this, item,pidx,it, index )} className={`attr-list-item ${item['choiceSku'] === it ? 'active' : ''}`}>{it}</View>
+      })
+      return <AtActionSheetItem key='name'>
+              <View className='attr'>
+                <View className='attr-text'>{item['name']}</View>
+                <View className='attr-list'>
+                  {courseAttr}
+                </View>
+              </View>
+            </AtActionSheetItem>
     })
     return (
       <View className='detail'>
         <View className='swiper'>
           <SwiperList list={list} change={this.slideChange} />
-          <View className='page'>
-            {current}/{totalPage}
-          </View>
-          <View className='icon'>
-            <View className='icon-item icon-collect' onClick={this.collect.bind(this)}>
-              <View className='at-icon at-icon-star'></View>
-            </View>
-            <View className='icon-item icon-share'>
-              <AtButton className='button-share' openType='share'></AtButton>
-              <View className='at-icon at-icon-share'></View>
-            </View>
-          </View>
         </View>
-        <AtToast isOpened={isOpened} onClose={this.toastClose.bind(this)} text={toastText} status='success' duration={2000}></AtToast>
-        {/* 课程描述 */}
+        {/* 商品描述 */}
         <View className='detail'>
-          <View className='price'>¥{data.price}</View>
           <View className='desc-sale'>
-            <View className='desc'>{data.desc}</View>
-            <View className='line'></View>
-            <View className='sale'>
-              <Text className='sale_number'>{data.sale_number}</Text>
-              <Text className='sale_text'>销售量</Text>
+            <View className='desc'>酒店同款 {data['productName']}</View>
+            <View className='icon'>
+              <View className='icon-item icon-share'>
+                <AtButton className='button-share' openType='share'></AtButton>
+                <View className='at-icon at-icon-share-2'></View>
+              </View>
             </View>
           </View>
-          <View className='tips'>{data.tips}</View>
-          <View className='reason'>
-            <View className='reason-title'>推荐理由</View>
-            <View className='reason-list'>
-              {reason}
-            </View>
-          </View>
+          <View className='price'>¥{accDiv(data['salePrice'], 100)}</View>
+          <View className='profile'>{data['productProfile']}</View>
+          <View className='transport-price'>运费 免运费</View>
+          <View className='other-info'><View className='at-icon icon at-icon-alert-circle'></View> 成分和保养</View>
+          <View className='other-info'><View className='at-icon icon at-icon-alert-circle'></View> 配送和退货须知</View>
         </View>
         <View className='block-line'></View>
-        {/* 已选、机构描述 */}
+        {/* 选择尺寸款式 */}
         <View className='list'>
           <AtList hasBorder={false}>
-            <AtListItem title='已选择：两节' arrow='right' onClick={this.openChoiceCourse.bind(this)} />
-            <AtListItem title='课程参数：XXXXXXX' arrow='right' />
-            <AtListItem hasBorder={false} title='机构简介' arrow='right' onClick={this.toOrgInfo.bind(this)} />
+            <AtListItem title='选择 款式 尺寸' arrow='right' onClick={this.openChoiceCourse.bind(this)} />
           </AtList>
-        </View>
-        <View className='block-line'></View>
-        <View className='rate-list'>
-          <AtList hasBorder={false}>
-            <AtListItem title='用户评价(116)' extraText='99%好评' onClick={this.toRateDetail.bind(this)} arrow='right' />
-          </AtList>
-        </View>
-        <View className='rate-detail'>
-          <RateDetailList data={rateData} />
         </View>
         <View className='block-line'></View>
         <PeopleWatch />
-        <FooterCarBuy />
+        <FooterCarBuy contcat-btn='contcat-btn' showSkuSheet={this.showSkuSheet.bind(this)} />
         {/* 选课面板 */}
         <AtActionSheet isOpened={isCourseOpend} onClose={this.closeChoiceCourse.bind(this)}>
           <AtActionSheetItem className='sheet-item-content'>
             <View className='sheet'>
               <View className='price'>
                 <View>
-                  <Image className='vect' mode='widthFix' src={require('@/assets/images/banner.jpg')}></Image>
+                  <Image className='vect' mode='widthFix' src={data['mainPictureUrl']}></Image>
                 </View>
                 <View className='price_tip'>
-                  <View className='total-price'>价格：¥{(choiceCourseId + 1) * pricePerCourse}</View>
-                  <View className='tip'>库存：132件</View>
-                  <View className='tip'>已选：“酒店同款”“45*30cm”</View>
+                  <View className='total-price'>价格：¥{accDiv(accMul(amount, skuData['salePrice']), 100)}</View>
+                  <View className='tip'>库存：{skuData['stockAmount']}件</View>
+                  <View className='tip'>已选：{choiceSkuShow}</View>
                 </View>
               </View>
             </View>
           </AtActionSheetItem>
-          <AtActionSheetItem>
-            <View className='attr'>
-              <View className='attr-text'>款式</View>
-              <View className='attr-list'>
-                {courseAttr}
-              </View>
-            </View>
-          </AtActionSheetItem>
-          <AtActionSheetItem>
-            <View className='attr'>
-              <View className='attr-text'>尺寸</View>
-              <View className='attr-list'>
-                {courseAttr}
-              </View>
-            </View>
-          </AtActionSheetItem>
+          {skuItem}
           <AtActionSheetItem>
             <View className='attr'>
               <View className='attr-text'>购买数量</View>
               <AtInputNumber
                 type='number'
-                min={0}
+                min={1}
                 max={10}
                 step={1}
-                value={this.state.value}
+                value={amount}
                 onChange={this.handleChange.bind(this)}
               />
             </View>
           </AtActionSheetItem>
           <AtActionSheetItem className='sheet-item-btn'>
-            <AtButton type='primary'>确定</AtButton>
+            <AtButton onClick={this.confirm.bind(this)} type='primary'>确定</AtButton>
           </AtActionSheetItem>
         </AtActionSheet>
       </View>

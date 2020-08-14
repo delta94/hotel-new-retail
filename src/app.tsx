@@ -10,7 +10,7 @@ import './app.scss'
 //   require('nerv-devtools')
 // }
 
-class App extends Component {
+export default class App extends Component {
 
   /**
    * 指定config的类型声明为: Taro.Config

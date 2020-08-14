@@ -1,7 +1,8 @@
 import Taro, { Component, Config} from '@tarojs/taro'
 import { View ,Picker} from '@tarojs/components'
 import { AtAvatar, AtActionSheet, AtActionSheetItem, AtButton} from 'taro-ui'
-import { getUserInfo } from '@/utils/auth'
+import { getUserInfo, getStorageSync, setStorageSync } from '@/utils/auth'
+import { getUserInfoByParam, editUserInfo } from '@/servers/servers.js'
 import './user-info.scss'
 
 const sexOptions = [
@@ -24,9 +25,14 @@ export default class UserInfo extends Component {
   }
   state = {
     area:[],
-    gender: 0,
+    gender: 2,
+    province: '',
+    city: '',
+    mobileNo: '',
     birthday: '',
-    isOpenAvatar:false
+    isOpenAvatar:false,
+    userData: {},
+    headImage: 'http://storage.360buyimg.com/mtd/home/32443566_635798770100444_2113947400891531264_n1533825816008.jpg'
   }
   toggleAvatar (flag) {
     this.setState({
@@ -43,13 +49,40 @@ export default class UserInfo extends Component {
       }
     })
   }
-  getAvatar () {
-    getUserInfo()
+  async getAvatar () {
+    const user = await getUserInfo()
+    this.setState({
+      headImage: user.headImageUrl
+    })
+    this.toggleAvatar(false)
+    setStorageSync('headImage', user.headImageUrl)
+  }
+  async saveUserInfo (p) {
+    const { userData } = this.state
+    editUserInfo({
+      ...userData,
+      userId: await getStorageSync('userId'),
+      ...p
+    })
   }
   handleChange (key,value) {
     this.setState({
       [key]: value.detail.value
     })
+    if (key === 'area') {
+      this.setState({
+        province: value.detail.value[0],
+        city: value.detail.value[1]
+      })
+      this.saveUserInfo({
+        province: value.detail.value[0],
+        city: value.detail.value[1]
+      })
+    } else {
+      this.saveUserInfo({
+        [key]: value.detail.value
+      })
+    }
     return value
   }
 
@@ -58,10 +91,37 @@ export default class UserInfo extends Component {
       url: '/pages/bindPhoneNumber/bind-phone-number'
     })
   }
-  componentWillMount () { }
+  async getHeadImage() {
+    const headImage = await getStorageSync('headImage')
+    if (headImage) {
+      this.setState({
+        headImage
+      })
+    }
+  }
+  async getPersonalInfo(){
+    const user = await getUserInfoByParam({
+      userId: await getStorageSync('userId')
+    })
+    if (user.code === 200) {
+      const data = user.data
+      this.setState({
+        userData: data,
+        gender: data.gender,
+        province: data.province,
+        city: data.city,
+        mobileNo: data.mobileNo,
+        birthday: data.birthday,
+      })
+    }
+  }
+  async componentWillMount () {
+    this.getHeadImage()
+    this.getPersonalInfo()
+  }
 
   componentDidMount () {
-   }
+  }
 
   componentWillUnmount () { }
 
@@ -70,8 +130,8 @@ export default class UserInfo extends Component {
   componentDidHide () { }
 
   render () {
-    const { isOpenAvatar, birthday, gender, area } = this.state
-    const areaName = area.join('  ')
+    const { isOpenAvatar, birthday, gender, area, headImage, mobileNo, province, city } = this.state
+    const areaName = province ? `${province}  ${city}` : ''
     return (
       <View className='user-info'>
         <View className='user-item' onClick={this.toggleAvatar.bind(this, true)}>
@@ -79,7 +139,7 @@ export default class UserInfo extends Component {
           <View className='user-item-right'>
             <View className='info'>
               <AtAvatar
-                image='http://storage.360buyimg.com/mtd/home/32443566_635798770100444_2113947400891531264_n1533825816008.jpg'
+                image={headImage}
                 size='small'
                 >
               </AtAvatar>
@@ -90,7 +150,7 @@ export default class UserInfo extends Component {
         <View className='user-item' onClick={this.bindPhoneNumber.bind(this)}>
           <View className='user-item-name'>手机号码</View>
           <View className='user-item-right'>
-            <View className='info'>未绑定</View>
+            <View className='info'>{ mobileNo || '未绑定'}</View>
             <View className='icon at-icon at-icon-chevron-right'></View>
           </View>
         </View>

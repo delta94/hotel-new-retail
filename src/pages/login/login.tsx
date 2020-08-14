@@ -3,6 +3,7 @@ import { View } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import { setStorageSync , getStorageSync, getAccountInfo} from '@/utils/auth'
 import { appLogin, getMiniAppInfo } from '@/servers/servers.js'
+import App from '../../app'
 import './login.scss'
 
 export default class Login extends Component {
@@ -21,6 +22,21 @@ export default class Login extends Component {
   constructor(props){
     super(props)
   }
+  goback () {
+    const newApp = new App()
+    const backPath = this.$router.params.path || ''
+    const list = (newApp.config.tabBar || {}).list || []
+    if (list.some(item => item.pagePath === backPath)) {
+      Taro.switchTab({
+        url: `/${backPath}`
+      })
+    } else {
+      Taro.redirectTo({
+        url: `/${backPath}`
+      })
+    }
+
+  }
   async getMiniAppInfo (sessionKey, userId, userInfo) {
     const { encryptedData, iv, rawData, signature } = userInfo.detail
     const appid = (await getAccountInfo()).miniProgram.appId
@@ -33,7 +49,7 @@ export default class Login extends Component {
       appid,
       userId
     })
-    setStorageSync('userId', userId) && res.code === 200 &&  setStorageSync('userInfo', res.data) && Taro.navigateBack()
+    setStorageSync('userId', userId) && res.code === 200 &&  setStorageSync('userInfo', res.data) && this.goback()
   }
   async doLogin (userInfo) {
       const loginInfo = await Taro.login()
@@ -47,7 +63,7 @@ export default class Login extends Component {
        if (!await getStorageSync('userInfo')) {
           this.getMiniAppInfo (res.data.sessionKey, res.data.id, userInfo)
        } else {
-        Taro.navigateBack()
+          this.goback()
        }
      } else {
        Taro.showToast({
@@ -60,7 +76,7 @@ export default class Login extends Component {
   getUserInfo(userInfo){
     if (userInfo.detail.errMsg === 'getUserInfo:ok') {
       this.doLogin(userInfo)
-    } 
+    }
   }
   componentWillMount () { }
 
@@ -76,7 +92,7 @@ export default class Login extends Component {
   render () {
     return (
       <View className='login'>
-        <AtButton type='primary' openType='getUserInfo' onGetUserInfo={this.getUserInfo.bind(this)}>微信一键登录</AtButton>
+        <AtButton type='primary' lang='zh_CN' openType='getUserInfo' onGetUserInfo={this.getUserInfo.bind(this)}>微信一键登录</AtButton>
       </View>
     )
   }

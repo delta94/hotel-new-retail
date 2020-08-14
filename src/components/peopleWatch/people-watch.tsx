@@ -13,31 +13,33 @@ export default class PeopleWatch extends Component {
         {
           id:1,
           mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
-          name:'课程名称',
+          productName:'商品1',
           character:'课程特点，优点简介',
+          salePrice: 120,
           price:150
         },
         {
           id:2,
           mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
-          name:'课程名称',
+          productName:'商品2',
           character:'课程特点，优点简介',
+          salePrice: 130,
           price:150
         },
         {
           id:3,
           mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
-          name:'课程名称',
+          productName:'商品3',
           character:'课程特点，优点简介',
-          sale_price:199,
+          salePrice:199,
           price:129
         },
         {
           id:4,
           mainPictureUrl:require('../../assets/images/hot-sale1.jpg'),
-          name:'课程名称',
+          productName:'商品4',
           character:'课程特点，优点简介',
-          sale_price:199,
+          salePrice:199,
           price:129
         }
       ],
@@ -49,7 +51,7 @@ export default class PeopleWatch extends Component {
         const {list} = this.state ;
         return (
           <View className="people-watch">
-            <View className="text">大家都在看</View>
+            <View className="text">相关推荐</View>
             <View className="list-wrap">
               <ScrollXView list={list}>
 

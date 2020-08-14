@@ -21,12 +21,14 @@ export default class OrderConfirm extends Component {
   }
 
   openChildList(){
-    Taro.navigateTo({
-      url: `/pages/myChild/my-child?id=${this.$router.params.id}`
-    })
+    // Taro.navigateTo({
+    //   url: `/pages/myChild/my-child?id=${this.$router.params.id}`
+    // })
   }
 
-  componentWillMount () { }
+  componentWillMount () {
+    console.log(this.$router.params)
+  }
 
   componentDidMount () {
     console.log(DEV)
@@ -46,19 +48,19 @@ export default class OrderConfirm extends Component {
       <View className='order-confirm'>
         <View className='child-list'>
           <AtList  hasBorder={false}>
-            <AtListItem title='陈星星' hasBorder={false} note='10岁 123456789' arrow='right' onClick={this.openChildList.bind(this)} />
+            <AtListItem title='收货地址' hasBorder={false} note='前往填写收货人,联系号码和地址' arrow='right' onClick={this.openChildList.bind(this)} />
           </AtList>
         </View>
         <View className='course-list'>
           <View className='org'>
             <Image className='img' mode='widthFix'  src={orgIcon} ></Image>
-            <View>奥利奥辅导机构</View>
+            <View>商品名称</View>
           </View>
           <View className='detail'>
             <Image className='img' mode='widthFix'  src='../../assets/images/banner.jpg' ></Image>
             <View className='course-info'>
-              <View className='course-name'>课程名称</View>
-              <View className='course-number'>两节</View>
+              <View className='course-name'>商品名称</View>
+              <View className='course-number'>2</View>
               <View className='course-price'>¥499</View>
             </View>
           </View>

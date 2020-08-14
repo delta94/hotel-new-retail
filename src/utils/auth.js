@@ -13,12 +13,13 @@ export const getStorageSync = async (key) => {
   return await Taro.getStorageSync(key)
 }
 export const checkSessionLogin = async (cb) => {
+  const currentPath = `${Taro.getCurrentPages()[0].route}`
   Taro.checkSession({
     success: async ()=>{
       cb()
     },
     fail: async ()=>{
-      Taro.redirectTo({url:'/pages/login/login'})
+      Taro.redirectTo({url:`/pages/login/login?path=${currentPath}`})
     }
   })
 }
