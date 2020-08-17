@@ -1,6 +1,9 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View,Image ,Swiper, SwiperItem} from '@tarojs/components'
-import { AtButton,AtGrid,AtList ,AtListItem} from 'taro-ui'
+import { View,Image, Text } from '@tarojs/components'
+import { AtInputNumber, AtInput } from 'taro-ui'
+import { accDiv, accMul } from '@/utils/index'
+import {  getStorageSync } from '@/utils/auth'
+import { getProductInfoById, getSkuItemByProductId, getAddressDetailById } from '@/servers/servers.js'
 import './order-confirm.scss'
 
 export default class OrderConfirm extends Component {
@@ -17,57 +20,136 @@ export default class OrderConfirm extends Component {
   }
 
   state = {
-
+    data: {},
+    addressData: '',
+    remark: ''
   }
 
-  openChildList(){
-    // Taro.navigateTo({
-    //   url: `/pages/myChild/my-child?id=${this.$router.params.id}`
-    // })
+  async getProductInfoById (productId) {
+    let res =  await getProductInfoById({id: productId})
+    return res.code === 200 ? res.data: {}
   }
-
+  async getSkuItemByProductId (productId) {
+    let res =  await getSkuItemByProductId({productId: productId})
+    return res.code === 200 ? res.data: []
+  }
+  async init (params) {
+    const [productDetail, skuList]:Array<any> = await Promise.all([this.getProductInfoById(params['productId']), this.getSkuItemByProductId(params['productId'])])
+    let skuInfoData = skuList.find(item => item['id'] === params['skuId'])
+    skuInfoData.mainPictureUrl = productDetail.mainPictureUrl
+    skuInfoData.productName = productDetail.productName
+    skuInfoData.productProfile = productDetail.productProfile
+    skuInfoData.skuInfo = typeof skuInfoData.skuInfo === 'string' ? JSON.parse(skuInfoData.skuInfo) : skuInfoData.skuInfo
+    skuInfoData.amount = params['amount']
+    this.setState({
+      data: skuInfoData
+    })
+  }
+  handleChange (value) {
+    this.setState({
+      remark: value
+    })
+    return value
+  }
+  handleChangeAmount (amount) {
+    const { data } = this.state
+    data['amount'] = amount
+    this.setState({
+      data
+    })
+  }
+  choiceAddress () {
+    Taro.navigateTo({
+      url: `/pages/myAddress/my-address?type=choice`
+    })
+  }
   componentWillMount () {
-    console.log(this.$router.params)
+    this.init(this.$router.params)
   }
 
-  componentDidMount () {
-    console.log(DEV)
-
-  }
+  componentDidMount () {}
 
   componentWillUnmount () { }
 
-  componentDidShow () { }
+  async getAddress () {
+    const id = await getStorageSync('lastAddressId')
+    if(id) {
+      const res = await getAddressDetailById({id})
+      res.code === 200 && this.setState({
+        addressData: res.data
+      })
+    }
+  }
+  async componentDidShow () {
+    this.getAddress()
+  }
 
   componentDidHide () { }
 
   render () {
-    console.log('order-confirm render')
-    const orgIcon = require('@/assets/images/org-icon.svg');
+    const { data, addressData } = this.state
+    const sku = Object.values(data['skuInfo'] || {}).join(',')
     return (
       <View className='order-confirm'>
-        <View className='child-list'>
-          <AtList  hasBorder={false}>
-            <AtListItem title='收货地址' hasBorder={false} note='前往填写收货人,联系号码和地址' arrow='right' onClick={this.openChildList.bind(this)} />
-          </AtList>
-        </View>
-        <View className='course-list'>
-          <View className='org'>
-            <Image className='img' mode='widthFix'  src={orgIcon} ></Image>
-            <View>商品名称</View>
+
+        <View className='order-address'>
+          <View className='address-title'>收货地址</View>
+          <View className='address-content' onClick={this.choiceAddress.bind(this)}>
+            <View className='address-content-left'>
+              {!addressData && <View>前往填写收货人，联系号码和地址</View>}
+              {addressData && <View className='address-detail'>
+                <View><Text className='name'>{addressData['name']}</Text> <Text className='tel'>{addressData['mobileNo']}</Text></View>
+                <View className='address'>{`${addressData['province']}${addressData['city']}${addressData['town']}${addressData['detailAddress']}`}</View>
+              </View>}
+            </View>
+            <View className='at-icon icon at-icon-chevron-right'></View>
           </View>
-          <View className='detail'>
-            <Image className='img' mode='widthFix'  src='../../assets/images/banner.jpg' ></Image>
-            <View className='course-info'>
-              <View className='course-name'>商品名称</View>
-              <View className='course-number'>2</View>
-              <View className='course-price'>¥499</View>
+        </View>
+
+        <View className='order-detail'>
+          <Image className='vect' mode='widthFix' src={data['mainPictureUrl']}></Image>
+          <View className='order-detail-right'>
+            <View className='name'>{data['productName']}</View>
+            <View className='sku'>{sku}</View>
+            <View className='price'>¥{accDiv(data['salePrice'], 100)}</View>
+          </View>
+        </View>
+
+        <View className='order-other'>
+          <View className='order-other-item'>
+            <View className='title'>购买数量:</View>
+            <AtInputNumber
+                type='number'
+                min={1}
+                max={data['stockAmount']}
+                step={1}
+                value={data['amount']}
+                onChange={this.handleChangeAmount.bind(this)}
+              />
+          </View>
+          <View className='order-other-item'>
+            <View className='title'>配送方式:</View>
+            <View>快递 免运费</View>
+          </View>
+          <View className='order-other-item'>
+            <View className='title'>留言:</View>
+            <View className='item-right'>
+               <AtInput
+                name='remark'
+                border={false}
+                title=''
+                type='text'
+                placeholderClass = 'placeholderClass'
+                placeholder='您的每一个要求，我们都会尽力满足。'
+                value={this.state.remark}
+                onChange={this.handleChange.bind(this)} />
             </View>
           </View>
         </View>
+
         <View className='pay-footer fixed fixed-b'>
-          <View className='pay-price'>实付：¥499.00</View>
-          <View className='pay-btn'>付款</View>
+          <View className='pay-price'>总共：¥{accMul(accDiv(data['salePrice'], 100), data['amount'])}</View>
+          <View className='pay-btn'>提交订单</View>
         </View>
       </View>
     )

@@ -78,6 +78,15 @@ page {
 .at-search-bar__placeholder-wrap{
   justify-content:start !important;
 }
+// 富文本里图片的样式
+.rich-text {
+  padding: 20px;
+  image {
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+}
+
 //通用的类名
 .fixed {
   position: fixed;

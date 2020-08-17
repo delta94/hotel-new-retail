@@ -2,6 +2,7 @@
 @import "../../style/mixin.scss";
 
 .detail{
+  padding-bottom: 100px;
   .swiper{
     position: relative;
     .page{
@@ -19,7 +20,7 @@
   .detail{
     padding:30px 24px;
     .price{
-      color:#D05353;
+      color:$color-red;
       font-size:$font-size-middle;
       margin-top:10px;
     }
@@ -127,7 +128,7 @@
     }
   }
   .block-line{
-    height:25px;
+    height:2px;
     background-color: color-percent($color-grey-2,0.3);
   }
   .list,.rate-list{

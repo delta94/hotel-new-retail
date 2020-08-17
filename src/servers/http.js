@@ -10,14 +10,15 @@ class httpRequest {
     let { url, data } = params;
     const BASE_URL = getBaseUrl(url);
     let contentType = "application/json";
+    let userId = await getStorageSync('userId')
     contentType = params.contentType || contentType;
     const option = {
       url: BASE_URL + url,
-      data: data,
+      data: {...data, userId },
       method: method,
       header: {
         'content-type': contentType,
-        'userId': await getStorageSync('userId')
+        'userId': userId
       }
     };
     return Taro.request(option);

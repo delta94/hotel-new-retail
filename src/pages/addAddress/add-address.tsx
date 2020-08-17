@@ -2,8 +2,8 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Picker, Text } from '@tarojs/components'
 import { AtButton, AtInput, AtTextarea, AtSwitch } from 'taro-ui'
 import { getWeixinAddress } from '@/utils/auth'
+import { saveUserAddress, getAddressDetailById, editUserAddress } from '@/servers/servers.js'
 import './add-address.scss'
-
 export default class AddAddress extends Component {
 
   /**
@@ -19,29 +19,92 @@ export default class AddAddress extends Component {
 
   state = {
     name: '',
-    phone: '',
+    mobileNo: '',
     address: '',
-    city: [],
-    detail: ''
+    province:'',
+    city: '',
+    town: '',
+    zipCode: '',
+    areaPick: [],
+    detailAddress: '',
+    isDefault: false,
+    id: ''
   }
-  handleChange () {
-
+  handleChange (prop, value) {
+    if (prop === 'address') {
+      this.setState({
+        [prop]: ''
+      })
+      return ''
+    }
+    this.setState({
+      [prop]: value
+    })
+    return value
   }
-  handleChangeArae () {
-
+  handleChangeArae (e) {
+    this.setState({
+      province: e.detail.value[0],
+      city: e.detail.value[1],
+      town: e.detail.value[2],
+      zipCode: e.detail.postcode,
+      address: e.detail.value[0] + ' '+ e.detail.value[1] + ' ' + e.detail.value[2]
+    })
   }
-  sumbit () {
-    
+  async sumbit () {
+    let res = ''
+    const data = {...this.state}
+    if (this.state.id) {
+      res = await editUserAddress(data)
+    } else {
+      res = await saveUserAddress(data)
+    }
+    res['code'] === 200 && Taro.navigateBack()
   }
   async weixinClick () {
     let res = await getWeixinAddress()
-    console.log(res)
+    if (res) {
+      this.setState({
+        name: res.userName,
+        mobileNo: res.telNumber,
+        address: res.provinceName + ' ' + res.cityName + ' ' + res.countyName,
+        province: res.provinceName,
+        city: res.cityName,
+        town: res.countyName,
+        zipCode: res.postalCode,
+        detailAddress: res.detailInfo,
+        isDefault: false
+      })
+    }
   }
-  componentWillMount () { }
+  async getAddressDetailById (id) {
+    const res = await getAddressDetailById({
+      id
+    })
+    if (res.code === 200){
+      const data = res.data
+      Object.keys(data).forEach(key => {
+        this.setState({
+          [key] : data[key]
+        })
+      })
+      this.setState({
+        address: data.province + ' ' + data.city + ' ' + data.town
+      })
+    }
+  }
+  componentWillMount () {
+    let id = this.$router.params.id
+    if (id) {
+      this.setState({
+        id
+      })
+      this.getAddressDetailById(id)
+    }
+  }
 
   componentDidMount () {
-    console.log(DEV)
-    
+
   }
 
   componentWillUnmount () { }
@@ -61,15 +124,15 @@ export default class AddAddress extends Component {
             type='text'
             placeholder=''
             value={this.state.name}
-            onChange={this.handleChange.bind(this)}
+            onChange={this.handleChange.bind(this, 'name')}
           />
           <AtInput
-            name='phone'
+            name='mobileNo'
             title='手机号码：'
             type='phone'
             placeholder=''
-            value={this.state.phone}
-            onChange={this.handleChange.bind(this)}
+            value={this.state.mobileNo}
+            onChange={this.handleChange.bind(this, 'mobileNo')}
           />
           <AtInput
             name='address'
@@ -77,9 +140,9 @@ export default class AddAddress extends Component {
             type='text'
             placeholder=''
             value={this.state.address}
-            onChange={this.handleChange.bind(this)}
+            onChange={this.handleChange.bind(this, 'address')}
           >
-            <Picker  mode='region' value={this.state.city}  onChange={this.handleChangeArae.bind(this)}>
+            <Picker  mode='region' value={this.state.areaPick}  onChange={this.handleChangeArae.bind(this)}>
               请选择 <View className='icon at-icon at-icon-chevron-down'></View>
             </Picker>
           </AtInput>
@@ -88,15 +151,15 @@ export default class AddAddress extends Component {
             <AtTextarea
               count={false}
               height={150}
-              value={this.state.detail}
-              onChange={this.handleChange.bind(this)}
+              value={this.state.detailAddress}
+              onChange={this.handleChange.bind(this, 'detailAddress')}
               maxLength={200}
               placeholder='如道路、门牌号、小区、楼栋号、单元等'
             />
           </View>
         </View>
         <View className='switch'>
-          <AtSwitch color="#47cab3" border={false} title='设置默认地址' />
+          <AtSwitch color="#47cab3" checked={this.state.isDefault} onChange={this.handleChange.bind(this, 'isDefault')} border={false} title='设置默认地址' />
         </View>
         <View className='weixin-addre' onClick={this.weixinClick.bind(this)}>
           <Text className='icon'>+</Text>

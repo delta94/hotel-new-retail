@@ -61,6 +61,12 @@ export default class App extends Component {
         "desc": "你的位置信息将用于小程序位置接口的效果展示" // 高速公路行驶持续后台定位
       }
     },
+    "plugins": {
+      "wxparserPlugin": {
+        "version": "0.3.0",
+        "provider": "wx9d4d4ffa781ff3ac"
+      }
+    },
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',

@@ -78,7 +78,11 @@ export const editUserInfo = (postData) => {
 export const getProductInfoById = (postData) => {
   return HTTPREQUEST.get(`${product_prefix}/MobileProductInfo/getById`, postData)
 }
-//根据产品id获取辅图
+// 根据产品id获取产品图文详情
+export const getProductRichText = (postData) => {
+  return HTTPREQUEST.get(`${product_prefix}/MobileProductDetail/getByParams`, postData)
+}
+//根据产品id获取产品辅图
 export const getProductImageById = (postData) => {
   return HTTPREQUEST.get(`${product_prefix}/MobileProductImage/getByProductId`, postData)
 }
@@ -90,3 +94,32 @@ export const getSkuItemByProductId = (postData) => {
 export const addShopCar = (postData) => {
   return HTTPREQUEST.post(`${user_perfix}/base/userShopcart/save`, postData)
 }
+// 删除购物车
+export const deleteShopCar = (postData) => {
+  return HTTPREQUEST.post(`${user_perfix}/base/userShopcart/delete`, postData)
+}
+//分页获取用户购物车
+export const getUserShopCarList = (postData) => {
+  return HTTPREQUEST.get(`${user_perfix}/base/userShopcart/getByPage`, postData)
+}
+// 用户收货地址列表
+export const getUserAddressList = (postData) => {
+  return HTTPREQUEST.get(`${user_perfix}/base/userReceiveAddress/getByUserId`, postData)
+}
+// 用户地址保存
+export const saveUserAddress = (postData) => {
+  return HTTPREQUEST.post(`${user_perfix}/base/userReceiveAddress/save`, postData)
+}
+// 用户地址修改
+export const editUserAddress = (postData) => {
+  return HTTPREQUEST.post(`${user_perfix}/base/userReceiveAddress/edit`, postData)
+}
+// 根据id获取地址详情
+export const getAddressDetailById = (postData) => {
+  return HTTPREQUEST.get(`${user_perfix}/base/userReceiveAddress/getById`, postData)
+}
+// 删除用户地址
+export const deleteUserAddressById = (postData) => {
+  return HTTPREQUEST.get(`${user_perfix}/base/userReceiveAddress/deleteUserReceiveAddress`, postData)
+}
+

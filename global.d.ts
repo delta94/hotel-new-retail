@@ -19,5 +19,10 @@ declare const process: {
   }
 }
 
+// 详情里面有用到第三方插件 在此声明一下标签
+declare namespace JSX {
+  interface IntrinsicElements {
+    wxparser: {}
+  }
+}
 declare const DEV :true | false
-

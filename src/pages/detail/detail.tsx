@@ -3,9 +3,9 @@ import { View, Image } from '@tarojs/components'
 import { AtButton, AtList, AtListItem, AtActionSheet, AtActionSheetItem,AtInputNumber } from 'taro-ui'
 import './detail.scss'
 import { accMul, accDiv } from '@/utils/index'
-import { getProductInfoById, getProductImageById, getSkuItemByProductId, addShopCar } from '@/servers/servers.js'
+import { getProductInfoById, getProductImageById, getProductRichText, getSkuItemByProductId, addShopCar } from '@/servers/servers.js'
 import { getStorageSync } from '@/utils/auth'
-import PeopleWatch from '@/components/peopleWatch/people-watch'
+// import PeopleWatch from '@/components/peopleWatch/people-watch'
 import FooterCarBuy from '@/components/footCarBuy/foot-car-buy'
 import SwiperList from '@/components/swiper/swiper';
 let id = ''
@@ -24,9 +24,14 @@ export default class detail extends Component {
     navigationBarTitleText: '商品详情',
     // navigationBarBackgroundColor:'#47cab3',
     navigationBarTextStyle: 'black',
+    "usingComponents": {
+      "wxparser": "plugin://wxparserPlugin/wxparser"
+    }
   }
 
-
+  static options = {
+    addGlobalClass: true
+  }
 
   state = {
     list: [],
@@ -34,7 +39,8 @@ export default class detail extends Component {
     isCourseOpend: false,
     amount:1,
     skuList: [],
-    skuData: {}
+    skuData: {},
+    richText: ''
   }
 
 
@@ -54,6 +60,15 @@ export default class detail extends Component {
         data: res.data
       })
     })
+    getProductRichText({
+      productId: id
+    }).then(res => {
+      res.code === 200 && this.setState({
+        richText: res.data.detailInfo
+      })
+    })
+  }
+  componentDidMount () {
   }
   //设置分享页面的信息
   onShareAppMessage(res) {
@@ -125,6 +140,7 @@ export default class detail extends Component {
           this.closeChoiceCourse()
         }
       })
+      this.refs.carBuy.getUserShopList()
     }
   }
   confirm () {
@@ -168,7 +184,7 @@ export default class detail extends Component {
     })
   }
   render() {
-    const { list,  data, isCourseOpend, skuList, amount, skuData } = this.state
+    const { list,  data, isCourseOpend, skuList, amount, skuData, richText } = this.state
     const choiceSkuShow = skuList.map(item => `"${item['choiceSku']}"`).join('')
     const skuItem = skuList.map((item, pidx) => {
       const st :Array<any> = item['list'] || []
@@ -214,8 +230,11 @@ export default class detail extends Component {
           </AtList>
         </View>
         <View className='block-line'></View>
-        <PeopleWatch />
-        <FooterCarBuy contcat-btn='contcat-btn' showSkuSheet={this.showSkuSheet.bind(this)} />
+        <View className='rich-text'>
+          <wxparser  rich-text={richText} image-preview={false} />
+        </View>
+        {/* <PeopleWatch /> 相关推荐第一期不做 */}
+        <FooterCarBuy ref='carBuy' contcat-btn='contcat-btn' showSkuSheet={this.showSkuSheet.bind(this)} />
         {/* 选课面板 */}
         <AtActionSheet isOpened={isCourseOpend} onClose={this.closeChoiceCourse.bind(this)}>
           <AtActionSheetItem className='sheet-item-content'>
@@ -239,7 +258,7 @@ export default class detail extends Component {
               <AtInputNumber
                 type='number'
                 min={1}
-                max={10}
+                max={skuData['stockAmount']}
                 step={1}
                 value={amount}
                 onChange={this.handleChange.bind(this)}

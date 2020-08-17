@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View,Image } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
+import { getUserShopCarList } from '@/servers/servers.js'
 import './foot-car-buy.scss';
 
 const home = require('@/assets/tab-bar/home.png');
@@ -17,7 +18,7 @@ export default class FooterCarBuy extends Component<propsType> {
     }
     static externalClasses = ['contcat-btn']
     state = {
-
+      total: ''
     }
     goIndex () {
       Taro.switchTab({
@@ -36,12 +37,17 @@ export default class FooterCarBuy extends Component<propsType> {
       const { showSkuSheet } = this.props
       showSkuSheet && showSkuSheet(type)
     }
-
-    componentWillMount(){
-
+    async getUserShopList () {
+      let res = await getUserShopCarList()
+      res.code === 200 && this.setState({
+        total: res.data.total
+      })
+    }
+    async componentDidShow(){
+      this.getUserShopList()
     }
     render() {
-
+        const { total } = this.state
         return (
           <View className='footer-car-buy'>
             <View className='icon-list'>
@@ -55,6 +61,7 @@ export default class FooterCarBuy extends Component<propsType> {
               </View>
               <View onClick={this.goBuyCar.bind(this)} className='icon-item icon-cart'>
                 <Image className='img' mode='widthFix'  src={cart}></Image>
+                {total && <View className='shop-car-total'>{total}</View>}
               </View>
             </View>
             <View className='car-buy'>
