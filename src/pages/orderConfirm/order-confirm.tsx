@@ -3,7 +3,7 @@ import { View,Image, Text } from '@tarojs/components'
 import { AtInputNumber, AtInput } from 'taro-ui'
 import { accDiv, accMul } from '@/utils/index'
 import {  getStorageSync } from '@/utils/auth'
-import { getProductInfoById, getSkuItemByProductId, getAddressDetailById } from '@/servers/servers.js'
+import { getProductInfoById, getSkuItemByProductId, getAddressDetailById, placeOrderSave } from '@/servers/servers.js'
 import './order-confirm.scss'
 
 export default class OrderConfirm extends Component {
@@ -80,6 +80,24 @@ export default class OrderConfirm extends Component {
       })
     }
   }
+  async sumbitOrder () {
+    const { remark ,data , addressData } = this.state
+    console.log(this.state)
+    placeOrderSave({
+      deliverMoney: 0 ,
+      mainPictureUrl: data['mainPictureUrl'],
+      orderSource: 0,
+      payType: 0,
+      productCount: data['amount'],
+      productName: data['productName'],
+      productPrice: data['salePrice'],
+      productProfile: data['productProfile'],
+      productSkuInfo: JSON.stringify(data['skuInfo']),
+      productSkuItemId: data['id'],
+      realTotalMoney: accMul(data['salePrice'], data['amount']),
+      remark
+    })
+  }
   async componentDidShow () {
     this.getAddress()
   }
@@ -149,7 +167,7 @@ export default class OrderConfirm extends Component {
 
         <View className='pay-footer fixed fixed-b'>
           <View className='pay-price'>总共：¥{accMul(accDiv(data['salePrice'], 100), data['amount'])}</View>
-          <View className='pay-btn'>提交订单</View>
+          <View onClick={this.sumbitOrder.bind(this)} className='pay-btn'>提交订单</View>
         </View>
       </View>
     )

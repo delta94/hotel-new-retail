@@ -13,6 +13,8 @@ const category_prefix = '/conf/base'
 const file_prefix = '/file/handler'
 // 用户相关接口前缀
 const user_perfix = '/user'
+// 订单相关接口
+const order_perfix = '/order/base'
 
 // 公开文件上传地址
 export const uploadFile = async (path, formData = {}) => {
@@ -123,3 +125,7 @@ export const deleteUserAddressById = (postData) => {
   return HTTPREQUEST.get(`${user_perfix}/base/userReceiveAddress/deleteUserReceiveAddress`, postData)
 }
 
+// 订单下单接口
+export const placeOrderSave = (postData) => {
+  return HTTPREQUEST.post(`${order_perfix}/MobileOrderInfo/save`, postData)
+}
