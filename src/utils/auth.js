@@ -16,7 +16,7 @@ export const checkSessionLogin = async (cb) => {
   const currentPath = `${Taro.getCurrentPages()[0].route}`
   Taro.checkSession({
     success: async ()=>{
-      cb()
+      cb&&cb()
     },
     fail: async ()=>{
       Taro.redirectTo({url:`/pages/login/login?path=${currentPath}`})

@@ -2,6 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { View,Image } from '@tarojs/components'
 import { AtButton } from 'taro-ui'
 import { getUserShopCarList } from '@/servers/servers.js'
+import { checkSessionLogin } from '@/utils/auth'
 import './foot-car-buy.scss';
 
 const home = require('@/assets/tab-bar/home.png');
@@ -34,8 +35,10 @@ export default class FooterCarBuy extends Component<propsType> {
       })
     }
     showSkuSheet(type){
-      const { showSkuSheet } = this.props
-      showSkuSheet && showSkuSheet(type)
+      checkSessionLogin(()=>{
+        const { showSkuSheet } = this.props
+        showSkuSheet && showSkuSheet(type)
+      })
     }
     async getUserShopList () {
       let res = await getUserShopCarList()

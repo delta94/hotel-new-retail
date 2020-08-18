@@ -40,6 +40,7 @@ export default class Login extends Component {
   async getMiniAppInfo (sessionKey, userId, userInfo) {
     const { encryptedData, iv, rawData, signature } = userInfo.detail
     const appid = (await getAccountInfo()).miniProgram.appId
+    await setStorageSync('userId', userId)
     const res = await getMiniAppInfo({
       sessionKey,
       encryptedData,
@@ -49,7 +50,7 @@ export default class Login extends Component {
       appid,
       userId
     })
-    setStorageSync('userId', userId) && res.code === 200 &&  setStorageSync('userInfo', res.data) && this.goback()
+    res.code === 200 &&  setStorageSync('userInfo', res.data) && this.goback()
   }
   async doLogin (userInfo) {
       const loginInfo = await Taro.login()

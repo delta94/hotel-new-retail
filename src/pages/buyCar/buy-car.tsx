@@ -3,6 +3,7 @@ import { View,Text, Image, Radio, RadioGroup } from '@tarojs/components'
 import { AtInputNumber } from 'taro-ui'
 import { accMul, accDiv } from '@/utils/index'
 import { getUserShopCarList, getProductInfoById, getSkuItemByProductId, deleteShopCar } from '@/servers/servers.js'
+import { checkSessionLogin } from '@/utils/auth'
 import './buy-car.scss'
 let cacheProductData: Array<any>  = []
 let cacheSkuList: Array<any> = []
@@ -114,7 +115,8 @@ export default class BuyCar extends Component {
     })
   }
   componentWillMount () {
-   }
+    checkSessionLogin()
+  }
 
   componentDidMount () {
   }
