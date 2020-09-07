@@ -29,7 +29,7 @@ export default class UserInfo extends Component {
     province: '',
     city: '',
     mobileNo: '',
-    birthday: '',
+    brithday: '',
     isOpenAvatar:false,
     userData: {},
     headImage: 'http://storage.360buyimg.com/mtd/home/32443566_635798770100444_2113947400891531264_n1533825816008.jpg'
@@ -58,10 +58,16 @@ export default class UserInfo extends Component {
     setStorageSync('headImage', user.headImageUrl)
   }
   async saveUserInfo (p) {
-    const { userData } = this.state
+    const { userData, gender, province, city, brithday  } = this.state
+    delete userData['createTime']
+    delete userData['updateTime']
     editUserInfo({
-      ...userData,
       userId: await getStorageSync('userId'),
+      gender,
+      province,
+      city,
+      brithday,
+      country: userData['country'],
       ...p
     })
   }
@@ -111,7 +117,7 @@ export default class UserInfo extends Component {
         province: data.province,
         city: data.city,
         mobileNo: data.mobileNo,
-        birthday: data.birthday,
+        brithday: (data.brithday || '').slice(0,10),
       })
     }
   }
@@ -130,7 +136,7 @@ export default class UserInfo extends Component {
   componentDidHide () { }
 
   render () {
-    const { isOpenAvatar, birthday, gender, area, headImage, mobileNo, province, city } = this.state
+    const { isOpenAvatar, brithday, gender, area, headImage, mobileNo, province, city } = this.state
     const areaName = province ? `${province}  ${city}` : ''
     return (
       <View className='user-info'>
@@ -173,11 +179,11 @@ export default class UserInfo extends Component {
               </View>
             </View>
         </Picker>
-        <Picker  mode='date' value={birthday}  onChange={this.handleChange.bind(this, 'birthday')}>
+        <Picker  mode='date' value={brithday}  onChange={this.handleChange.bind(this, 'brithday')}>
             <View className='user-item'>
               <View className='user-item-name'>生日</View>
               <View className='user-item-right'>
-                <View className='info'>{birthday || '请填写'}</View>
+                <View className='info'>{brithday || '请填写'}</View>
                 <View className='icon at-icon at-icon-chevron-right'></View>
               </View>
             </View>

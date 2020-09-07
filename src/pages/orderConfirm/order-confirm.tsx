@@ -5,7 +5,7 @@ import { accDiv, accMul } from '@/utils/index'
 import {  getStorageSync } from '@/utils/auth'
 import { getProductInfoById, getSkuItemByProductId, getAddressDetailById, placeOrderSave } from '@/servers/servers.js'
 import './order-confirm.scss'
-
+let lastAddressId = ''
 export default class OrderConfirm extends Component {
 
   /**
@@ -72,18 +72,20 @@ export default class OrderConfirm extends Component {
   componentWillUnmount () { }
 
   async getAddress () {
-    const id = await getStorageSync('lastAddressId')
-    if(id) {
-      const res = await getAddressDetailById({id})
+    lastAddressId = await getStorageSync('lastAddressId')
+    if(lastAddressId) {
+      const res = await getAddressDetailById({id: lastAddressId})
       res.code === 200 && this.setState({
         addressData: res.data
       })
     }
   }
   async sumbitOrder () {
-    const { remark ,data , addressData } = this.state
+    const { remark ,data } = this.state
     console.log(this.state)
     placeOrderSave({
+      productId: this.$router.params.productId,
+      addressId: lastAddressId,
       deliverMoney: 0 ,
       mainPictureUrl: data['mainPictureUrl'],
       orderSource: 0,

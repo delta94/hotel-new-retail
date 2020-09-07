@@ -34,11 +34,9 @@ export default class PublishShow extends Component {
     }).then(async res => {
       let idx = 0
       let length = res.tempFilePaths.length
-      console.log(res)
       let imagesList: Array<any> = []
       while (idx < length) {
         let result = await uploadFile(res.tempFilePaths[idx])
-        console.log(result)
         imagesList.push(JSON.parse(result.data).data)
         idx++
       }

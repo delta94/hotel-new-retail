@@ -22,10 +22,12 @@ export const uploadFile = async (path, formData = {}) => {
     url: `${getBaseUrl()}${file_prefix}/publicUpload`,
     filePath: path,
     name: 'file',
-    formData: { fileName: 'file', ...formData },
+    formData: {
+      name: 'file'
+    },
     header: {
       'userId': await getStorageSync('userId'),
-      'content-type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
     }
   })
 }

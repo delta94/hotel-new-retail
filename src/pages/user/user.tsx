@@ -33,7 +33,7 @@ export default class User extends Component {
       },
       {
         name: '退货/售后服务',
-        path: ''
+        path: '/pages/returnChangeGoods/return-change-goods'
       },
       {
         name: '售后服务',

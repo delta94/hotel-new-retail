@@ -22,7 +22,8 @@ export default class BuyCar extends Component {
   }
 
   state = {
-    carDataList: []
+    carDataList: [],
+    choiceData: {}
   }
   async getProductInfoById (productId) {
     let data = cacheProductData.find(item => item['id'] === productId)
@@ -96,6 +97,9 @@ export default class BuyCar extends Component {
   changeRadio (e) {
     const index = +e.detail.value
     choiceIndex = index
+    this.setState({
+      choiceData: this.state.carDataList[choiceIndex]
+    })
   }
   async deleteShopCar (item, e) {
     if (e.confirm) {
@@ -130,7 +134,7 @@ export default class BuyCar extends Component {
   componentDidHide () { }
 
   render () {
-    const { carDataList } = this.state
+    const { carDataList, choiceData } = this.state
     const buyCarItem = carDataList.map((item, index) => {
       const sku = Object.values(item['skuInfo']).join('-')
       return <View className='buy-car-item' key='id'>
@@ -172,7 +176,7 @@ export default class BuyCar extends Component {
         </View>
         <View className='buy-car-footer fixed fixed-b'>
           <Text className='heji'>合计</Text>
-          <Text className='total-price'>¥345</Text>
+          <Text className='total-price'>¥{accDiv(accMul(choiceData['amount'], choiceData['salePrice']), 100) || 0.00}</Text>
           <View className='line'></View>
           <View onClick={this.clickBuy.bind(this)} className='buy-btn'>立即购买</View>
         </View>

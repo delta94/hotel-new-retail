@@ -96,6 +96,9 @@ export default class AddAddress extends Component {
   componentWillMount () {
     let id = this.$router.params.id
     if (id) {
+      Taro.setNavigationBarTitle({
+        title: '编辑地址'
+      })
       this.setState({
         id
       })
